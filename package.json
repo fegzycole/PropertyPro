@@ -1,0 +1,23 @@
+{
+  "name": "propertypro",
+  "version": "1.0.0",
+  "description": "Property Pro Lite is a platform where people can create and/or search properties for sale or rent.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fegzycole/PropertyPro.git"
+  },
+  "keywords": [
+    "Apartments",
+    "Properties"
+  ],
+  "author": "Iyara Oghenefegor Ferguson",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fegzycole/PropertyPro/issues"
+  },
+  "homepage": "https://github.com/fegzycole/PropertyPro#readme"
+}
