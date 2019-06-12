@@ -69,6 +69,7 @@ button{
 }
 button a {
 	color: #260126;
+	font-weight: bolder;
 	text-decoration: none;
 }
 button:hover{
