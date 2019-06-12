@@ -1,0 +1,170 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+*{
+	margin: 0;
+}
+body {
+	margin: 0;
+	font-family: 'Montserrat', sans-serif;
+	background:url("../images/sylwia-pietruszka-218324-unsplash.jpg") no-repeat center center fixed;
+	-webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+	background-size: cover;
+}
+.icon{
+	display: flex;
+	margin-top: 25px;
+	margin-left: 120px;
+}
+.icon img{
+	width: 40px;
+	height: 40px;
+}
+header{
+	background: #260126;
+	grid-area: header;
+	display: flex;
+	justify-content: space-between;
+}
+
+main {
+	grid-area: main;
+}
+header h1{
+	color: #FFF;
+	font-size: 30px;
+}
+.signin{
+	margin-top: 35px;
+	margin-right: 165px;
+	font-size: 14px;
+}
+.signin a {
+	color: white;
+	text-decoration: none;
+}
+.signin a:hover {
+	cursor: pointer;
+	color: #BFAF80;
+}
+.introduction{
+	margin: 120px 20px 0px 110px;
+}
+
+.introduction h2 {
+	color: #260126;
+	font-family: 'Poppins', sans-serif;
+	line-height: 60px;
+	font-size: 55px;
+}
+button{
+	margin-top: 10px;
+	padding: 15px;
+	background: inherit;
+	border: 2px solid #260126;
+	color: #260126;;
+	font-size: 18px;
+	font-family: 'Montserrat', sans-serif;
+}
+button a {
+	color: #260126;
+	font-weight: bolder;
+	text-decoration: none;
+}
+button:hover{
+	cursor: pointer;
+	background: #BFAF80;
+	color: #FFF;
+}
+footer {
+	background: #260126;
+	grid-area: footer;
+	display: flex;
+	justify-content: space-between;
+	padding: 20px;
+	color: white;
+}
+.wrapper{
+	display: grid;
+	grid-template-rows: 90px 1fr 50px;
+	grid-template-areas: "header"
+											 "main"
+											 "footer";
+	height: 100vh;
+}
+.p1{
+	margin-left: 90px;
+	align-self: center;
+}
+.p2{
+	margin-right: 150px;
+	align-self: center;
+}
+
+@media only screen and (min-width: 248px) and (max-width: 449px)
+{
+	.wrapper{
+		height: 100vh;
+	}
+	.icon {
+		margin-top: 30px;
+	}
+	.icon img{
+		width: 30px;
+		height: 30px;
+	}
+	header h1{
+		font-size: 25px;
+	}
+	.icon, .introduction{
+		margin-left: 20px;
+	}
+	.signin{
+		margin-right: 20px;
+	}
+	.introduction h2 {
+		font-size: 40px;
+	}
+	main{
+		background: #F2F2F2;
+	}
+	.p1{
+		margin-left: 0;
+	}
+	.p2{
+		margin-right: 0;
+	}
+	.p1, .p2 {
+		font-size: 11px;
+	}
+}
+
+@media only screen and (min-width: 450px) and (max-width: 859px)
+{
+	.introduction {
+		margin-top: 90px;
+	}
+	footer{
+		margin-top: 150px;
+	}
+	.icon{
+		margin-left: 30px;
+	}
+	.introduction
+	{
+		margin-left: 25px;
+	}
+	.signin{
+		margin-right: 30px;
+	}
+	button a{
+		font-weight: bolder;
+	}
+	.p1{
+		margin-left: 0;
+	}
+	.p2{
+		margin-right: 0;
+	}
+}
