@@ -13,9 +13,9 @@ body {
   -o-background-size: cover;
 	background-size: cover;
 }
-.dashboard-body {
+/* .dashboard-body {
 	background: #F2F2F2;
-}
+} */
 .icon{
 	display: flex;
 	margin-top: 25px;
@@ -198,7 +198,6 @@ header h1{
 }
 
 .recent-listings{
-	background: #ddd;
 	margin: 10px 95px 10px 30px;
 	height: inherit;
 }
@@ -387,7 +386,7 @@ input[type=submit]:hover{
 		position: fixed;
 		display: none;
 		right: 0;
-		width: 100%;
+		width: 250px;
 	}
 	.user-view{
 		width: 100%;
