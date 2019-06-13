@@ -31,6 +31,9 @@ header{
 main {
 	grid-area: main;
 }
+.body {
+	text-align: center;
+}
 header h1{
 	color: #FFF;
 	font-size: 30px;
@@ -86,6 +89,7 @@ footer {
 	color: white;
 }
 .wrapper{
+	position: relative;
 	display: grid;
 	grid-template-rows: 90px 1fr 50px;
 	grid-template-areas: "header"
@@ -102,8 +106,111 @@ footer {
 	align-self: center;
 }
 
+.email{
+	width: 15px;
+	height: 15px;
+	margin-top: 8px;
+}
+
+.accountform {
+	font-family: 'Poppins', sans-serif;
+	width: 530px;
+	height: 340px;
+	background: #FFF;
+	color: #260126;
+	display:inline-block;
+	margin-top: 50px;
+	padding: 20px;
+	text-align: center;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+}
+
+input[type=text],
+input[type=email],
+input[type=password],
+select{
+	font-family: 'Poppins', sans-serif;
+	width: 100%;
+	padding: 7px;
+	border: none;
+	background: none;
+	color: black;
+}
+
+
+.group1, .group2, .selectGroup{
+	margin-left: 5%;
+	width: 42.5%;
+	margin-top: 20px;
+	display: flex;
+	border: 1px solid #260126;
+	padding-left: 10px;
+	border-radius: 3px;
+}
+.selectGroup{
+	margin-left: 5px;
+	width: 96%;
+}
+
+input[type=submit]{
+	width: 30%;
+	margin-top: 30px;
+	padding: 10px;
+	background: #260126;
+	color: #FFFFFF;
+	border: none;
+	border-radius: 3px;
+}
+
+input[type=submit]:hover{
+	background: #8C6954;
+}
+
+.row{
+	display: flex;
+	-ms-flex-wrap: wrap;
+	flex-wrap: wrap;
+	margin-left: -20px;
+}
+
+.accountform .red{
+	color: red; /* #107407 */
+	font-weight: bold;
+	padding: 5px;
+	display: none;
+}
+
+.accountform .green{
+	background:#107407;
+	color: #FFFFFF;
+	padding: 10px;
+	margin-top: 20px;
+	display: none;
+}
+
+
 @media only screen and (min-width: 248px) and (max-width: 449px)
 {
+	.accountform{
+		width: 80%;
+		height: 520px;
+		margin-top: 50px;
+	}
+	.group1, .group2, .selectGroup{
+		width: 100%;
+	}
+	input[type=submit]{
+		width: 40%;
+	}
+
+	.drop{
+		margin-top: 50px;
+	}
+
+	.selectGroup{
+		margin-left: -6px;
+		width: 99%;
+	}
 	.wrapper{
 		height: 100vh;
 	}
@@ -125,9 +232,6 @@ footer {
 	}
 	.introduction h2 {
 		font-size: 40px;
-	}
-	main{
-		background: #F2F2F2;
 	}
 	.p1{
 		margin-left: 0;
