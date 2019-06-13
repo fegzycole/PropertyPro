@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="./css/index.css">
+	<title>PropertyPro</title>
+</head>
+<body>
+	<div class="wrapper">
+		<header>
+		<div class="icon">
+			<h1>PropertyPr</h1>
+			<img src="./images/iconfinder_city_3_3078506.svg" 
+			alt="PropertyPro logo"
+			>
+		</div>
+		<div class="signin">
+			<a href='#'>Signin</a>
+		</div>
+		</header>
+		<main class = 'body'>
+			<section class="accountform">
+				<h2>Create Account</h2>
+				<form action="" method="post">
+					<div class="row">
+						<div class="group1">
+							<label><img class = 'email' src="./images/iconfinder_user_1608727.svg" alt="user"></label><input type="text" name="" id="firstName" placeholder = 'First Name' required>
+						</div>
+						<div class="group2">
+							<label><img class = 'email' src="./images/iconfinder_user_1608727.svg" alt="user"></label><input type="text" name="" id="lastName" placeholder = 'Last Name'required>
+						</div>
+					</div>
+					<div class="row">
+					  <div class="group1">
+						  <label><img class = 'email' src="./images/iconfinder_icon-email_211660.svg" alt="email"></label><input type="email" name="" id="userEmail" placeholder="Email" required>
+					  </div>
+					  <div class="group2">
+						  <label><img class = 'email' src="./images/iconfinder_phone_1608790.svg" alt="phone"></label><input type="text" name="" id="userEmail" placeholder="Phone Number" required>
+						</div>
+					</div>
+					<div class="row">
+					  <div class="group1">
+						<label><img class = 'email' src="./images/iconfinder_lock-24_103178.svg" alt="password"></label><input type="password" name="" id="userPassword" placeholder="Password" required>
+					  </div>
+					  <div class="group2">
+						  <label><img class = 'email' src="./images/iconfinder_lock-24_103178.svg" alt="password"></label><input type="password" name="" id="userPassword2" placeholder="Confirm Password" required>
+						</div>
+					</div>
+					<div class="selectGroup">
+					  <select name="" id="selectBox" required>
+						  <option value="" disabled selected>Account Type</option>
+						  <option value="current">User</option>
+						  <option value="savings">Agent</option>
+					  </select>
+				  </div>
+					<input type="submit" value="Submit">
+				</form>
+				<p class = 'red'>Invalid user credentials</p>
+				<p class="green">Account created successfully</p>
+			</section>
+		</main>
+		<footer class = 'drop'>
+		  <p class = 'p1'>&COPY; PropertyPro</p>
+		  <p class = 'p2'>Made with ❤️ by Iyara Oghenefegor</p>
+		</footer>
+	</div>
+</body>
+</html>
