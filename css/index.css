@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat&display=swap');
 @import url('https://fonts.googleapis.com/css?family=Poppins&display=swap');
+
 *{
 	margin: 0;
 }
@@ -11,6 +12,9 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
 	background-size: cover;
+}
+.dashboard-body {
+	background: #F2F2F2;
 }
 .icon{
 	display: flex;
@@ -27,10 +31,89 @@ header{
 	display: flex;
 	justify-content: space-between;
 }
-
+.dashboard-header{
+	margin-left: 33px;
+}
+.man{
+	width: 40px;
+	height: 40px;
+	margin-top: -10px;
+	border-radius: 50%;
+	background: white;
+}
+.bigman{
+	width: 100px;
+	height: 100px;
+	margin-top: 20px;
+	background: white;
+	border-radius: 50%;
+}
+.arrow{
+	width: 10px;
+	height: 10px;
+	margin-bottom: 15px;
+	margin-left: 5px;
+}
+.dropdown-content {
+	display: flex;
+	display: none;
+	flex-direction: column;
+	position: absolute;
+	background-color: #f9f9f9;
+	min-width: 120px;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	z-index: 1;
+}
+header .dropdown-content a {
+	color: #260126;
+	padding: 12px 16px;
+	text-decoration: none;
+	display: block;
+}
+header .dropdown-content a:hover {
+	background-color: #ddd;
+	color: #260126;
+}
+.dropdown:hover .dropdown-content {
+	display: block;
+}
+.logout{
+	display: none;
+}
+.sidenav{
+	grid-area: sidenav;
+	background: #ddd;
+	text-align: center;
+	height: 500px;
+}
+main .sidenav {
+	color: #260126;
+	font-family: 'Poppins', sans-serif;
+}
+main .sidenav ul {
+	margin-top: 25px;
+}
+main .sidenav ul li {
+	list-style-type: none;
+	text-align: left;
+	margin-bottom: 30px;
+}
+main .sidenav ul li:hover{
+	cursor: pointer;
+}
+.bold{
+	font-weight: bolder;
+	font-size: 20px;
+}
 main {
 	grid-area: main;
 }
+.dashboard-main{
+	display: grid;
+	grid-template-columns: 255px 1fr;
+	grid-template-areas: "sidenav bigportion";
+}
+
 .body {
 	text-align: center;
 }
@@ -43,6 +126,10 @@ header h1{
 	margin-right: 165px;
 	font-size: 14px;
 }
+.user-image{
+	margin-right: 80px;
+}
+
 .signin a {
 	color: white;
 	text-decoration: none;
@@ -55,11 +142,93 @@ header h1{
 	margin: 120px 20px 0px 110px;
 }
 
+.list-item{
+	display: flex;
+	margin-left: -10px;
+}
+.list-item img{
+	margin-right: 10px;
+	width: 20px;
+	height: 20px;
+}
+
+.sold,
+.currently-listed,
+.flags{
+	background: #260126;
+	width: 200px;
+	height: 100px;
+	color: #FFF;
+	margin: 30px;
+}
+
 .introduction h2 {
 	color: #260126;
 	font-family: 'Poppins', sans-serif;
 	line-height: 60px;
 	font-size: 55px;
+}
+.user-information{
+	font-family: 'Montserrat', sans-serif;
+	display: grid;
+	grid-template-columns: 30% 30% 30%;
+	grid-column-end: 3.33%;
+	margin-left: 100px;
+}
+
+.bigger{
+	font-size: 50px;
+	text-align: right;
+	margin-top: 10px;
+	padding: 5px;
+}
+
+.user-information p{
+	padding: 5px;
+	font-size: 0.9em;
+}
+
+.eye{
+	margin-top: 2px;
+}
+.h1{
+	text-align: center;
+	padding-top: 20px;
+	color: #260126;
+}
+
+.recent-listings{
+	background: #ddd;
+	margin: 10px 95px 10px 30px;
+	height: inherit;
+}
+.group5{
+	display: flex;
+	justify-content: space-between
+}
+
+.recent-listings img {
+	width: 250px;
+	height: 250px;
+	border-radius: 6px;
+}
+.dashboard-row{
+	display: flex;
+	justify-content: space-evenly;
+	margin-top: 10px;
+}
+.item1{
+	background: #FFF;
+	padding: 20px;
+	margin-bottom: 10px;
+}
+.recent-listings p, .recent-listings h1{
+	font-family: 'Poppins', sans-serif;
+	color: #260126;
+	font-weight: bold;
+}
+.recent-listings h1{
+	font-size: 30px;
 }
 button{
 	margin-top: 10px;
@@ -109,7 +278,12 @@ footer {
 	margin-right: 150px;
 	align-self: center;
 }
-
+.foot1{
+	margin-left: 10px;
+}
+.foot2{
+	margin-right: 70px;
+}
 .email{
 	width: 15px;
 	height: 15px;
@@ -201,10 +375,52 @@ input[type=submit]:hover{
 	margin-top: 20px;
 	display: none;
 }
+.newbtn{
+	background: #260126;
+	color: #FFF;
+}
 
 
 @media only screen and (min-width: 248px) and (max-width: 449px)
 {
+	.sidenav{
+		position: fixed;
+		display: none;
+		right: 0;
+		width: 100%;
+	}
+	.user-view{
+		width: 100%;
+	}
+	.user-information{
+		margin-left: 30px;
+		display: block;
+	}
+	.sold,
+	.currently-listed,
+	.flags{
+		width: 100%;
+	}
+
+	.recent-listings{
+		width: 100%;
+		text-align:center;
+		height: inherit;
+		background: inherit;
+	}
+	.item1{
+		width: 100%;
+		display:inline-block;
+		text-align: left;
+	}
+
+	.recent-listings h1{
+		display: inline-block;
+	}
+
+	.dashboard-row{
+		display: block;
+	}
 	.accountform{
 		width: 80%;
 		height: 520px;
@@ -224,6 +440,9 @@ input[type=submit]:hover{
 
 	.drop{
 		margin-top: 50px;
+	}
+	.bottom{
+		margin-top: 100px;
 	}
 
 	.selectGroup{
