@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<link rel="stylesheet" href="./css/index.css">
+	<title>PropertyPro</title>
+</head>
+<body class='dashboard-body' id = 'body'>
+	<div class="wrapper">
+		<header>
+		<div class="icon dashboard-header">
+			<a href ='./index.html'><h1>PropertyPr</h1></a><a href ='./index.html'><img src="./images/iconfinder_city_3_3078506.svg"alt="PropertyPro logo"></a>
+		</div>
+		<div class="hamburger">
+			<img src="./images/iconfinder_Hamburger_Round_657905.svg" class='show-mobile' id ='hamIcon' alt="">
+		</div>
+		<div class="signin user-image dropdown">
+			<img class = 'man' src="./images/avataaars.svg" alt="man"><img 
+			src="./images/iconfinder_arrow-drop-down_326521.svg" 
+			alt="" 
+			class='arrow'><span class='logout'>Logout</span>
+			<div class="dropdown-content">
+				<a href="#">Edit Profile</a>
+				<a href="#">Logout</a>
+			</div>
+		</div>
+		</header>
+		<main class = 'dashboard-main'>
+			<section id ='nav' class="sidenav anothernav">
+				<div class="btnContainer remove">
+					<img src="./images/iconfinder_6_-_Cross_1815573.svg" class = 'xBtn' id ='xBtn' alt="cancel">
+				</div>
+				<img class='bigman' src="./images/avataaars.svg" alt="">
+				<p class = 'bold'>Iyara Oghenefegor</p>
+				<ul>
+					<li class='list-item'><img class = 'eye' src ='./images/iconfinder_ic_dashboard_48px_3669363.svg'><p>Dashboard</p></li>
+					<li class='list-item'><img class = 'eye' src ='./images/iconfinder_add_126583.svg'><p>List New</p></li>
+					<li class='list-item'><img src ='./images/iconfinder_home_126572.svg'><p>My Listings</p></li>
+					<li class='list-item'><img class = 'eye' src ='./images/iconfinder_view6_216550.svg'><p>View Listings</p></li>
+					<li class='list-item remove2'><img class = 'eye' src ='./images/iconfinder_logout_close_sign_out_exit_access_3994382.svg'><p>Logout</p></li>
+				</ul>
+			</section>
+			<section class="user-view center">
+				<h1>New Listing</h1>
+				<div class="post-new">
+				  <div class="imageSection">
+					<img src="./images/sylwia-pietruszka-218324-unsplash.jpg" class='newPic' alt="">
+					<div class="upload-btn-wrapper">
+						<button class="uploadbtn">Upload a file</button>
+						<input type="file" name="myfile" />
+					</div>
+				  </div>
+				  <div class="post-information">
+					<div class="selectGroup">
+						<label><img class = 'email' src="./images/nigeria-naira-currency-symbol.svg" alt="email"></label><input type="text" name="Price" id="" placeholder="Price">
+					</div>
+					<div class="selectGroup">
+						<label><img class = 'email' src="./images/iconfinder_city-building-urban-office-business_3209372.svg" alt="email"></label><select name="states_of_nigeria" id="select">
+							<option selected>State</option>
+							<option>ABUJA FCT</option>
+							<option>ABIA</option>
+							<option>ADAMAWA</option>
+							<option>AKWA IBOM</option>
+							<option>ANAMBRA</option>
+							<option>BAUCHI</option>
+							<option>BAYELSA</option>
+							<option>BENUE</option>
+							<option>BORNO</option>
+							<option>CROSS RIVER</option>
+							<option>DELTA</option>
+							<option>EBONYI</option>
+							<option>EDO</option>
+							<option>EKITI</option>
+							<option>ENUGU</option>
+							<option>GOMBE</option>
+							<option>IMO</option>
+							<option>JIGAWA</option>
+							<option>KADUNA</option>
+							<option>KANO</option>
+							<option>KATSINA</option>
+							<option>KEBBI</option>
+							<option>KOGI</option>
+							<option>KWARA</option>
+							<option>LAGOS</option>
+							<option>NASSARAWA</option>
+							<option>NIGER</option>
+							<option>OGUN</option>
+							<option>ONDO</option>
+							<option>OSUN</option>
+							<option>OYO</option>
+							<option>PLATEAU</option>
+							<option>RIVERS</option>
+							<option>SOKOTO</option>
+							<option>TARABA</option>
+							<option>YOBE</option>
+							<option>ZAMFARA</option>
+						</select>
+					</div>
+					<div class="selectGroup">
+						<label><img class = 'email' src="./images/iconfinder_13_2300999.svg" alt="email"></label><select name="states_of_nigeria" id="city">
+							<option selected>City</option>
+							<option>Agege</option>
+							<option>Alapomeji</option>
+							<option>Gbagada</option>
+							<option>Victoria-Island</option>
+						</select>
+					</div>
+					<div class="selectGroup">
+						<label><img class = 'email' src="./images/iconfinder_house-home-export-real_estate-property-outline-stroke_763219.svg" alt="email"></label><input type="text" name="Address" id="" placeholder="Address">
+					</div>
+					<div class="selectGroup">
+						<label><img class = 'email' src="./images/iconfinder_key__security__access__property_2538722.svg" alt="email"></label><select name="states_of_nigeria" id="city">
+							<option selected>Property Type</option>
+							<option>2 Bedrooms</option>
+							<option>3 Bedrooms</option>
+							<option>4 Bedrooms</option>
+							<option>Land</option>
+						</select>
+					</div>
+				  </div>
+			  </div>
+				<button class='submit-btn'>Post Item</button>
+			</section>
+		</main>
+		<footer class = 'bottom'>
+		  <p class = 'p1 foot1'>&COPY; PropertyPro</p>
+		  <p class = 'p2 foot2'>Made with ❤️ by Iyara Oghenefegor</p>
+		</footer>
+		<script src="./js/hamburger.js"></script>
+	</div>
+</body>
+</html>
