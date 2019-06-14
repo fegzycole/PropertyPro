@@ -505,6 +505,7 @@ input[type=submit]:hover{
 		width: inherit;
 		display:inline-block;
 		text-align: left;
+		margin-left: -10%;
 	}
 
 	.recent-listings h1{
