@@ -490,28 +490,13 @@ input[type=submit]:hover{
 		display: block;
 		margin-left: 17%;
 	}
-	/* .sold,
-	.currently-listed,
-	.flags{
-		width: 100%;
-	} */
 
 	 .recent-listings{
-		margin-left: 17%;
+		margin: 0 10%;
+		width: 80%;
 		height: inherit;
 		background: inherit;
 	} 
-	.item1{
-		width: inherit;
-		display:inline-block;
-		text-align: left;
-		margin-left: -8%;
-	}
-
-	.dashboard-main .user-view .recent-listings h1{
-		width: 100%;
-		font-weight: 20px;
-	}
 	.remove2{
 		display: flex;
 		width: 100%;
