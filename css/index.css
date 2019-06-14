@@ -370,10 +370,10 @@ select{
 	font-size: 0.9em;
 }
 .dashboard-main .sidenav .btnContainer .xBtn{
-	width: 20px;
-	height: 20px;
+	width: 30px;
+	height: 30px;
 	text-align: right;
-	padding: 10px;
+	padding: 5px;
 }
 .remove {
 	display: none;
@@ -487,31 +487,29 @@ input[type=submit]:hover{
 		width: 100%;
 	}
 	.user-information{
-		margin-left: 30px;
 		display: block;
+		margin-left: 17%;
 	}
-	.sold,
+	/* .sold,
 	.currently-listed,
 	.flags{
 		width: 100%;
-	}
+	} */
 
-	.recent-listings{
-		width: 100%;
-		text-align:center;
+	 .recent-listings{
+		margin-left: 17%;
 		height: inherit;
 		background: inherit;
-	}
+	} 
 	.item1{
-		width: 100%;
+		width: inherit;
 		display:inline-block;
 		text-align: left;
 	}
 
 	.recent-listings h1{
-		display: inline-block;
-		margin-left: 20px;
 		width: 100%;
+		font-weight: 27px;
 	}
 	.remove2{
 		display: flex;
@@ -582,7 +580,7 @@ input[type=submit]:hover{
 		font-size: 11px;
 	}
 	.remove {
-		display: block;
+		display: block !important;
 	}
 	.anothernav{
 		display: none;
@@ -592,12 +590,11 @@ input[type=submit]:hover{
 		width: 100%;
 	}
 	.post-information{
-		width: 100%;
-		margin-left: 20%;
+		width: 80%;
+		margin-left: 10%;
 	}
 	.dashboard-main .center .submit-btn{
-		margin-top: 10px;
-		margin-left: 25%;
+		margin-top: 30px;
 	}
 	.uploadbtn{
 		width: 200px;
@@ -605,14 +602,13 @@ input[type=submit]:hover{
 		text-align: center;
 	}
 	.imageSection{
-		margin-left: 25%;
+		margin-left: 20%;
 	}
 	.imageSection img{
-		margin-left: -25%;
+		margin-left: -15%;
 	}
-	.center h1{
-		margin-left: 20%;
-		width: 100%;
+	.dashboard-main{
+		display: block;
 	}
 }
 a {
