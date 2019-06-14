@@ -598,11 +598,14 @@ input[type=submit]:hover{
 	}
 	.uploadbtn{
 		text-align: center;
-		margin-left: 30px;
+		margin-left: 15px;
 		width: 200px;
 	}
 	.imageSection{
 		margin-left: 20%;
+	}
+	.imageSection img{
+		margin-left: -15%;
 	}
 	.dashboard-main{
 		display: block;
