@@ -505,12 +505,12 @@ input[type=submit]:hover{
 		width: inherit;
 		display:inline-block;
 		text-align: left;
-		margin-left: -10%;
+		margin-left: -8%;
 	}
 
-	.recent-listings h1{
+	.dashboard-main .user-view .recent-listings h1{
 		width: 100%;
-		font-weight: 27px;
+		font-weight: 20px;
 	}
 	.remove2{
 		display: flex;
