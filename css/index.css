@@ -4,6 +4,7 @@
 *{
 	margin: 0;
 }
+
 body {
 	margin: 0;
 	font-family: 'Montserrat', sans-serif;
@@ -25,6 +26,8 @@ body {
 	width: 40px;
 	height: 40px;
 }
+
+
 header{
 	background: #260126;
 	grid-area: header;
@@ -84,7 +87,8 @@ header .dropdown-content a:hover {
 	grid-area: sidenav;
 	background: #ddd;
 	text-align: center;
-	height: 500px;
+	height: inherit;
+	display: block !important;
 }
 main .sidenav {
 	color: #260126;
@@ -100,6 +104,9 @@ main .sidenav ul li {
 }
 main .sidenav ul li:hover{
 	cursor: pointer;
+}
+.show-mobile{
+	display: none;
 }
 .bold{
 	font-weight: bolder;
@@ -121,7 +128,8 @@ header h1{
 	color: #FFF;
 	font-size: 30px;
 }
-.signin{
+.signin,
+.show-mobile {
 	margin-top: 35px;
 	margin-right: 165px;
 	font-size: 14px;
@@ -204,6 +212,9 @@ header h1{
 .group5{
 	display: flex;
 	justify-content: space-between
+}
+.remove2{
+	display: none;
 }
 
 .recent-listings img {
@@ -322,7 +333,22 @@ select{
 	color: black;
 	font-size: 0.9em;
 }
+.dashboard-main .sidenav .btnContainer .xBtn{
+	width: 20px;
+	height: 20px;
+	text-align: right;
+	padding: 10px;
+}
+.remove {
+	display: none;
+}
+.btnContainer{
+	text-align: right;
+}
 
+.anothernav{
+	display: block; 
+}
 
 .group1, .group2, .selectGroup{
 	margin-left: 5%;
@@ -382,11 +408,18 @@ input[type=submit]:hover{
 
 @media only screen and (min-width: 248px) and (max-width: 449px)
 {
+	.show-mobile{
+		display: block;
+	}
+	.signin{
+		display: none;
+	}
 	.sidenav{
 		position: fixed;
-		display: none;
-		right: 0;
+		display: none !important;
+		top: 0;
 		width: 250px;
+		height: inherit;
 	}
 	.user-view{
 		width: 100%;
@@ -416,6 +449,10 @@ input[type=submit]:hover{
 	.recent-listings h1{
 		display: inline-block;
 		margin-left: 20px;
+		width: 100%;
+	}
+	.remove2{
+		display: flex;
 		width: 100%;
 	}
 
@@ -466,7 +503,8 @@ input[type=submit]:hover{
 	.icon, .introduction{
 		margin-left: 20px;
 	}
-	.signin{
+	.signin,
+	.show-mobile{
 		margin-right: 20px;
 	}
 	.introduction h2 {
@@ -480,6 +518,12 @@ input[type=submit]:hover{
 	}
 	.p1, .p2 {
 		font-size: 11px;
+	}
+	.remove {
+		display: block;
+	}
+	.anothernav{
+		display: none;
 	}
 }
 a {
