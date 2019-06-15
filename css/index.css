@@ -511,6 +511,16 @@ input[type=submit]:hover{
   overflow: hidden;
   display: inline-block;
 }
+a {
+	color: white;
+	text-decoration: none;
+}
+.purple{
+	color: #260126;
+}
+.purple:hover{
+	cursor: pointer;
+}
 
 .uploadbtn{
 	padding: 8px 15px;
@@ -717,10 +727,6 @@ form .shift2 {
 		width: 97%;
 		margin-left: 6.5px !important;
 	}
-}
-a {
-	color: white;
-	text-decoration: none;
 }
 
 @media only screen and (min-width: 450px) and (max-width: 859px)
