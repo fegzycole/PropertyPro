@@ -618,6 +618,45 @@ form .shift2 {
 	background: #260126;
 	color: white;
 }
+
+.search-bar{
+	width: 15px !important;
+	height: 15px !important;
+	background: white;
+	margin-top: 8px;
+}
+
+.specific-type{
+	display: inline-block;
+	margin: 30px;
+	border-radius: 3px;
+}
+.inner-text{
+	display: flex;
+}
+
+.responsive2{
+	text-align: center;
+}
+
+.item1 p{
+	text-align: left !important;
+}
+.select-item{
+	justify-self: flex-start;
+	width:80%;
+	background: white;
+}
+.small-container{
+	background: white;
+	padding: 10px 20px;
+}
+
+.small-container:hover {
+	cursor: pointer;
+}
+
+
 @media only screen and (min-width: 248px) and (max-width: 859px)
 {
 	.modal-content{
