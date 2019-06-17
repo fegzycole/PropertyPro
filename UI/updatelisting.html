@@ -43,22 +43,20 @@
 				</ul>
 			</section>
 			<section class="user-view center">
-				<h1>New Listing</h1>
-				<div class="post-new">
+				<div class="post-new update-post">
 				  <div class="imageSection">
 					<img src="./images/sylwia-pietruszka-218324-unsplash_opt.jpg" class='newPic' alt="">
 					<div class="upload-btn-wrapper">
-						<button class="uploadbtn">Upload a file</button>
+						<button class="uploadbtn">Change Image</button>
 						<input type="file" name="myfile" />
 					</div>
 				  </div>
 				  <div class="post-information">
 					<div class="selectGroup new">
-						<label><img class = 'email' src="./images/nigeria-naira-currency-symbol.svg" alt="email"></label><input type="text" name="Price" id="" placeholder="Price">
+						<label><img class = 'email' src="./images/nigeria-naira-currency-symbol.svg" alt="email"></label><input type="text" name="Price" id="priceTextbox" placeholder="Price">
 					</div>
-					<div class="selectGroup new">
+					<div class="selectGroup new" id ='select'>
 						<label><img class = 'email' src="./images/iconfinder_city-building-urban-office-business_3209372.svg" alt="email"></label><select name="states_of_nigeria" id="select">
-							<option selected>State</option>
 							<option>ABUJA FCT</option>
 							<option>ABIA</option>
 							<option>ADAMAWA</option>
@@ -83,7 +81,7 @@
 							<option>KEBBI</option>
 							<option>KOGI</option>
 							<option>KWARA</option>
-							<option>LAGOS</option>
+							<option selected>LAGOS</option>
 							<option>NASSARAWA</option>
 							<option>NIGER</option>
 							<option>OGUN</option>
@@ -104,11 +102,11 @@
 							<option>Agege</option>
 							<option>Alapomeji</option>
 							<option>Gbagada</option>
-							<option>Victoria-Island</option>
+							<option selected>Victoria-Island</option>
 						</select>
 					</div>
 					<div class="selectGroup new">
-						<label><img class = 'email' src="./images/iconfinder_house-home-export-real_estate-property-outline-stroke_763219.svg" alt="email"></label><input type="text" name="Address" id="" placeholder="Address">
+						<label><img class = 'email' src="./images/iconfinder_house-home-export-real_estate-property-outline-stroke_763219.svg" alt="email"></label><input type="text" name="Address" id="addressTextbox" placeholder="Address">
 					</div>
 					<div class="selectGroup new">
 						<label><img class = 'email' src="./images/iconfinder_key__security__access__property_2538722.svg" alt="email"></label><select name="states_of_nigeria" id="city">
@@ -116,12 +114,12 @@
 							<option>2 Bedrooms</option>
 							<option>3 Bedrooms</option>
 							<option>4 Bedrooms</option>
-							<option>Land</option>
+							<option selected>Land</option>
 						</select>
 					</div>
 				  </div>
 			  </div>
-				<button class='submit-btn'>Post Item</button>
+				<button class='submit-btn'>Update</button>
 			</section>
 		</main>
 		<footer class = 'bottom '>
@@ -129,6 +127,7 @@
 		  <p class = 'p2 foot2'>Made with ❤️ by Iyara Oghenefegor</p>
 		</footer>
 		<script src="./js/hamburger.js"></script>
+		<script src = './js/update-post.js'></script>
 	</div>
 </body>
 </html>
