@@ -656,6 +656,83 @@ form .shift2 {
 	cursor: pointer;
 }
 
+.property-container{
+	display: inline-block;
+	width: 100%;
+	position: relative;
+}
+
+.property-wrapper{
+	display: flex;
+	justify-content: space-evenly;
+}
+
+.property-inner{
+	display: inline-block;
+	margin: auto;
+}
+
+.item-desc-pic{
+	width: 18px;
+	height: 18px;
+	margin-right: 4px;
+}
+.item-desc{
+	display: flex;
+}
+
+.reduce-size{
+	font-size: 18px;
+}
+
+.reduce-p{
+	font-size: 15px;
+}
+
+.desc{
+	background: #FFF;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	padding: 20px;
+	color: #260126 !important;
+}
+
+.item7{
+	text-align: center;
+	position: relative;
+	width: 250px;
+	height: 100px;
+	color: #260126;
+	background: #FFF;
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+	/* margin: 10px; */
+}
+
+.icon10{
+	width: 16px;
+	height: 16px;
+	margin-top: 2px;
+	margin-right: 5px;
+}
+
+.property-info{
+	text-align: center;
+}
+
+.property-description{
+	text-align: center;
+	width: 100%;
+}
+
+.property-image{
+	margin: 30px;
+}
+
+.return-page {
+	background: #260126;
+	padding: 15px;
+	color: #FFF;
+}
+
 
 @media only screen and (min-width: 248px) and (max-width: 859px)
 {
@@ -858,6 +935,32 @@ form .shift2 {
 	.accountform .group1, .accountform .group2, .accountform .selectGroup{
 		margin-left: 0%;
 	}
+
+	.property-wrapper{
+		display: block;
+		text-align: center !important;
+	}
+	.item7{
+		width: 150px;
+	}
+
+	.property-image img{
+		width: 70% !important;
+	}
+	.item-desc{
+		display: inline-block !important;
+		display:flex;
+	}
+	.desc{
+		width: 80%;
+		display: inline-block !important;
+		margin-bottom: 10px;
+	}
+
+	.item-desc-pic{
+		display:none;
+	}
+
 }
 
  @media only screen and (min-width: 450px) and (max-width: 859px)
