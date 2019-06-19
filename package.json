@@ -5,6 +5,10 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "babel-build": "babel Server -d dist",
+    "clean": "rm -rf dist && mkdir dist",
+    "build": "npm run clean && npm run babel-build",
+    "heroku-postbuild": "npm run build",
     "deploy": "gh-pages -d UI"
   },
   "repository": {
@@ -22,9 +26,17 @@
   },
   "homepage": "https://github.com/fegzycole/PropertyPro#readme",
   "devDependencies": {
+    "@babel/cli": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/node": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.17.3",
     "gh-pages": "^2.0.1"
+  },
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "express": "^4.17.1"
   }
 }
