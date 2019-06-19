@@ -306,6 +306,7 @@ header h1{
 	background: #FFF;
 	padding: 20px;
 	margin-bottom: 10px;
+	position: relative;
 }
 
 .item1:hover{
@@ -731,6 +732,18 @@ form .shift2 {
 	background: #260126;
 	padding: 15px;
 	color: #FFF;
+}
+
+.greener{
+	background: #107407;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 5px;
+}
+
+.greener:hover{
+	cursor: pointer;
 }
 
 
