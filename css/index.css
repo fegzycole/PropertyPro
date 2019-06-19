@@ -613,7 +613,8 @@ form .shift2 {
 }
 
 .all-list-btn,
-.newbtn {
+.newbtn,
+.all-user-btn {
 	padding: 5px;
 	font-size: 0.8em;
 	background: #260126;
@@ -742,8 +743,21 @@ form .shift2 {
 	padding: 5px;
 }
 
+.yellow{
+	background: #FFAF30;
+	position: absolute;
+	right: 0;
+	top: 0;
+	padding: 5px;
+}
+
 .greener:hover{
 	cursor: pointer;
+}
+
+.show-user{
+	display: flex !important;
+
 }
 
 
