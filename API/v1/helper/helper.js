@@ -1,6 +1,7 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import userData from '../data/user.data';
 
 dotenv.config();
 
@@ -25,6 +26,18 @@ class Helper {
     );
 
     return token;
+  }
+
+  static checkIfEmailExists(emailToCheckAgainst) {
+    const resultingArray = userData.users.find(el => el.email === emailToCheckAgainst);
+    return resultingArray;
+  }
+
+  static compareUserPassword(email, password) {
+    const usersInformation = userData.users.find(el => el.email === email);
+    const hashDatabasePassword = Helper.hashAPassword(usersInformation.password);
+    const comparePasswords = bcrypt.compareSync(password, hashDatabasePassword);
+    return comparePasswords;
   }
 }
 

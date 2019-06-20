@@ -287,4 +287,80 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         });
     });
   });
+  describe('POST api/v1/auth/signin', () => {
+    it('Should successfully sign in a user and return a token', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'fergusoniyara@gmail.com',
+          password: 'somepassword',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(201);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.have.key('token', 'id', 'firstName', 'lastName', 'email', 'isAdmin');
+          expect(res.body.data.token).to.be.a('string');
+          done();
+        });
+    });
+    it('Should return an error if the user provides no email', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          password: 'manforthejob',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body.status).to.be.equal(400);
+          expect(res.body.error).to.be.equal('Email field cannot be left empty');
+          done();
+        });
+    });
+    it('Should return an error if the user provides no password', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'fergusoniyara@gmail.com',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body.status).to.be.equal(400);
+          expect(res.body.error).to.be.equal('Password field cannot be left empty');
+          done();
+        });
+    });
+    it('Should return an error if the user provides wrong login credentials', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'wrong@gmail.com',
+          password: 'wrongpassword',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.status).to.be.equal(404);
+          expect(res.body.error).to.be.equal('Email does not exist');
+          done();
+        });
+    });
+    it('Should return an error if the user provides a wrong password', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/auth/signin')
+        .send({
+          email: 'fergusoniyara@gmail.com',
+          password: 'manforthejob',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.status).to.be.equal(401);
+          expect(res.body.error).to.be.equal('Authentication Failed');
+          done();
+        });
+    });
+  });
 });
