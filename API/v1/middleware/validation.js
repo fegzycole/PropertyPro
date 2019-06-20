@@ -2,7 +2,7 @@
 import isEmpty from './isEmpty';
 import Helper from '../helper/helper';
 
-const { trimmer } = Helper;
+const { trimmer, checkIfEmailExists } = Helper;
 
 class Validation {
   static validateSignUpInput(req, res, next) {
@@ -40,6 +40,13 @@ class Validation {
     return next();
   }
 
+  static checkForEmptySignInParameters(req, res, next) {
+    const { email, password } = req.body;
+    if (isEmpty(email)) return Validation.isEmptyErrorResponse(res, 'email');
+    if (isEmpty(password)) return Validation.isEmptyErrorResponse(res, 'password');
+    return next();
+  }
+
   static isEmptyErrorResponse(res, typeOfParameter) {
     let error;
     const status = 400;
@@ -67,6 +74,27 @@ class Validation {
     res.status(status).json({
       status,
       error,
+    });
+  }
+
+  static checkLoginParameters(req, res, next) {
+    const { email } = req.body;
+    const trimmedParameters = trimmer([email]);
+    if (!checkIfEmailExists(trimmedParameters[0])) return Validation.emailDoesNotExistErrorResponse(res);
+    return next();
+  }
+
+  static emailDoesNotExistErrorResponse(res) {
+    return res.status(404).json({
+      status: 404,
+      error: 'Email does not exist',
+    });
+  }
+
+  static incorrectUserPassword(res) {
+    return res.status(401).json({
+      status: 401,
+      error: 'Authentication Failed',
     });
   }
 }
