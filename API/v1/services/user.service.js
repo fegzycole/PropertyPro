@@ -15,7 +15,15 @@ class UserService {
       const newUser = new User(id, email, firstName,
         lastName, hashedPassword, phoneNumber, address, isAdmin);
       userData.users.push(newUser);
-      return [createToken(newUser), id, email, firstName, lastName, isAdmin];
+      const res = {
+        token: createToken(newUser),
+        id,
+        email,
+        firstName,
+        lastName,
+        isAdmin,
+      };
+      return res;
     } catch (error) {
       return error;
     }
