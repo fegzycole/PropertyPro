@@ -9,18 +9,11 @@ class UserController {
       const result = createUserAccount(userInformation);
       return res.status(201).json({
         status: 'success',
-        data: {
-          token: result[0],
-          id: result[1],
-          firstName: result[3],
-          lastName: result[4],
-          email: result[2],
-          isAdmin: result[5],
-        },
+        data: result,
       });
     } catch (error) {
       return res.json({
-        status: 500,
+        status: 400,
         error,
       });
     }
