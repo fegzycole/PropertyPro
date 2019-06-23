@@ -48,7 +48,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid Email address provided');
+          expect(res.body.error).to.be.equal('Invalid Email provided');
           done();
         });
     });
@@ -68,7 +68,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid Password provided, remove whitespace(s) and try again');
+          expect(res.body.error).to.be.equal('Invalid Password provided');
           done();
         });
     });
@@ -167,7 +167,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
-          expect(res.body.error).to.be.equal('Email field cannot be left empty');
+          expect(res.body.error).to.be.equal('Email cannot be left empty');
           done();
         });
     });
@@ -186,7 +186,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
-          expect(res.body.error).to.be.equal('First Name/Last Name field cannot be left empty');
+          expect(res.body.error).to.be.equal('First Name/Last Name cannot be left empty');
           done();
         });
     });
@@ -205,7 +205,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
-          expect(res.body.error).to.be.equal('First Name/Last Name field cannot be left empty');
+          expect(res.body.error).to.be.equal('First Name/Last Name cannot be left empty');
           done();
         });
     });
@@ -224,7 +224,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
-          expect(res.body.error).to.be.equal('Password field cannot be left empty');
+          expect(res.body.error).to.be.equal('Password cannot be left empty');
           done();
         });
     });
@@ -243,7 +243,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
-          expect(res.body.error).to.be.equal('Phone Number field cannot be left empty');
+          expect(res.body.error).to.be.equal('Phone Number cannot be left empty');
           done();
         });
     });
@@ -263,7 +263,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
-          expect(res.body.error).to.be.equal('Address field cannot be left empty');
+          expect(res.body.error).to.be.equal('Address cannot be left empty');
           done();
         });
     });
@@ -282,7 +282,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
-          expect(res.body.error).to.be.equal('User type field cannot be left empty');
+          expect(res.body.error).to.be.equal('Type cannot be left empty');
           done();
         });
     });
@@ -314,7 +314,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
-          expect(res.body.error).to.be.equal('Email field cannot be left empty');
+          expect(res.body.error).to.be.equal('email cannot be left empty');
           done();
         });
     });
@@ -328,7 +328,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
-          expect(res.body.error).to.be.equal('Password field cannot be left empty');
+          expect(res.body.error).to.be.equal('password cannot be left empty');
           done();
         });
     });
