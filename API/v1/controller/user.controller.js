@@ -7,35 +7,30 @@ const { createUserAccount, loginUser } = UserService;
 
 class UserController {
   static createUserAccount(req, res) {
-    try {
-      const userInformation = req.body;
-      const result = createUserAccount(userInformation);
+    const userInformation = req.body;
+    const result = createUserAccount(userInformation);
+    if (result) {
       return res.status(201).json({
         status: 'success',
         data: result,
       });
-    } catch (error) {
-      return res.json({
-        status: 400,
-        error,
-      });
     }
+    return res.json({
+      status: 500,
+      error: 'Request Failed. Failed to create new account',
+    });
   }
 
   static loginUser(req, res) {
-    try {
-      const userCredentials = req.body;
-      const result = loginUser(userCredentials);
-      if (result) {
-        return res.status(201).json({
-          status: 'success',
-          data: result,
-        });
-      }
-      return incorrectUserPassword(res);
-    } catch (error) {
-      return error;
+    const userCredentials = req.body;
+    const result = loginUser(userCredentials);
+    if (result) {
+      return res.status(201).json({
+        status: 'success',
+        data: result,
+      });
     }
+    return incorrectUserPassword(res);
   }
 }
 
