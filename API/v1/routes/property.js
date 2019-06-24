@@ -1,15 +1,14 @@
 import express from 'express';
-// import upload from '../middleware/imageUpload';
 import AuthenticateUser from '../middleware/AuthenticateUser';
 import Validation from '../middleware/validation';
 import PropertyController from '../controller/property.controller';
 
-const { postAProperty, updateProperty } = PropertyController;
+const { postAProperty, updateProperty, updatePropertyStatus } = PropertyController;
 
 const {
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput, uploadAnImage, checkAgentId,
-  checkForInvalidRequestParameters, checkForInvalidUpdateParameters, compareAgentsByEmail,
+  checkForInvalidUpdateParameters, compareAgentsByEmail, checkStatusParameter,
 } = Validation;
 
 const { authenticateUser } = AuthenticateUser;
@@ -20,7 +19,11 @@ router.post('/', authenticateUser, uploadAnImage,
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput, postAProperty);
 
-router.patch('/:id', authenticateUser, checkAgentId, compareAgentsByEmail,
-  uploadAnImage, checkForInvalidRequestParameters, checkForInvalidUpdateParameters, updateProperty);
+router.patch('/:id', authenticateUser, checkAgentId,
+  compareAgentsByEmail, uploadAnImage,
+  checkForInvalidUpdateParameters, updateProperty);
+
+router.patch('/:id/sold', authenticateUser, checkAgentId,
+  compareAgentsByEmail, checkStatusParameter, updatePropertyStatus);
 
 export default router;

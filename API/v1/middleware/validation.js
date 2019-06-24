@@ -3,7 +3,6 @@
 import isEmpty from './isEmpty';
 import Helper from '../helper/helper';
 import uploader from './imageUpload';
-import propertyData from '../data/property.data';
 
 const {
   trimmer, checkIfEmailExists, checkState,
@@ -79,19 +78,6 @@ class Validation {
     return next();
   }
 
-  static checkForInvalidRequestParameters(req, res, next) {
-    const arrayOfRequestBodyParameters = Object.keys(req.body);
-    const arrayOfValidParameters = Object.keys(propertyData.properties[0]);
-    const resultingArray = arrayOfRequestBodyParameters.filter(el => (!arrayOfValidParameters.includes(el) && el !== undefined));
-    if (resultingArray.length >= 1) {
-      return res.status(400).json({
-        status: 400,
-        error: `${resultingArray[0]} is not a valid request parameter`,
-      });
-    }
-    return next();
-  }
-
   static checkForEmptyPropertyPostParameters(req, res, next) {
     const imageUrl = req.file;
     const userInformation = req.body;
@@ -139,6 +125,12 @@ class Validation {
         error: 'You are not authorized to view this resource',
       });
     }
+    return next();
+  }
+
+  static checkStatusParameter(req, res, next) {
+    const { status } = req.body;
+    if (status !== 'Sold') return Validation.isInvalidResponses(res, 'status');
     return next();
   }
 
