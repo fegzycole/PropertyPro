@@ -4,11 +4,12 @@ import AuthenticateUser from '../middleware/AuthenticateUser';
 import Validation from '../middleware/validation';
 import PropertyController from '../controller/property.controller';
 
-const { postAProperty } = PropertyController;
+const { postAProperty, updateProperty } = PropertyController;
 
 const {
   checkForEmptyPropertyPostParameters,
-  validateCreatePropertyInput, uploadAnImage,
+  validateCreatePropertyInput, uploadAnImage, checkAgentId,
+  checkForInvalidRequestParameters, checkForInvalidUpdateParameters,
 } = Validation;
 
 const { authenticateUser } = AuthenticateUser;
@@ -18,5 +19,8 @@ const router = express.Router();
 router.post('/', authenticateUser, uploadAnImage,
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput, postAProperty);
+
+router.patch('/:id', authenticateUser, checkAgentId,
+  uploadAnImage, checkForInvalidRequestParameters, checkForInvalidUpdateParameters, updateProperty);
 
 export default router;
