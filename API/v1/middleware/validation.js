@@ -3,9 +3,11 @@
 import isEmpty from './isEmpty';
 import Helper from '../helper/helper';
 import uploader from './imageUpload';
+import propertyData from '../data/property.data';
 
 const {
-  trimmer, checkIfEmailExists, checkState, checkLGA, deleteUploadedFile,
+  trimmer, checkIfEmailExists, checkState,
+  checkLGA, deleteUploadedFile, checkId,
 } = Helper;
 
 class Validation {
@@ -61,15 +63,34 @@ class Validation {
       email, firstName, lastName, password, phoneNumber, address, type,
     } = userInformation;
     if (isEmpty(email)) return Validation.isEmptyErrorResponse(res, 'Email');
+
     if (isEmpty(firstName)) return Validation.isEmptyErrorResponse(res, 'First Name/Last Name');
+
     if (isEmpty(lastName)) return Validation.isEmptyErrorResponse(res, 'First Name/Last Name');
+
     if (isEmpty(password)) return Validation.isEmptyErrorResponse(res, 'Password');
+
     if (isEmpty(phoneNumber)) return Validation.isEmptyErrorResponse(res, 'Phone Number');
+
     if (isEmpty(address)) return Validation.isEmptyErrorResponse(res, 'Address');
+
     if (isEmpty(type)) return Validation.isEmptyErrorResponse(res, 'Type');
+
     return next();
   }
 
+  static checkForInvalidRequestParameters(req, res, next) {
+    const arrayOfRequestBodyParameters = Object.keys(req.body);
+    const arrayOfValidParameters = Object.keys(propertyData.properties[0]);
+    const resultingArray = arrayOfRequestBodyParameters.filter(el => (!arrayOfValidParameters.includes(el) && el !== undefined));
+    if (resultingArray.length >= 1) {
+      return res.status(400).json({
+        status: 400,
+        error: `${resultingArray[0]} is not a valid request parameter`,
+      });
+    }
+    return next();
+  }
 
   static checkForEmptyPropertyPostParameters(req, res, next) {
     const imageUrl = req.file;
@@ -77,6 +98,7 @@ class Validation {
     const {
       address, type, price, state, city,
     } = userInformation;
+    if (isEmpty(imageUrl)) return Validation.isEmptyErrorResponse(res, 'image');
     if (isEmpty(price)) {
       deleteUploadedFile(req);
       return Validation.isEmptyErrorResponse(res, 'price');
@@ -97,7 +119,16 @@ class Validation {
       deleteUploadedFile(req);
       return Validation.isEmptyErrorResponse(res, 'type');
     }
-    if (isEmpty(imageUrl)) return Validation.isEmptyErrorResponse(res, 'image');
+    return next();
+  }
+
+  static checkAgentId(req, res, next) {
+    if (!checkId(parseInt(req.params.id, 10))) {
+      return res.status(404).json({
+        status: 404,
+        error: 'User with the id not found',
+      });
+    }
     return next();
   }
 
@@ -135,6 +166,33 @@ class Validation {
     return next();
   }
 
+  static checkForInvalidUpdateParameters(req, res, next) {
+    const validTypes = ['2 Bedroom', '3 Bedroom', 'Land', 'Semi-detached duplex'];
+
+    const {
+      type, price, state, city, address,
+    } = req.body;
+
+    const regexForPrice = /^\d*\.?\d*$/;
+
+    if (type && !validTypes.includes(type)) return Validation.isInvalidResponses(res, 'property type');
+
+    if (price && !regexForPrice.test(price)) return Validation.isInvalidResponses(res, 'price');
+
+    if (city && !state) return Validation.cityWithoutStateResponse(res, 'state');
+
+    if (state && !city) return Validation.cityWithoutStateResponse(res, 'city');
+
+    if (state && !checkState(state)) return Validation.isInvalidResponses(res, 'state');
+
+    if ((city && state) && (!checkLGA(state, city))) return Validation.isInvalidResponses(res, 'city');
+
+    if (address && isEmpty(address)) return Validation.isEmptyErrorResponse(res, 'address');
+
+    return next();
+  }
+
+
   static uploadAnImage(req, res, next) {
     uploader(req, res, (err) => {
       if (err) {
@@ -151,6 +209,13 @@ class Validation {
     return res.status(404).json({
       status: 404,
       error: 'Email does not exist',
+    });
+  }
+
+  static cityWithoutStateResponse(res, typeOfError) {
+    return res.status(422).json({
+      status: 422,
+      error: `Invalid, select a ${typeOfError} to continue`,
     });
   }
 

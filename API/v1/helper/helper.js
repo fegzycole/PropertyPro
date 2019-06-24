@@ -4,6 +4,7 @@ import cloudinary from 'cloudinary';
 import dotenv from 'dotenv';
 import userData from '../data/user.data';
 import states from '../data/statesAndLGAs';
+import properties from '../data/property.data';
 
 dotenv.config();
 
@@ -61,6 +62,11 @@ class Helper {
     const arrayOfStates = states.states.find(el => el.state.name === state);
     const LGAs = Object.values(arrayOfStates.state.locals);
     const resultingArray = LGAs.find(local => local.name === lga);
+    return resultingArray;
+  }
+
+  static checkId(id) {
+    const resultingArray = properties.properties.find(el => el.id === id);
     return resultingArray;
   }
 }

@@ -1,9 +1,12 @@
 import propertyData from '../data/property.data';
 import Property from '../model/property.model';
+import Helper from '../helper/helper';
+
+const { checkId } = Helper;
 
 class PropertyService {
-  static postAProperty(propertyDetails) {
-    const { body, file } = propertyDetails;
+  static postAProperty(request) {
+    const { body, file } = request;
     const {
       state, city, price, type, address,
     } = body;
@@ -11,7 +14,7 @@ class PropertyService {
       const id = propertyData.properties.length + 1;
       const createdOn = new Date();
       const status = 'Available';
-      const owner = propertyDetails.decoded.user.id;
+      const owner = request.decoded.user.id;
       const newProperty = new Property(id, owner, status,
         price, state, city, address, type, createdOn, file);
       propertyData.properties.push(newProperty);
@@ -27,6 +30,33 @@ class PropertyService {
         imageUrl: file.secure_url,
       };
       return res;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static updateProperty(request) {
+    const { id } = request.params;
+
+    const {
+      type, price, state, city, address,
+    } = request.body;
+
+    try {
+      const resultingProperty = checkId(parseInt(id, 10));
+      if (type) resultingProperty.type = type;
+
+      if (price) resultingProperty.price = parseInt(price, 10);
+
+      if (state) resultingProperty.state = state;
+
+      if (city) resultingProperty.city = city;
+
+      if (address) resultingProperty.address = address;
+
+      if (request.file) resultingProperty.imageUrl = request.file.secure_url;
+
+      return checkId(parseInt(id, 10));
     } catch (error) {
       return error;
     }
