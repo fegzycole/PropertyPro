@@ -503,7 +503,7 @@ describe('Test suite for all property related endpoints', () => {
           done();
         });
     });
-    it('Should return an error if the agent adds the address keybut doesn\'t include an address', (done) => {
+    it('Should return an error if the agent adds the address key but doesn\'t include an address', (done) => {
       const id = 1;
       chai
         .request(app)
@@ -520,6 +520,26 @@ describe('Test suite for all property related endpoints', () => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal(400);
           expect(res.body.error).to.be.equal('address cannot be left empty');
+          done();
+        });
+    });
+    it('Should return an error if the agent wants to update the details of another agent\'s property', (done) => {
+      const id = 6;
+      chai
+        .request(app)
+        .patch(`/api/v1/property/${id}`)
+        .set('x-access-token', adminToken)
+        .set('enctype', 'multipart/formdata')
+        .type('form')
+        .field('state', 'Lagos State')
+        .field('city', 'Alimosho')
+        .field('price', 60000000.50)
+        .field('address', '67, Bambgoye close')
+        .field('type', 'Land')
+        .end((err, res) => {
+          expect(res).to.have.status(403);
+          expect(res.body.status).to.be.equal(403);
+          expect(res.body.error).to.be.equal('You are not authorized to view this resource');
           done();
         });
     });

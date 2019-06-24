@@ -7,7 +7,7 @@ import propertyData from '../data/property.data';
 
 const {
   trimmer, checkIfEmailExists, checkState,
-  checkLGA, deleteUploadedFile, checkId,
+  checkLGA, deleteUploadedFile, checkId, compareAgents,
 } = Helper;
 
 class Validation {
@@ -127,6 +127,16 @@ class Validation {
       return res.status(404).json({
         status: 404,
         error: 'User with the id not found',
+      });
+    }
+    return next();
+  }
+
+  static compareAgentsByEmail(req, res, next) {
+    if (!compareAgents(req, parseInt(req.params.id, 10))) {
+      return res.status(403).json({
+        status: 403,
+        error: 'You are not authorized to view this resource',
       });
     }
     return next();
