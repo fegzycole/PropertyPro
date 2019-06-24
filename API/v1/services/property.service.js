@@ -46,7 +46,7 @@ class PropertyService {
       const resultingProperty = checkId(parseInt(id, 10));
       if (type) resultingProperty.type = type;
 
-      if (price) resultingProperty.price = parseInt(price, 10);
+      if (price) resultingProperty.price = parseFloat(price, 10);
 
       if (state) resultingProperty.state = state;
 
@@ -56,7 +56,22 @@ class PropertyService {
 
       if (request.file) resultingProperty.imageUrl = request.file.secure_url;
 
-      return checkId(parseInt(id, 10));
+      return resultingProperty;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static updatePropertyStatus(request) {
+    const { id } = request.params;
+
+    const { status } = request.body;
+    try {
+      const resultingProperty = checkId(parseInt(id, 10));
+
+      resultingProperty.status = status;
+
+      return resultingProperty;
     } catch (error) {
       return error;
     }

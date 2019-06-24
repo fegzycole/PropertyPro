@@ -384,27 +384,6 @@ describe('Test suite for all property related endpoints', () => {
           done();
         });
     });
-    it('Should return an error if an agent puts a key that does not exist into the body of the request', (done) => {
-      const id = 1;
-      chai
-        .request(app)
-        .patch(`/api/v1/property/${id}`)
-        .set('x-access-token', adminToken)
-        .set('enctype', 'multipart/formdata')
-        .type('form')
-        .field('state', 'Lagos State')
-        .field('city', 'Alimosho')
-        .field('Agency', 'Andela development community')
-        .field('price', 60000000.50)
-        .field('address', '67 Bamgboye close')
-        .field('type', 'Land')
-        .end((err, res) => {
-          expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
-          expect(res.body.error).to.be.equal('Agency is not a valid request parameter');
-          done();
-        });
-    });
     it('Should return an error if the price to update is not a valid price', (done) => {
       const id = 1;
       chai
@@ -540,6 +519,104 @@ describe('Test suite for all property related endpoints', () => {
           expect(res).to.have.status(403);
           expect(res.body.status).to.be.equal(403);
           expect(res.body.error).to.be.equal('You are not authorized to view this resource');
+          done();
+        });
+    });
+  });
+  describe('PATCH api/v1/property/:id/sold', () => {
+    it('Should update the status of a listed property to sold if all checks are fine', (done) => {
+      const id = 1;
+      chai
+        .request(app)
+        .patch(`/api/v1/property/${id}/sold`)
+        .set('x-access-token', adminToken)
+        .send({
+          status: 'Sold',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(201);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.have.key('id', 'owner', 'status', 'price', 'state', 'city', 'address', 'type',
+            'createdOn', 'imageUrl');
+          done();
+        });
+    });
+    it('Should throw an error if user is not Logged in', (done) => {
+      const id = 1;
+      chai
+        .request(app)
+        .patch(`/api/v1/property/${id}/sold`)
+        .send({
+          status: 'Sold',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.status).to.be.equal(401);
+          expect(res.body.error).to.be.equal('You do not have access to this resource');
+          done();
+        });
+    });
+    it('Should return an error if a user wants to mark a property as sold', (done) => {
+      const id = 1;
+      chai
+        .request(app)
+        .patch(`/api/v1/property/${id}/sold`)
+        .set('x-access-token', userToken)
+        .send({
+          status: 'Sold',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.status).to.be.equal(401);
+          expect(res.body.error).to.be.equal('Only an Agent can post a property');
+          done();
+        });
+    });
+    it('Should return an error if an agent with the requesting id does not exist', (done) => {
+      const id = 44;
+      chai
+        .request(app)
+        .patch(`/api/v1/property/${id}/sold`)
+        .set('x-access-token', adminToken)
+        .send({
+          status: 'Sold',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.status).to.be.equal(404);
+          expect(res.body.error).to.be.equal('User with the id not found');
+          done();
+        });
+    });
+    it('Should return an error if the agent wants to update the details of another agent\'s property', (done) => {
+      const id = 6;
+      chai
+        .request(app)
+        .patch(`/api/v1/property/${id}/sold`)
+        .set('x-access-token', adminToken)
+        .send({
+          status: 'Sold',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(403);
+          expect(res.body.status).to.be.equal(403);
+          expect(res.body.error).to.be.equal('You are not authorized to view this resource');
+          done();
+        });
+    });
+    it('Should return an error if the user puts in a wrong value as status', (done) => {
+      const id = 1;
+      chai
+        .request(app)
+        .patch(`/api/v1/property/${id}/sold`)
+        .set('x-access-token', adminToken)
+        .send({
+          status: 'Awaiting',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.be.equal(422);
+          expect(res.body.error).to.be.equal('Invalid status provided');
           done();
         });
     });
