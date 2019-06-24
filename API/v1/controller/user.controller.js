@@ -25,7 +25,7 @@ class UserController {
     const userCredentials = req.body;
     const result = loginUser(userCredentials);
     if (result) {
-      return res.status(201).json({
+      return res.status(200).json({
         status: 'success',
         data: result,
       });

@@ -297,7 +297,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           password: 'somepassword',
         })
         .end((err, res) => {
-          expect(res).to.have.status(201);
+          expect(res).to.have.status(200);
           expect(res.body.status).to.be.equal('success');
           expect(res.body.data).to.have.key('token', 'id', 'firstName', 'lastName', 'email', 'isAdmin');
           expect(res.body.data.token).to.be.a('string');

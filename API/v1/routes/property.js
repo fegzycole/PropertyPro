@@ -9,7 +9,7 @@ const { postAProperty, updateProperty } = PropertyController;
 const {
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput, uploadAnImage, checkAgentId,
-  checkForInvalidRequestParameters, checkForInvalidUpdateParameters,
+  checkForInvalidRequestParameters, checkForInvalidUpdateParameters, compareAgentsByEmail,
 } = Validation;
 
 const { authenticateUser } = AuthenticateUser;
@@ -20,7 +20,7 @@ router.post('/', authenticateUser, uploadAnImage,
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput, postAProperty);
 
-router.patch('/:id', authenticateUser, checkAgentId,
+router.patch('/:id', authenticateUser, checkAgentId, compareAgentsByEmail,
   uploadAnImage, checkForInvalidRequestParameters, checkForInvalidUpdateParameters, updateProperty);
 
 export default router;

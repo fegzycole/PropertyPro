@@ -69,6 +69,12 @@ class Helper {
     const resultingArray = properties.properties.find(el => el.id === id);
     return resultingArray;
   }
+
+  static compareAgents(req, id) {
+    const owner = properties.properties.find(el => el.id === id);
+    if (owner.owner === req.decoded.user.id) return true;
+    return false;
+  }
 }
 
 export default Helper;
