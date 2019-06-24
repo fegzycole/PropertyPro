@@ -76,6 +76,19 @@ class PropertyService {
       return error;
     }
   }
+
+  static deleteAProperty(request) {
+    try {
+      const { id } = request.params;
+      const resultingProperty = checkId(parseInt(id, 10));
+      const index = propertyData.properties.indexOf(resultingProperty);
+      propertyData.properties.splice(index, 1);
+      const successMessage = 'Property deleted successfully';
+      return successMessage;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default PropertyService;

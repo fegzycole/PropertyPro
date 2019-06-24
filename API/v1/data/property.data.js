@@ -13,7 +13,7 @@ module.exports = {
       imageUrl: 'apartment-architectural-design-architecture-1115804.jpg',
     },
     {
-      id: 1,
+      id: 2,
       owner: 1,
       status: 'Sold',
       price: 70000000.00,

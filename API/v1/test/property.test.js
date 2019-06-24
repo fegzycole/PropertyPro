@@ -363,7 +363,7 @@ describe('Test suite for all property related endpoints', () => {
           done();
         });
     });
-    it('Should return an error if an agent with the requesting id does not exist', (done) => {
+    it('Should return an error if the property with the requested id does not exist', (done) => {
       const id = 44;
       chai
         .request(app)
@@ -380,7 +380,7 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body.status).to.be.equal(404);
-          expect(res.body.error).to.be.equal('User with the id not found');
+          expect(res.body.error).to.be.equal('Property with the specified id not found');
           done();
         });
     });
@@ -584,7 +584,7 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body.status).to.be.equal(404);
-          expect(res.body.error).to.be.equal('User with the id not found');
+          expect(res.body.error).to.be.equal('Property with the specified id not found');
           done();
         });
     });
@@ -617,6 +617,72 @@ describe('Test suite for all property related endpoints', () => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
           expect(res.body.error).to.be.equal('Invalid status provided');
+          done();
+        });
+    });
+  });
+  describe('DELETE api/v1/property/:id', () => {
+    it('Should delete a listed property if all checks are fine', (done) => {
+      const id = 2;
+      chai
+        .request(app)
+        .delete(`/api/v1/property/${id}`)
+        .set('x-access-token', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data.message).to.be.equal('Property deleted successfully');
+          done();
+        });
+    });
+    it('Should throw an error if user is not Logged in', (done) => {
+      const id = 1;
+      chai
+        .request(app)
+        .delete(`/api/v1/property/${id}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.status).to.be.equal(401);
+          expect(res.body.error).to.be.equal('You do not have access to this resource');
+          done();
+        });
+    });
+    it('Should return an error if a user wants to mark a property as sold', (done) => {
+      const id = 1;
+      chai
+        .request(app)
+        .delete(`/api/v1/property/${id}`)
+        .set('x-access-token', userToken)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.status).to.be.equal(401);
+          expect(res.body.error).to.be.equal('Only an Agent can post a property');
+          done();
+        });
+    });
+    it('Should return an error if an agent with the requesting id does not exist', (done) => {
+      const id = 44;
+      chai
+        .request(app)
+        .delete(`/api/v1/property/${id}`)
+        .set('x-access-token', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.status).to.be.equal(404);
+          expect(res.body.error).to.be.equal('Property with the specified id not found');
+          done();
+        });
+    });
+    it('Should return an error if the agent wants to delete a property not listed by him/her', (done) => {
+      const id = 6;
+      chai
+        .request(app)
+        .delete(`/api/v1/property/${id}`)
+        .set('x-access-token', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(403);
+          expect(res.body.status).to.be.equal(403);
+          expect(res.body.error).to.be.equal('You are not authorized to view this resource');
           done();
         });
     });

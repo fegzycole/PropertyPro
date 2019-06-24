@@ -108,11 +108,11 @@ class Validation {
     return next();
   }
 
-  static checkAgentId(req, res, next) {
+  static checkPropertyId(req, res, next) {
     if (!checkId(parseInt(req.params.id, 10))) {
       return res.status(404).json({
         status: 404,
-        error: 'User with the id not found',
+        error: 'Property with the specified id not found',
       });
     }
     return next();
