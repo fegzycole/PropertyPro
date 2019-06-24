@@ -22,6 +22,19 @@ app.get('/', (req, res) => res.status(200).json({
   message: 'Welcome To PropertyPro',
 }));
 
+
+app.use((error, req, res, next) => {
+  res.status(error.status || 500);
+  res.json({
+    status: error.status || 500,
+    success: false,
+    error: error.name,
+    message: error.message,
+  });
+  next();
+});
+
+
 const PORT = process.env.PORT || 4000;
 
 app.listen(PORT, () => {

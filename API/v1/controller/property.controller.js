@@ -1,47 +1,42 @@
 import PropertyService from '../services/property.service';
 
-const { postAProperty, updateProperty, updatePropertyStatus } = PropertyService;
+const {
+  postAProperty, updateProperty,
+  updatePropertyStatus, deleteAProperty,
+} = PropertyService;
 
 class PropertyController {
   static postAProperty(req, res) {
     const result = postAProperty(req);
-    if (result) {
-      return res.status(201).json({
-        status: 'success',
-        data: result,
-      });
-    }
-    return res.status(500).json({
-      status: 500,
-      error: 'Request Unsuccessful, try again',
+    return res.status(201).json({
+      status: 'success',
+      data: result,
     });
   }
 
   static updateProperty(req, res) {
     const result = updateProperty(req);
-    if (result) {
-      return res.status(201).json({
-        status: 'success',
-        data: result,
-      });
-    }
-    return res.status(500).json({
-      status: 500,
-      error: 'Something went wrong, try again',
+    return res.status(201).json({
+      status: 'success',
+      data: result,
     });
   }
 
   static updatePropertyStatus(req, res) {
     const result = updatePropertyStatus(req);
-    if (result) {
-      return res.status(201).json({
-        status: 'success',
-        data: result,
-      });
-    }
-    return res.status(500).json({
-      status: 500,
-      error: 'Something went wrong, try again',
+    return res.status(201).json({
+      status: 'success',
+      data: result,
+    });
+  }
+
+  static deleteAProperty(req, res) {
+    const result = deleteAProperty(req);
+    res.status(200).json({
+      status: 'success',
+      data: {
+        message: result,
+      },
     });
   }
 }

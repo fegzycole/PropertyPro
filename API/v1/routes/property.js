@@ -3,11 +3,14 @@ import AuthenticateUser from '../middleware/AuthenticateUser';
 import Validation from '../middleware/validation';
 import PropertyController from '../controller/property.controller';
 
-const { postAProperty, updateProperty, updatePropertyStatus } = PropertyController;
+const {
+  postAProperty, updateProperty,
+  updatePropertyStatus, deleteAProperty,
+} = PropertyController;
 
 const {
   checkForEmptyPropertyPostParameters,
-  validateCreatePropertyInput, uploadAnImage, checkAgentId,
+  validateCreatePropertyInput, uploadAnImage, checkPropertyId,
   checkForInvalidUpdateParameters, compareAgentsByEmail, checkStatusParameter,
 } = Validation;
 
@@ -19,11 +22,13 @@ router.post('/', authenticateUser, uploadAnImage,
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput, postAProperty);
 
-router.patch('/:id', authenticateUser, checkAgentId,
+router.patch('/:id', authenticateUser, checkPropertyId,
   compareAgentsByEmail, uploadAnImage,
   checkForInvalidUpdateParameters, updateProperty);
 
-router.patch('/:id/sold', authenticateUser, checkAgentId,
+router.patch('/:id/sold', authenticateUser, checkPropertyId,
   compareAgentsByEmail, checkStatusParameter, updatePropertyStatus);
+
+router.delete('/:id', authenticateUser, checkPropertyId, compareAgentsByEmail, deleteAProperty);
 
 export default router;
