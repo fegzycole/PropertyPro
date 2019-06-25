@@ -660,7 +660,7 @@ describe('Test suite for all property related endpoints', () => {
           done();
         });
     });
-    it('Should return an error if an agent with the requesting id does not exist', (done) => {
+    it('Should return an error if a property with the requesting id does not exist', (done) => {
       const id = 44;
       chai
         .request(app)
@@ -683,6 +683,46 @@ describe('Test suite for all property related endpoints', () => {
           expect(res).to.have.status(403);
           expect(res.body.status).to.be.equal(403);
           expect(res.body.error).to.be.equal('You are not authorized to view this resource');
+          done();
+        });
+    });
+  });
+  describe('GET api/v1/property/:id', () => {
+    it('Should return a list of all listed properties', (done) => {
+      const id = 23;
+      chai
+        .request(app)
+        .get(`/api/v1/property/${id}`)
+        .set('x-access-token', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.be.an('array');
+          done();
+        });
+    });
+    it('Should throw an error if user is not Logged in', (done) => {
+      const id = 1;
+      chai
+        .request(app)
+        .get(`/api/v1/property/${id}`)
+        .end((err, res) => {
+          expect(res).to.have.status(401);
+          expect(res.body.status).to.be.equal(401);
+          expect(res.body.error).to.be.equal('You do not have access to this resource');
+          done();
+        });
+    });
+    it('Should return an error if a property with the requesting id does not exist', (done) => {
+      const id = 44;
+      chai
+        .request(app)
+        .get(`/api/v1/property/${id}`)
+        .set('x-access-token', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.status).to.be.equal(404);
+          expect(res.body.error).to.be.equal('Property with the specified id not found');
           done();
         });
     });
