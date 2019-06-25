@@ -26,7 +26,56 @@ Property Pro Lite is a platform where people can create and/or search properties
 - HTML5
 - CSS3
 - Javascript
+- Node JS
+- Express
+- Mocha & Chai
+- ESLint
+- Babel
+- Travis CI
+- Code Climate & Coveralls
 
+
+## Requirements and Installation
+
+To install and run this project you would need to have listed stack installed:
+
+- Node Js
+- Git
+
+To run:
+
+```sh
+git clone <https://github.com/fegzycole/PropertyPro.git>
+cd PropertyPro
+npm install
+npm start-dev
+```
+
+## Testing
+
+```sh
+npm run test
+```
+
+## API-ENDPOINTS
+
+- V1
+
+`- POST /api/v1/auth/signup Create a new user account.`
+
+`- POST /api/v1/auth/signin log a user in.`
+
+`- POST /api/v1/property List a new property.`
+
+`- PATCH /api/v1/property/<property-id> Update property data.`
+
+`- PATCH /api/v1/property/<property-id>/sold Mark a property as sold.`
+
+`- DELETE /api/v1/property/<property-id> Delete a property advert.`
+
+`- GET /api/v1/property/<property-id> Get all property adverts.`
+
+`- GET /api/v1/property/<property-id>?type=propertyType Get all property advertisement offering a specific type of property.`
 
 
 ## Pivotal Tracker stories
@@ -38,6 +87,10 @@ Property Pro Lite is a platform where people can create and/or search properties
 
 You can see a hosted version of the template at [https://fegzycole.github.io/PropertyPro/](https://fegzycole.github.io/PropertyPro/)
 
+
+## API
+
+Hosted on [https://propertypro.herokuapp.com/](https://propertypro.herokuapp.com/)
 
 
 ## Author
