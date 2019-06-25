@@ -121,6 +121,23 @@ class PropertyService {
       return error;
     }
   }
+
+  static getPropertyById(req) {
+    const { id } = req.params;
+    try {
+      const newArray = [];
+
+      const propertyInfo = propertyData.properties.find(el => el.id === parseInt(id, 10));
+
+      newArray.push(propertyInfo);
+
+      const result = getProperties(newArray);
+
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
 }
 
 export default PropertyService;

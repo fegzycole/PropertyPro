@@ -5,7 +5,9 @@ import PropertyController from '../controller/property.controller';
 
 const {
   postAProperty, updateProperty,
-  updatePropertyStatus, deleteAProperty, getAllProperties, getPropertyByStatus,
+  updatePropertyStatus, deleteAProperty,
+  getAllProperties, getPropertyByStatus,
+  getPropertyById,
 } = PropertyController;
 
 const {
@@ -34,5 +36,7 @@ router.delete('/:id', authenticateUser, authenticateAnAdmin, checkPropertyId, co
 router.get('/', authenticateUser, getAllProperties);
 
 router.get('/', getPropertyByStatus);
+
+router.get('/:id', authenticateUser, checkPropertyId, getPropertyById);
 
 export default router;
