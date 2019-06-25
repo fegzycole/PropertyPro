@@ -1,23 +1,32 @@
 import propertyData from '../data/property.data';
 import Property from '../model/property.model';
 import Helper from '../helper/helper';
+import userData from '../data/user.data';
 
 const { checkId } = Helper;
 
 class PropertyService {
   static postAProperty(request) {
     const { body, file } = request;
+
     const {
       state, city, price, type, address,
     } = body;
+
     try {
       const id = propertyData.properties.length + 1;
+
       const createdOn = new Date();
+
       const status = 'Available';
+
       const owner = request.decoded.user.id;
+
       const newProperty = new Property(id, owner, status,
         price, state, city, address, type, createdOn, file);
+
       propertyData.properties.push(newProperty);
+
       const res = {
         id,
         status,
@@ -29,6 +38,7 @@ class PropertyService {
         createdOn,
         imageUrl: file.secure_url,
       };
+
       return res;
     } catch (error) {
       return error;
@@ -85,6 +95,29 @@ class PropertyService {
       propertyData.properties.splice(index, 1);
       const successMessage = 'Property deleted successfully';
       return successMessage;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  static getAllProperties() {
+    try {
+      const propertyInfo = propertyData.properties.map(el => el);
+
+      const userInfo = userData.users.map(user => user);
+
+      const ArrayOfAllProperties = propertyInfo.map((property, i) => {
+        userInfo.forEach((user) => {
+          if (user.id === property.owner) {
+            propertyInfo[i].ownerEmail = user.email;
+
+            propertyInfo[i].ownerPhoneNumber = user.phoneNumber;
+          }
+        });
+        return propertyInfo[i];
+      });
+
+      return ArrayOfAllProperties;
     } catch (error) {
       return error;
     }

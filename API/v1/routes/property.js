@@ -5,7 +5,7 @@ import PropertyController from '../controller/property.controller';
 
 const {
   postAProperty, updateProperty,
-  updatePropertyStatus, deleteAProperty,
+  updatePropertyStatus, deleteAProperty, getAllProperties,
 } = PropertyController;
 
 const {
@@ -14,21 +14,23 @@ const {
   checkForInvalidUpdateParameters, compareAgentsByEmail, checkStatusParameter,
 } = Validation;
 
-const { authenticateUser } = AuthenticateUser;
+const { authenticateUser, authenticateAnAdmin } = AuthenticateUser;
 
 const router = express.Router();
 
-router.post('/', authenticateUser, uploadAnImage,
+router.post('/', authenticateUser, authenticateAnAdmin, uploadAnImage,
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput, postAProperty);
 
-router.patch('/:id', authenticateUser, checkPropertyId,
+router.patch('/:id', authenticateUser, authenticateAnAdmin, checkPropertyId,
   compareAgentsByEmail, uploadAnImage,
   checkForInvalidUpdateParameters, updateProperty);
 
-router.patch('/:id/sold', authenticateUser, checkPropertyId,
+router.patch('/:id/sold', authenticateUser, authenticateAnAdmin, checkPropertyId,
   compareAgentsByEmail, checkStatusParameter, updatePropertyStatus);
 
-router.delete('/:id', authenticateUser, checkPropertyId, compareAgentsByEmail, deleteAProperty);
+router.delete('/:id', authenticateUser, authenticateAnAdmin, checkPropertyId, compareAgentsByEmail, deleteAProperty);
+
+router.get('/:id', authenticateUser, checkPropertyId, getAllProperties);
 
 export default router;
