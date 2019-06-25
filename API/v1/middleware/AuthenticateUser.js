@@ -10,7 +10,19 @@ class Auth {
       const token = req.body.token || req.headers['x-access-token'];
       const decoded = jwt.verify(token, process.env.SECRET);
       req.decoded = decoded;
-      if (decoded.user.isAdmin) return next();
+      return next();
+    } catch (e) {
+      return res.status(401).send({
+        status: 401,
+        error: e.message,
+      });
+    }
+  }
+
+  static authenticateAnAdmin(req, res, next) {
+    try {
+      const { isAdmin } = req.decoded.user;
+      if (isAdmin) return next();
       throw new Error('Only an Agent can post a property');
     } catch (e) {
       return res.status(401).send({

@@ -2,7 +2,7 @@ import PropertyService from '../services/property.service';
 
 const {
   postAProperty, updateProperty,
-  updatePropertyStatus, deleteAProperty,
+  updatePropertyStatus, deleteAProperty, getAllProperties,
 } = PropertyService;
 
 class PropertyController {
@@ -37,6 +37,16 @@ class PropertyController {
       data: {
         message: result,
       },
+    });
+  }
+
+  static getAllProperties(req, res) {
+    const result = getAllProperties();
+    res.status(200).json({
+      status: 'success',
+      data: [
+        result,
+      ],
     });
   }
 }
