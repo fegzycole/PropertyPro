@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cloudinary from 'cloudinary';
@@ -74,6 +75,23 @@ class Helper {
     const owner = properties.properties.find(el => el.id === id);
     if (owner.owner === req.decoded.user.id) return true;
     return false;
+  }
+
+  static getProperties(arrayToUse) {
+    const userInfo = userData.users.map(user => user);
+
+    const ArrayOfAllProperties = arrayToUse.map((property, i) => {
+      userInfo.forEach((user) => {
+        if (user.id === property.owner) {
+          arrayToUse[i].ownerEmail = user.email;
+          arrayToUse[i].ownerPhoneNumber = user.phoneNumber;
+        }
+      });
+
+      return arrayToUse[i];
+    });
+
+    return ArrayOfAllProperties;
   }
 }
 

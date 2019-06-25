@@ -2,7 +2,7 @@ import PropertyService from '../services/property.service';
 
 const {
   postAProperty, updateProperty,
-  updatePropertyStatus, deleteAProperty, getAllProperties,
+  updatePropertyStatus, deleteAProperty, getAllProperties, getPropertiesByStatus,
 } = PropertyService;
 
 class PropertyController {
@@ -40,13 +40,34 @@ class PropertyController {
     });
   }
 
-  static getAllProperties(req, res) {
+  static getAllProperties(req, res, next) {
+    const { type } = req.query;
+    if (type) {
+      return next();
+    }
     const result = getAllProperties();
-    res.status(200).json({
+
+    return res.status(200).json({
       status: 'success',
       data: [
         result,
       ],
+    });
+  }
+
+  static getPropertyByStatus(req, res) {
+    const result = getPropertiesByStatus(req);
+    if (result) {
+      return res.status(200).json({
+        status: 'success',
+        data: [
+          result,
+        ],
+      });
+    }
+    return res.status(404).json({
+      status: 404,
+      error: 'No property with the specified type',
     });
   }
 }

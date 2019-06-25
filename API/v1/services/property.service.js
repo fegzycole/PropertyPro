@@ -1,9 +1,8 @@
 import propertyData from '../data/property.data';
 import Property from '../model/property.model';
 import Helper from '../helper/helper';
-import userData from '../data/user.data';
 
-const { checkId } = Helper;
+const { checkId, getProperties } = Helper;
 
 class PropertyService {
   static postAProperty(request) {
@@ -100,24 +99,24 @@ class PropertyService {
     }
   }
 
+  static getPropertiesByStatus(req) {
+    const { type } = req.query;
+    const validStatus = ['2 Bedroom', '3 Bedroom', 'Land', 'Semi-detached duplex'];
+    try {
+      if (!validStatus.includes(type)) return false;
+      const propertyInfo = propertyData.properties.filter(el => el.type === type);
+      const result = getProperties(propertyInfo);
+      return result;
+    } catch (error) {
+      return error;
+    }
+  }
+
   static getAllProperties() {
     try {
       const propertyInfo = propertyData.properties.map(el => el);
-
-      const userInfo = userData.users.map(user => user);
-
-      const ArrayOfAllProperties = propertyInfo.map((property, i) => {
-        userInfo.forEach((user) => {
-          if (user.id === property.owner) {
-            propertyInfo[i].ownerEmail = user.email;
-
-            propertyInfo[i].ownerPhoneNumber = user.phoneNumber;
-          }
-        });
-        return propertyInfo[i];
-      });
-
-      return ArrayOfAllProperties;
+      const result = getProperties(propertyInfo);
+      return result;
     } catch (error) {
       return error;
     }
