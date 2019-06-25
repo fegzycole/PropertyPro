@@ -687,12 +687,11 @@ describe('Test suite for all property related endpoints', () => {
         });
     });
   });
-  describe('GET api/v1/property/:id', () => {
-    it('Should return a list of all listed properties', (done) => {
-      const id = 23;
+  describe('GET api/v1/property', () => {
+    it('Should return an array of all listed properties', (done) => {
       chai
         .request(app)
-        .get(`/api/v1/property/${id}`)
+        .get('/api/v1/property')
         .set('x-access-token', adminToken)
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -702,10 +701,9 @@ describe('Test suite for all property related endpoints', () => {
         });
     });
     it('Should throw an error if user is not Logged in', (done) => {
-      const id = 1;
       chai
         .request(app)
-        .get(`/api/v1/property/${id}`)
+        .get('/api/v1/property')
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body.status).to.be.equal(401);
@@ -713,16 +711,29 @@ describe('Test suite for all property related endpoints', () => {
           done();
         });
     });
-    it('Should return an error if a property with the requesting id does not exist', (done) => {
-      const id = 44;
+  });
+  describe('GET api/v1/property?type=<propertyType>', () => {
+    it('Should return an arfray of all listed properties', (done) => {
       chai
         .request(app)
-        .get(`/api/v1/property/${id}`)
+        .get('/api/v1/property?type=Land')
+        .set('x-access-token', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.be.an('array');
+          done();
+        });
+    });
+    it('Should return an error if the type of query the user puts in is invalid', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/property?type=InvalidType')
         .set('x-access-token', adminToken)
         .end((err, res) => {
           expect(res).to.have.status(404);
           expect(res.body.status).to.be.equal(404);
-          expect(res.body.error).to.be.equal('Property with the specified id not found');
+          expect(res.body.error).to.be.equal('No property with the specified type');
           done();
         });
     });

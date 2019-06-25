@@ -5,7 +5,7 @@ import PropertyController from '../controller/property.controller';
 
 const {
   postAProperty, updateProperty,
-  updatePropertyStatus, deleteAProperty, getAllProperties,
+  updatePropertyStatus, deleteAProperty, getAllProperties, getPropertyByStatus,
 } = PropertyController;
 
 const {
@@ -18,8 +18,8 @@ const { authenticateUser, authenticateAnAdmin } = AuthenticateUser;
 
 const router = express.Router();
 
-router.post('/', authenticateUser, authenticateAnAdmin, uploadAnImage,
-  checkForEmptyPropertyPostParameters,
+router.post('/', authenticateUser, authenticateAnAdmin,
+  uploadAnImage, checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput, postAProperty);
 
 router.patch('/:id', authenticateUser, authenticateAnAdmin, checkPropertyId,
@@ -31,6 +31,8 @@ router.patch('/:id/sold', authenticateUser, authenticateAnAdmin, checkPropertyId
 
 router.delete('/:id', authenticateUser, authenticateAnAdmin, checkPropertyId, compareAgentsByEmail, deleteAProperty);
 
-router.get('/:id', authenticateUser, checkPropertyId, getAllProperties);
+router.get('/', authenticateUser, getAllProperties);
+
+router.get('/', getPropertyByStatus);
 
 export default router;
