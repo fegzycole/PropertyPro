@@ -2,7 +2,9 @@ import PropertyService from '../services/property.service';
 
 const {
   postAProperty, updateProperty,
-  updatePropertyStatus, deleteAProperty, getAllProperties, getPropertiesByStatus,
+  updatePropertyStatus, deleteAProperty,
+  getAllProperties, getPropertiesByStatus,
+  getPropertyById,
 } = PropertyService;
 
 class PropertyController {
@@ -68,6 +70,14 @@ class PropertyController {
     return res.status(404).json({
       status: 404,
       error: 'No property with the specified type',
+    });
+  }
+
+  static getPropertyById(req, res) {
+    const result = getPropertyById(req);
+    res.status(200).json({
+      status: 'success',
+      data: result,
     });
   }
 }
