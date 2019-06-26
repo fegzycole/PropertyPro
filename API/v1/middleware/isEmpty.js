@@ -1,3 +1,9 @@
+/**
+   *
+   * Checks to see if a parameter is empty
+   * @param {any} val
+   * @returns {Boolean}
+   */
 const isEmpty = val => val === undefined
   || val == null
   || val === ''

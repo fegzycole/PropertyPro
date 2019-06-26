@@ -404,6 +404,26 @@ describe('Test suite for all property related endpoints', () => {
           done();
         });
     });
+    it('Should return an error if the property type to update is not a valid type', (done) => {
+      const id = 1;
+      chai
+        .request(app)
+        .patch(`/api/v1/property/${id}`)
+        .set('x-access-token', adminToken)
+        .set('enctype', 'multipart/formdata')
+        .type('form')
+        .field('state', 'Lagos State')
+        .field('city', 'Alimosho')
+        .field('price', 50000.50)
+        .field('address', '67 Bamgboye close')
+        .field('type', 'Invalid Property Type')
+        .end((err, res) => {
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.be.equal(422);
+          expect(res.body.error).to.be.equal('Invalid property type provided');
+          done();
+        });
+    });
     it('Should return an error if an agent wants to update a city without updating a state', (done) => {
       const id = 1;
       chai
@@ -734,6 +754,20 @@ describe('Test suite for all property related endpoints', () => {
           expect(res).to.have.status(404);
           expect(res.body.status).to.be.equal(404);
           expect(res.body.error).to.be.equal('No property with the specified type');
+          done();
+        });
+    });
+  });
+  describe('GET api/v1/property/:id', () => {
+    it('Should return an arrray of a particular property if the id exists', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/property/1')
+        .set('x-access-token', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.be.an('array');
           done();
         });
     });

@@ -3,8 +3,17 @@ import Property from '../model/property.model';
 import Helper from '../helper/helper';
 
 const { checkId, getProperties } = Helper;
-
+/**
+ * @exports PropertyService
+ * @class PropertyService
+ */
 class PropertyService {
+  /**
+   * Handles the logic for listing a new property
+   * @static
+   * @param {Object} request request object
+   * @returns {Object} object containing details of the newly listed property or an error object
+   */
   static postAProperty(request) {
     const { body, file } = request;
 
@@ -44,6 +53,12 @@ class PropertyService {
     }
   }
 
+  /**
+   * Handles the logic for updating a listed property
+   * @static
+   * @param {Object} request request object
+   * @returns {Object} object containing details of the updated property or an error object
+   */
   static updateProperty(request) {
     const { id } = request.params;
 
@@ -71,6 +86,12 @@ class PropertyService {
     }
   }
 
+  /**
+   * Handles the logic for changing the status of a property to sold
+   * @static
+   * @param {Object} request request object
+   * @returns {Object} object containing details of the updated property or an error object
+   */
   static updatePropertyStatus(request) {
     const { id } = request.params;
 
@@ -86,6 +107,12 @@ class PropertyService {
     }
   }
 
+  /**
+   * Handles the Deleting of a listed property
+   * @static
+   * @param {Object} request request object
+   * @returns {String||Object} string or an error object
+   */
   static deleteAProperty(request) {
     try {
       const { id } = request.params;
@@ -99,12 +126,20 @@ class PropertyService {
     }
   }
 
+  /**
+   * Handles the Getting Of all Properties based on their status
+   * @static
+   * @param {Object} request request object
+   * @returns {(Array|Object)} array or an error object
+   */
   static getPropertiesByStatus(req) {
     const { type } = req.query;
     const validStatus = ['2 Bedroom', '3 Bedroom', 'Land', 'Semi-detached duplex'];
     try {
       if (!validStatus.includes(type)) return false;
+
       const propertyInfo = propertyData.properties.filter(el => el.type === type);
+
       const result = getProperties(propertyInfo);
       return result;
     } catch (error) {
@@ -112,6 +147,11 @@ class PropertyService {
     }
   }
 
+  /**
+   * Handles the Getting Of all Properties
+   * @static
+   * @returns {(Array|Object)} array or an error object
+   */
   static getAllProperties() {
     try {
       const propertyInfo = propertyData.properties.map(el => el);
@@ -122,6 +162,12 @@ class PropertyService {
     }
   }
 
+  /**
+   * Handles the Getting Of a specific property based on its Id
+   * @static
+   * @param {Object} request request object
+   * @returns {(Array|Object)} array or an error object
+   */
   static getPropertyById(req) {
     const { id } = req.params;
     try {

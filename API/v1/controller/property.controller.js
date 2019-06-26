@@ -7,7 +7,19 @@ const {
   getPropertyById,
 } = PropertyService;
 
+/**
+ *
+ * @exports PropertyController
+ * @class PropertyController
+ */
 class PropertyController {
+  /**
+   * Lists a New Property
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} success response
+   */
   static postAProperty(req, res) {
     const result = postAProperty(req);
     return res.status(201).json({
@@ -16,6 +28,13 @@ class PropertyController {
     });
   }
 
+  /**
+   * Updates specified parameters of a listed property
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} success response
+   */
   static updateProperty(req, res) {
     const result = updateProperty(req);
     return res.status(201).json({
@@ -24,6 +43,13 @@ class PropertyController {
     });
   }
 
+  /**
+   * Updates the status of a listed property to sold
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} success response
+   */
   static updatePropertyStatus(req, res) {
     const result = updatePropertyStatus(req);
     return res.status(201).json({
@@ -32,6 +58,13 @@ class PropertyController {
     });
   }
 
+  /**
+   * Deletes a listed property
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} success response
+   */
   static deleteAProperty(req, res) {
     const result = deleteAProperty(req);
     res.status(200).json({
@@ -42,6 +75,13 @@ class PropertyController {
     });
   }
 
+  /**
+   * Gets all listed properties from the database
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} success response
+   */
   static getAllProperties(req, res, next) {
     const { type } = req.query;
     if (type) {
@@ -57,6 +97,13 @@ class PropertyController {
     });
   }
 
+  /**
+   * Gets all properties of a specified status
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} success response or an error response if no property was found
+   */
   static getPropertyByStatus(req, res) {
     const result = getPropertiesByStatus(req);
     if (result) {
@@ -73,6 +120,13 @@ class PropertyController {
     });
   }
 
+  /**
+   * Gets a particular Property by its Id
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} success response
+   */
   static getPropertyById(req, res) {
     const result = getPropertyById(req);
     res.status(200).json({
