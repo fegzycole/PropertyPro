@@ -17,7 +17,7 @@ cloudinary.config({
 
 /**
  *
- *exports
+ * @exports
  * @class Helper
  */
 class Helper {
@@ -27,6 +27,7 @@ class Helper {
    * @static
    * @param {Array} array
    * @returns {Array}
+   * @memberof Helper
    */
   static trimmer(array) {
     const trimmedParameters = array.map(el => el.trim().toLowerCase());
@@ -39,6 +40,7 @@ class Helper {
    * @static
    * @param {String} passwordToBeHashed
    * @returns {String} hashed password
+   * @memberof Helper
    */
   static hashAPassword(passwordToBeHashed) {
     const salt = bcrypt.genSaltSync(10);
@@ -50,6 +52,7 @@ class Helper {
    * Creates a token for a user
    * @param {Object} user
    * @returns {String} created token
+   * @memberof Helper
    */
   static createToken(user) {
     const token = jwt.sign(
@@ -68,6 +71,7 @@ class Helper {
    * @static
    * @param {String} emailToCheckAgainst
    * @returns {Array} Empty array or an array containing a user's complete information
+   * @memberof Helper
    */
   static checkIfEmailExists(emailToCheckAgainst) {
     const resultingArray = userData.users.find(el => el.email === emailToCheckAgainst);
@@ -79,6 +83,7 @@ class Helper {
    * @static
    * @param {Object} req
    * @returns {void}
+   * @memberof Helper
    */
   static deleteUploadedFile(req) {
     return cloudinary.uploader.destroy(req.file.public_id);
@@ -92,6 +97,7 @@ class Helper {
    * @param {String} email
    * @param {String} password
    * @returns {Boolean} true if the passwords match, false if they do not match
+   * @memberof Helper
    */
   static compareUserPassword(email, password) {
     const usersInformation = userData.users.find(el => el.email === email);
@@ -106,6 +112,7 @@ class Helper {
    * @static
    * @param {String} stateToCheckAgainst
    * @returns {Array}
+   * @memberof Helper
    */
   static checkState(stateToCheckAgainst) {
     const resultingArray = states.states.find(el => el.state.name === stateToCheckAgainst);
@@ -118,6 +125,7 @@ class Helper {
    * @param {String} state
    * @param {String} lga
    * @returns {Array} an empty array or an array containing a city that matches the specified city
+   * @memberof Helper
    */
   static checkLGA(state, lga) {
     const arrayOfStates = states.states.find(el => el.state.name === state);
@@ -130,6 +138,7 @@ class Helper {
    * @static
    * @param {Integer} id
    * @returns {Array} an empty array or an array containing an id that matches the specified id
+   * @memberof Helper
    */
   static checkId(id) {
     const resultingArray = properties.properties.find(el => el.id === id);
@@ -142,6 +151,7 @@ class Helper {
    * @param {Integer} id
    * @returns {Boolean} true if the owner of the property is the same
    * as the id contained in the decoded token and false otherwise
+   * @memberof Helper
    */
   static compareAgents(req, id) {
     const owner = properties.properties.find(el => el.id === id);
@@ -154,6 +164,7 @@ class Helper {
    * @static
    * @param {Array} arrayToUse
    * @returns {Array}
+   * @memberof Helper
    */
   static getProperties(arrayToUse) {
     const userInfo = userData.users.map(user => user);

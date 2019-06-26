@@ -11,7 +11,7 @@ const {
 
 /**
  *
- *exports
+ * @exports Validation
  * @class Validation
  */
 class Validation {

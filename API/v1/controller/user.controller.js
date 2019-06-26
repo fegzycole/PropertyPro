@@ -15,6 +15,7 @@ class UserController {
    * @param {Object} req
    * @param {Object} res
    * @returns {Object} success response
+   * @memberof UserController
    */
   static createUserAccount(req, res) {
     const userInformation = req.body;
@@ -31,6 +32,7 @@ class UserController {
    * @param {Object} req
    * @param {Object} res
    * @returns {Object} success response or an error response if the password  is incorrect
+   * @memberof UserController
    */
   static loginUser(req, res) {
     const userCredentials = req.body;

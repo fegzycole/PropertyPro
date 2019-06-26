@@ -16,13 +16,18 @@ const {
   checkForInvalidUpdateParameters, compareAgentsById, checkStatusParameter,
 } = Validation;
 
-const { authenticateUser, authenticateAnAdmin } = AuthenticateUser;
+const {
+  authenticateUser,
+  authenticateAnAdmin,
+  checkContentType,
+} = AuthenticateUser;
 
 const router = express.Router();
 
 router.post('/',
   authenticateUser,
   authenticateAnAdmin,
+  checkContentType,
   uploadAnImage,
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput,
@@ -31,6 +36,7 @@ router.post('/',
 router.patch('/:id',
   authenticateUser,
   authenticateAnAdmin,
+  checkContentType,
   checkPropertyId,
   compareAgentsById,
   uploadAnImage,

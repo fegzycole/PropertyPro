@@ -13,6 +13,7 @@ class PropertyService {
    * @static
    * @param {Object} request request object
    * @returns {Object} object containing details of the newly listed property or an error object
+   * @memberof PropertyService
    */
   static postAProperty(request) {
     const { body, file } = request;
@@ -58,6 +59,7 @@ class PropertyService {
    * @static
    * @param {Object} request request object
    * @returns {Object} object containing details of the updated property or an error object
+   * @memberof PropertyService
    */
   static updateProperty(request) {
     const { id } = request.params;
@@ -91,6 +93,7 @@ class PropertyService {
    * @static
    * @param {Object} request request object
    * @returns {Object} object containing details of the updated property or an error object
+   * @memberof PropertyService
    */
   static updatePropertyStatus(request) {
     const { id } = request.params;
@@ -112,6 +115,7 @@ class PropertyService {
    * @static
    * @param {Object} request request object
    * @returns {String||Object} string or an error object
+   * @memberof PropertyService
    */
   static deleteAProperty(request) {
     try {
@@ -131,6 +135,7 @@ class PropertyService {
    * @static
    * @param {Object} request request object
    * @returns {(Array|Object)} array or an error object
+   * @memberof PropertyService
    */
   static getPropertiesByStatus(req) {
     const { type } = req.query;
@@ -151,6 +156,7 @@ class PropertyService {
    * Handles the Getting Of all Properties
    * @static
    * @returns {(Array|Object)} array or an error object
+   * @memberof PropertyService
    */
   static getAllProperties() {
     try {
@@ -167,6 +173,7 @@ class PropertyService {
    * @static
    * @param {Object} request request object
    * @returns {(Array|Object)} array or an error object
+   * @memberof PropertyService
    */
   static getPropertyById(req) {
     const { id } = req.params;
