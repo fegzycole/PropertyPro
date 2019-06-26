@@ -65,6 +65,23 @@ describe('Test suite for all property related endpoints', () => {
           done();
         });
     });
+    it('Should list a new property if all checks are fine', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/property')
+        .set('x-access-token', adminToken)
+        .set('Content-Type', 'application/x-www-form-urlencoded')
+        .send({
+          state: 'Lagos State',
+          city: 'Alimosho',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(500);
+          expect(res.body.status).to.be.equal(500);
+          expect(res.body.message).to.be.equal('Change your content type and try again');
+          done();
+        });
+    });
     it('Should throw an error if user is not Logged in', (done) => {
       chai
         .request(app)

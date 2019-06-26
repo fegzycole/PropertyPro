@@ -5,7 +5,7 @@ dotenv.config();
 
 /**
  *
- *exports
+ * @exports Auth
  * @class Auth
  */
 class Auth {
@@ -17,7 +17,7 @@ class Auth {
    * @param {Object} res
    * @param {function} next
    * @returns {(function|Object)} function next() or an error response object
-   * @memberof Validation
+   * @memberof Auth
    */
   static authenticateUser(req, res, next) {
     try {
@@ -42,7 +42,7 @@ class Auth {
    * @param {Object} res
    * @param {function} next
    * @returns {(function|Object)} function next() or an error response object
-   * @memberof Validation
+   * @memberof Auth
    */
   static authenticateAnAdmin(req, res, next) {
     try {
@@ -55,6 +55,24 @@ class Auth {
         error: e.message,
       });
     }
+  }
+
+  /**
+   *
+   * Checks to see if the correct content-type is specified
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @param {function} next
+   * @returns {(function|Object)} function next() or an error response object
+   * @memberof Auth
+   */
+  static checkContentType(req, res, next) {
+    const { headers } = req;
+    if (headers['content-type'] === 'application/x-www-form-urlencoded') {
+      throw new Error('Change your content type and try again');
+    }
+    return next();
   }
 }
 

@@ -19,6 +19,7 @@ class PropertyController {
    * @param {Object} req
    * @param {Object} res
    * @returns {Object} success response
+   * @memberof PropertyController
    */
   static postAProperty(req, res) {
     const result = postAProperty(req);
@@ -34,6 +35,7 @@ class PropertyController {
    * @param {Object} req
    * @param {Object} res
    * @returns {Object} success response
+   * @memberof PropertyController
    */
   static updateProperty(req, res) {
     const result = updateProperty(req);
@@ -49,6 +51,7 @@ class PropertyController {
    * @param {Object} req
    * @param {Object} res
    * @returns {Object} success response
+   * @memberof PropertyController
    */
   static updatePropertyStatus(req, res) {
     const result = updatePropertyStatus(req);
@@ -64,6 +67,7 @@ class PropertyController {
    * @param {Object} req
    * @param {Object} res
    * @returns {Object} success response
+   * @memberof PropertyController
    */
   static deleteAProperty(req, res) {
     const result = deleteAProperty(req);
@@ -81,6 +85,7 @@ class PropertyController {
    * @param {Object} req
    * @param {Object} res
    * @returns {Object} success response
+   * @memberof PropertyController
    */
   static getAllProperties(req, res, next) {
     const { type } = req.query;
@@ -103,6 +108,7 @@ class PropertyController {
    * @param {Object} req
    * @param {Object} res
    * @returns {Object} success response or an error response if no property was found
+   * @memberof PropertyController
    */
   static getPropertyByStatus(req, res) {
     const result = getPropertiesByStatus(req);
@@ -126,6 +132,7 @@ class PropertyController {
    * @param {Object} req
    * @param {Object} res
    * @returns {Object} success response
+   * @memberof PropertyController
    */
   static getPropertyById(req, res) {
     const result = getPropertyById(req);

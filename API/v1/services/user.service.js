@@ -12,6 +12,7 @@ class UserService {
    * @static
    * @param {Object} userDetails request body
    * @returns {Object} containing required details of the newly created user or an error object
+   * @memberof UserService
    */
   static createUserAccount(userDetails) {
     const {
@@ -49,6 +50,7 @@ class UserService {
    * @static
    * @param {Object} userDetails request body
    * @returns {Object} containing required details of the user or an error object
+   * @memberof UserService
    */
   static loginUser(userDetails) {
     try {
