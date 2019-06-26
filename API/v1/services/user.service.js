@@ -3,18 +3,33 @@ import userData from '../data/user.data';
 import User from '../model/user.model';
 
 const { hashAPassword, createToken, compareUserPassword } = Helper;
+/**
+ * @exports UserService
+ * @class UserService
+ */
 class UserService {
+  /** Handles the logic for creating a new user
+   * @static
+   * @param {Object} userDetails request body
+   * @returns {Object} containing required details of the newly created user or an error object
+   */
   static createUserAccount(userDetails) {
     const {
       email, firstName, lastName, password, phoneNumber, address, type,
     } = userDetails;
+
     try {
       const hashedPassword = hashAPassword(password);
+
       const id = userData.users.length + 1;
+
       const isAdmin = type === 'agent' || type === 'Agent';
+
       const newUser = new User(id, email, firstName,
         lastName, hashedPassword, phoneNumber, address, isAdmin);
+
       userData.users.push(newUser);
+
       const res = {
         token: createToken(newUser),
         id,
@@ -23,17 +38,26 @@ class UserService {
         lastName,
         isAdmin,
       };
+
       return res;
     } catch (error) {
       return error;
     }
   }
 
+  /** Handles the logic for logging a user in
+   * @static
+   * @param {Object} userDetails request body
+   * @returns {Object} containing required details of the user or an error object
+   */
   static loginUser(userDetails) {
     try {
       const { email, password } = userDetails;
+
       const userInfo = userData.users.find(el => el.email === email);
+
       const comparePassword = compareUserPassword(email, password);
+
       if (comparePassword) {
         const res = {
           token: createToken(userInfo),
@@ -43,6 +67,7 @@ class UserService {
           lastName: userInfo.lastName,
           isAdmin: userInfo.isAdmin,
         };
+
         return res;
       }
       return false;

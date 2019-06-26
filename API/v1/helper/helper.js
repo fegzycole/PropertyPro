@@ -15,17 +15,42 @@ cloudinary.config({
   api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
+/**
+ *
+ *exports
+ * @class Helper
+ */
 class Helper {
+  /**
+   *
+   * Trims all elements in the supplied array
+   * @static
+   * @param {Array} array
+   * @returns {Array}
+   */
   static trimmer(array) {
     const trimmedParameters = array.map(el => el.trim().toLowerCase());
     return trimmedParameters;
   }
 
+  /**
+   *
+   * Hashes a password
+   * @static
+   * @param {String} passwordToBeHashed
+   * @returns {String} hashed password
+   */
   static hashAPassword(passwordToBeHashed) {
     const salt = bcrypt.genSaltSync(10);
     return bcrypt.hashSync(passwordToBeHashed, salt);
   }
 
+  /**
+   * @static
+   * Creates a token for a user
+   * @param {Object} user
+   * @returns {String} created token
+   */
   static createToken(user) {
     const token = jwt.sign(
       {
@@ -38,15 +63,36 @@ class Helper {
     return token;
   }
 
+  /**
+   * Searches the database for a user whose email matches the supplied email
+   * @static
+   * @param {String} emailToCheckAgainst
+   * @returns {Array} Empty array or an array containing a user's complete information
+   */
   static checkIfEmailExists(emailToCheckAgainst) {
     const resultingArray = userData.users.find(el => el.email === emailToCheckAgainst);
     return resultingArray;
   }
 
+  /**
+   * Deletes an uploaded image if validation fails
+   * @static
+   * @param {Object} req
+   * @returns {void}
+   */
   static deleteUploadedFile(req) {
     return cloudinary.uploader.destroy(req.file.public_id);
   }
 
+  /**
+   *
+   * Hashes a supplied password and compares the supplied password with the password in the database
+   * for the user with the provided email
+   * @static
+   * @param {String} email
+   * @param {String} password
+   * @returns {Boolean} true if the passwords match, false if they do not match
+   */
   static compareUserPassword(email, password) {
     const usersInformation = userData.users.find(el => el.email === email);
     const hashDatabasePassword = Helper.hashAPassword(usersInformation.password);
@@ -54,11 +100,25 @@ class Helper {
     return comparePasswords;
   }
 
+  /**
+   *
+   * Checks to see if the state supplied is a valid state in the array of states
+   * @static
+   * @param {String} stateToCheckAgainst
+   * @returns {Array}
+   */
   static checkState(stateToCheckAgainst) {
     const resultingArray = states.states.find(el => el.state.name === stateToCheckAgainst);
     return resultingArray;
   }
 
+  /**
+   * Checks to see if the specified city is a valid city in the state selected
+   * @static
+   * @param {String} state
+   * @param {String} lga
+   * @returns {Array} an empty array or an array containing a city that matches the specified city
+   */
   static checkLGA(state, lga) {
     const arrayOfStates = states.states.find(el => el.state.name === state);
     const LGAs = Object.values(arrayOfStates.state.locals);
@@ -66,29 +126,47 @@ class Helper {
     return resultingArray;
   }
 
+  /**
+   * @static
+   * @param {Integer} id
+   * @returns {Array} an empty array or an array containing an id that matches the specified id
+   */
   static checkId(id) {
     const resultingArray = properties.properties.find(el => el.id === id);
     return resultingArray;
   }
 
+  /**
+   * @static
+   * @param {Object} req
+   * @param {Integer} id
+   * @returns {Boolean} true if the owner of the property is the same
+   * as the id contained in the decoded token and false otherwise
+   */
   static compareAgents(req, id) {
     const owner = properties.properties.find(el => el.id === id);
     if (owner.owner === req.decoded.user.id) return true;
     return false;
   }
 
+  /**
+   * Gets all the properties and the email and phone numbers of their respective agents
+   * @static
+   * @param {Array} arrayToUse
+   * @returns {Array}
+   */
   static getProperties(arrayToUse) {
     const userInfo = userData.users.map(user => user);
 
-    const ArrayOfAllProperties = arrayToUse.map((property, i) => {
+    const ArrayOfAllProperties = arrayToUse.map((property) => {
       userInfo.forEach((user) => {
         if (user.id === property.owner) {
-          arrayToUse[i].ownerEmail = user.email;
-          arrayToUse[i].ownerPhoneNumber = user.phoneNumber;
+          property.ownerEmail = user.email;
+          property.ownerPhoneNumber = user.phoneNumber;
         }
       });
 
-      return arrayToUse[i];
+      return property;
     });
 
     return ArrayOfAllProperties;

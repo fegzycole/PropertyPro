@@ -22,5 +22,25 @@ describe('Tests for Home page related endpoints', () => {
           done();
         });
     });
+    it('Should throw error for accessing a wrong route', () => {
+      chai
+        .request(app)
+        .get('/ferguson')
+        .end((err, res) => {
+          expect(res.body).to.have.key('status', 'error', 'success', 'message');
+          expect(res.body.message).to
+            .equal('You are trying to access a wrong Route');
+        });
+    });
+    it('Should return error for a wrong route', () => {
+      chai
+        .request(app)
+        .get('/api/v1/user')
+        .end((err, res) => {
+          expect(res.body).to.have.key('status', 'error', 'success', 'message');
+          expect(res.body.message).to
+            .equal('You are trying to access a wrong Route');
+        });
+    });
   });
 });
