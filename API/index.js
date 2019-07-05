@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import trimmer from 'express-body-trimmer';
 import auth from './v1/routes/auth';
 import property from './v1/routes/property';
 
@@ -11,6 +12,7 @@ dotenv.config();
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(trimmer());
 
 // Routes
 app.use('/api/v1/auth', auth);
@@ -38,7 +40,6 @@ app.use((error, req, res, next) => {
   });
   next();
 });
-
 
 const PORT = process.env.PORT || 4000;
 
