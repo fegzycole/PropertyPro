@@ -2,7 +2,16 @@
 /* eslint-disable max-len */
 import isEmpty from './isEmpty';
 import Helper from '../helper/helper';
-import uploader from './imageUpload';
+import ErrorClass from '../helper/error';
+
+const {
+  cityWithoutStateResponse,
+  emailDoesNotExistErrorResponse,
+  isInvalidResponses,
+  isEmptyErrorResponse,
+  ForbiddenErrorResponse,
+  propertyNotFoundErrorResponse,
+} = ErrorClass;
 
 const {
   trimmer,
@@ -54,31 +63,31 @@ class Validation {
     const regexForUserType = /^(agent|user)$/;
 
     if (!regexForEmail.test(trimmedRequestParameters[0])) {
-      return Validation.isInvalidResponses(res, 'Email');
+      return isInvalidResponses(res, 'Email');
     }
 
     if (!regexForNames.test(trimmedRequestParameters[1])) {
-      return Validation.isInvalidResponses(res, 'First Name');
+      return isInvalidResponses(res, 'First Name');
     }
 
     if (!regexForNames.test(trimmedRequestParameters[2])) {
-      return Validation.isInvalidResponses(res, 'Last Name');
+      return isInvalidResponses(res, 'Last Name');
     }
 
     if (trimmedRequestParameters[3].length < 6) {
-      return Validation.isInvalidResponses(res, 'Password');
+      return isInvalidResponses(res, 'Password');
     }
 
     if (!regexForPhoneNumber.test(trimmedRequestParameters[4])) {
-      return Validation.isInvalidResponses(res, 'Phone Number');
+      return isInvalidResponses(res, 'Phone Number');
     }
 
     if (!regexForUserType.test(trimmedRequestParameters[5])) {
-      return Validation.isInvalidResponses(res, 'type');
+      return isInvalidResponses(res, 'type');
     }
 
     if (trimmedRequestParameters[6].length <= 6) {
-      return Validation.isInvalidResponses(res, 'address');
+      return isInvalidResponses(res, 'address');
     }
     return next();
   }
@@ -111,23 +120,23 @@ class Validation {
 
     if (!checkState(state)) {
       deleteUploadedFile(req);
-      return Validation.isInvalidResponses(res, 'state');
+      return isInvalidResponses(res, 'state');
     }
     if (!checkLGA(state, city)) {
       deleteUploadedFile(req);
-      return Validation.isInvalidResponses(res, 'city');
+      return isInvalidResponses(res, 'city');
     }
     if (!validTypes.includes(type)) {
       deleteUploadedFile(req);
-      return Validation.isInvalidResponses(res, 'property type');
+      return isInvalidResponses(res, 'property type');
     }
     if (!regexForPrice.test(price)) {
       deleteUploadedFile(req);
-      return Validation.isInvalidResponses(res, 'price');
+      return isInvalidResponses(res, 'price');
     }
     if (address.length <= 6) {
       deleteUploadedFile(req);
-      return Validation.isInvalidResponses(res, 'address');
+      return isInvalidResponses(res, 'address');
     }
     return next();
   }
@@ -150,31 +159,31 @@ class Validation {
     } = userInformation;
 
     if (isEmpty(email)) {
-      return Validation.isEmptyErrorResponse(res, 'Email');
+      return isEmptyErrorResponse(res, 'Email');
     }
 
     if (isEmpty(firstName)) {
-      return Validation.isEmptyErrorResponse(res, 'First Name/Last Name');
+      return isEmptyErrorResponse(res, 'First Name/Last Name');
     }
 
     if (isEmpty(lastName)) {
-      return Validation.isEmptyErrorResponse(res, 'First Name/Last Name');
+      return isEmptyErrorResponse(res, 'First Name/Last Name');
     }
 
     if (isEmpty(password)) {
-      return Validation.isEmptyErrorResponse(res, 'Password');
+      return isEmptyErrorResponse(res, 'Password');
     }
 
     if (isEmpty(phoneNumber)) {
-      return Validation.isEmptyErrorResponse(res, 'Phone Number');
+      return isEmptyErrorResponse(res, 'Phone Number');
     }
 
     if (isEmpty(address)) {
-      return Validation.isEmptyErrorResponse(res, 'Address');
+      return isEmptyErrorResponse(res, 'Address');
     }
 
     if (isEmpty(type)) {
-      return Validation.isEmptyErrorResponse(res, 'Type');
+      return isEmptyErrorResponse(res, 'Type');
     }
 
     return next();
@@ -200,28 +209,28 @@ class Validation {
     } = userInformation;
 
     if (isEmpty(imageUrl)) {
-      return Validation.isEmptyErrorResponse(res, 'image');
+      return isEmptyErrorResponse(res, 'image');
     }
 
     if (isEmpty(price)) {
       deleteUploadedFile(req);
-      return Validation.isEmptyErrorResponse(res, 'price');
+      return isEmptyErrorResponse(res, 'price');
     }
     if (isEmpty(state)) {
       deleteUploadedFile(req);
-      return Validation.isEmptyErrorResponse(res, 'state');
+      return isEmptyErrorResponse(res, 'state');
     }
     if (isEmpty(city)) {
       deleteUploadedFile(req);
-      return Validation.isEmptyErrorResponse(res, 'city');
+      return isEmptyErrorResponse(res, 'city');
     }
     if (isEmpty(address)) {
       deleteUploadedFile(req);
-      return Validation.isEmptyErrorResponse(res, 'address');
+      return isEmptyErrorResponse(res, 'address');
     }
     if (isEmpty(type)) {
       deleteUploadedFile(req);
-      return Validation.isEmptyErrorResponse(res, 'type');
+      return isEmptyErrorResponse(res, 'type');
     }
     return next();
   }
@@ -238,10 +247,7 @@ class Validation {
    */
   static checkPropertyId(req, res, next) {
     if (!checkId(parseInt(req.params.id, 10))) {
-      return res.status(404).json({
-        status: 404,
-        error: 'Property with the specified id not found',
-      });
+      return propertyNotFoundErrorResponse(res);
     }
     return next();
   }
@@ -258,10 +264,7 @@ class Validation {
    */
   static compareAgentsById(req, res, next) {
     if (!compareAgents(req, parseInt(req.params.id, 10))) {
-      return res.status(403).json({
-        status: 403,
-        error: 'You are not authorized to view this resource',
-      });
+      return ForbiddenErrorResponse(res);
     }
     return next();
   }
@@ -280,7 +283,7 @@ class Validation {
     const { status } = req.body;
 
     if (status !== 'Sold') {
-      return Validation.isInvalidResponses(res, 'status');
+      return isInvalidResponses(res, 'status');
     }
 
     return next();
@@ -306,51 +309,13 @@ class Validation {
     const { email, password } = req.body;
 
     if (isEmpty(email)) {
-      return Validation.isEmptyErrorResponse(res, 'email');
+      return isEmptyErrorResponse(res, 'email');
     }
 
     if (isEmpty(password)) {
-      return Validation.isEmptyErrorResponse(res, 'password');
+      return isEmptyErrorResponse(res, 'password');
     }
     return next();
-  }
-
-  /**
-   *
-   * Handles the response for when a required request parameter is left empty
-   * @static
-   * @param {Object} res
-   * @param {string} typeOfParameter
-   * @returns {Object} an error response object
-   * @memberof Validation
-   */
-  static isEmptyErrorResponse(res, typeOfParameter) {
-    let error;
-    const status = 400;
-    error = `${typeOfParameter} cannot be left empty`;
-    return res.status(status).json({
-      status,
-      error,
-    });
-  }
-
-  /**
-   *
-   * Handles the response for when a validation fails
-   * @static
-   * @param {Object} res
-   * @param {string} typeOfParameter
-   * @returns {Object} an error response object
-   * @memberof Validation
-   */
-  static isInvalidResponses(res, typeOfParameter) {
-    let error;
-    const status = 422;
-    error = typeOfParameter === 'type' ? 'Only Agent or User allowed' : `Invalid ${typeOfParameter} provided`;
-    res.status(status).json({
-      status,
-      error,
-    });
   }
 
   /**
@@ -367,7 +332,7 @@ class Validation {
     const { email } = req.body;
     const trimmedParameters = trimmer([email]);
     if (!checkIfEmailExists(trimmedParameters[0])) {
-      return Validation.emailDoesNotExistErrorResponse(res);
+      return emailDoesNotExistErrorResponse(res);
     }
     return next();
   }
@@ -392,113 +357,34 @@ class Validation {
     const regexForPrice = /^\d*\.?\d*$/;
 
     if (type && !validTypes.includes(type)) {
-      return Validation.isInvalidResponses(res, 'property type');
+      return isInvalidResponses(res, 'property type');
     }
 
     if (price && !regexForPrice.test(price)) {
-      return Validation.isInvalidResponses(res, 'price');
+      return isInvalidResponses(res, 'price');
     }
 
     if (city && !state) {
-      return Validation.cityWithoutStateResponse(res, 'state');
+      return cityWithoutStateResponse(res, 'state');
     }
 
     if (state && !city) {
-      return Validation.cityWithoutStateResponse(res, 'city');
+      return cityWithoutStateResponse(res, 'city');
     }
 
     if (state && !checkState(state)) {
-      return Validation.isInvalidResponses(res, 'state');
+      return isInvalidResponses(res, 'state');
     }
 
     if ((city && state) && (!checkLGA(state, city))) {
-      return Validation.isInvalidResponses(res, 'city');
+      return isInvalidResponses(res, 'city');
     }
 
     if (address && isEmpty(address)) {
-      return Validation.isEmptyErrorResponse(res, 'address');
+      return isEmptyErrorResponse(res, 'address');
     }
 
     return next();
-  }
-
-  /**
-   *
-   * Tries to upload an image and checks to see if there is an internet connection
-   * @static
-   * @param {Object} req
-   * @param {Object} res
-   * @param {function} next
-   * @returns {(function|Object)} function next() or an error response object
-   * @memberof Validation
-   */
-  static uploadAnImage(req, res, next) {
-    uploader(req, res, (err) => {
-      if (err) {
-        return res.status(400).json({
-          status: 400,
-          error: Validation.displayDescriptiveError(req, err.message),
-        });
-      }
-      return next();
-    });
-  }
-
-  /**
-   *
-   * Handles the response for when a user puts in an email not in the database
-   * @static
-   * @param {Object} res
-   * @returns {Object} an error response object
-   * @memberof Validation
-   */
-  static emailDoesNotExistErrorResponse(res) {
-    return res.status(404).json({
-      status: 404,
-      error: 'Email does not exist',
-    });
-  }
-
-  /**
-   *
-   * Handles the response when a property to be updated has a city but no state
-   * @static
-   * @param {Object} res
-   * @param {string} typeOfParameter
-   * @returns {Object} an error response object
-   * @memberof Validation
-   */
-  static cityWithoutStateResponse(res, typeOfError) {
-    return res.status(422).json({
-      status: 422,
-      error: `Invalid, select a ${typeOfError} to continue`,
-    });
-  }
-
-  /**
-   *
-   * Handles the response for when a user puts in a password that doesn't exist
-   * @static
-   * @param {Object} res
-   * @param {string} typeOfParameter
-   * @returns {Object} an error response object
-   * @memberof Validation
-   */
-  static incorrectUserPassword(res) {
-    return res.status(401).json({
-      status: 401,
-      error: 'Authentication Failed',
-    });
-  }
-
-  static displayDescriptiveError(req, err) {
-    let error;
-    if (err === 'getaddrinfo ENOTFOUND api.cloudinary.com api.cloudinary.com:443') {
-      error = 'Check your internet connection and try again';
-      return error;
-    }
-    deleteUploadedFile(req);
-    return err;
   }
 }
 

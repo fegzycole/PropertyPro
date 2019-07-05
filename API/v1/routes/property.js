@@ -1,7 +1,9 @@
 import express from 'express';
 import AuthenticateUser from '../middleware/AuthenticateUser';
 import Validation from '../middleware/validation';
+import uploadAnImage from '../middleware/imageUpload';
 import PropertyController from '../controller/property.controller';
+
 
 const {
   postAProperty, updateProperty,
@@ -12,7 +14,7 @@ const {
 
 const {
   checkForEmptyPropertyPostParameters,
-  validateCreatePropertyInput, uploadAnImage, checkPropertyId,
+  validateCreatePropertyInput, checkPropertyId,
   checkForInvalidUpdateParameters, compareAgentsById, checkStatusParameter,
 } = Validation;
 

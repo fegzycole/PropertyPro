@@ -2,6 +2,9 @@ import multer from 'multer';
 import cloudinary from 'cloudinary';
 import cloudStorage from 'multer-storage-cloudinary';
 import dotenv from 'dotenv';
+import ErrorMessages from '../helper/error';
+
+const { displayDescriptiveError } = ErrorMessages;
 
 dotenv.config();
 
@@ -20,4 +23,25 @@ const storage = cloudStorage({
 
 const uploader = multer({ storage }).single('image');
 
-export default uploader;
+/**
+   *
+   * Tries to upload an image and checks to see if there is an internet connection
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @param {function} next
+   * @returns {(function|Object)} function next() or an error response object
+   */
+const uploadAnImage = (req, res, next) => {
+  uploader(req, res, (err) => {
+    if (err) {
+      return res.status(400).json({
+        status: 400,
+        error: displayDescriptiveError(req, err.message),
+      });
+    }
+    return next();
+  });
+};
+
+export default uploadAnImage;

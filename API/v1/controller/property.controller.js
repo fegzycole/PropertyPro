@@ -1,4 +1,7 @@
 import PropertyService from '../services/property.service';
+import ErrorMessages from '../helper/error';
+
+const { propertyTypeError } = ErrorMessages;
 
 const {
   postAProperty, updateProperty,
@@ -120,10 +123,7 @@ class PropertyController {
         ],
       });
     }
-    return res.status(404).json({
-      status: 404,
-      error: 'No property with the specified type',
-    });
+    return propertyTypeError(res);
   }
 
   /**
