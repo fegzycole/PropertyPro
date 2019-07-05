@@ -182,6 +182,25 @@ class Helper {
 
     return ArrayOfAllProperties;
   }
+
+  static checkForInvalidSignupKeys(req, validKeys) {
+    const arrayOfKeys = Object.keys(req);
+    arrayOfKeys.forEach((el) => {
+      if (!validKeys.includes(el)) {
+        throw new Error(`${el} is not a valid request parameter`);
+      }
+      return null;
+    });
+  }
+
+  static checkForMultipleKeys(req) {
+    const arrayOfKeys = Object.entries(req);
+    arrayOfKeys.forEach((el) => {
+      if (typeof el[1] === 'object') {
+        throw new Error(`Duplicate key ${el[0]}, please remove one and try again`);
+      }
+    });
+  }
 }
 
 export default Helper;

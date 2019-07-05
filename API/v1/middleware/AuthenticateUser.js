@@ -50,8 +50,8 @@ class Auth {
       if (isAdmin) return next();
       throw new Error('Only an Agent can post a property');
     } catch (e) {
-      return res.status(401).send({
-        status: 401,
+      return res.status(403).send({
+        status: 403,
         error: e.message,
       });
     }
