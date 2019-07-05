@@ -1,7 +1,7 @@
 import UserService from '../services/user.service';
-import Validation from '../middleware/validation';
+import ErrorMessages from '../helper/error';
 
-const { incorrectUserPassword } = Validation;
+const { incorrectUserPassword } = ErrorMessages;
 
 const { createUserAccount, loginUser } = UserService;
 /**

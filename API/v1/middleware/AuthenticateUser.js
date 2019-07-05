@@ -1,5 +1,8 @@
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import ErrorMessages from '../helper/error';
+
+const { authorizationErrorResponse, ForbiddenErrorResponse } = ErrorMessages;
 
 dotenv.config();
 
@@ -27,10 +30,7 @@ class Auth {
       req.decoded = decoded;
       return next();
     } catch (e) {
-      return res.status(401).send({
-        status: 401,
-        error: e.message,
-      });
+      return authorizationErrorResponse(res, e);
     }
   }
 
@@ -45,16 +45,9 @@ class Auth {
    * @memberof Auth
    */
   static authenticateAnAdmin(req, res, next) {
-    try {
-      const { isAdmin } = req.decoded.user;
-      if (isAdmin) return next();
-      throw new Error('Only an Agent can post a property');
-    } catch (e) {
-      return res.status(403).send({
-        status: 403,
-        error: e.message,
-      });
-    }
+    const { isAdmin } = req.decoded.user;
+    if (isAdmin) return next();
+    return ForbiddenErrorResponse(res);
   }
 
   /**

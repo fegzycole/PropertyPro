@@ -52,7 +52,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           done();
         });
     });
-    it('Should return an error if the user provides an invalid password', (done) => {
+    it('Should return an error if the user provides a password less than 6 characters', (done) => {
       chai
         .request(app)
         .post('/api/v1/auth/signup')
@@ -60,7 +60,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           email: 'zizzou104@gmail.com',
           firstName: 'zinedine',
           lastName: 'zidane',
-          password: 'manfo rthejob',
+          password: 'manfo',
           phoneNumber: '07057575757',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
           type: 'agent',
@@ -362,9 +362,9 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           password: 'wrongpassword',
         })
         .end((err, res) => {
-          expect(res).to.have.status(404);
-          expect(res.body.status).to.be.equal(404);
-          expect(res.body.error).to.be.equal('Email does not exist');
+          expect(res).to.have.status(401);
+          expect(res.body.status).to.be.equal(401);
+          expect(res.body.error).to.be.equal('Email or password incorrect');
           done();
         });
     });
@@ -379,7 +379,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body.status).to.be.equal(401);
-          expect(res.body.error).to.be.equal('Authentication Failed');
+          expect(res.body.error).to.be.equal('Email or password incorrect');
           done();
         });
     });

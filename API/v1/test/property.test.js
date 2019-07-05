@@ -115,9 +115,9 @@ describe('Test suite for all property related endpoints', () => {
         .field('address', '67 Bamgboye close')
         .field('type', 'Land')
         .end((err, res) => {
-          expect(res).to.have.status(401);
-          expect(res.body.status).to.be.equal(401);
-          expect(res.body.error).to.be.equal('Only an Agent can post a property');
+          expect(res).to.have.status(403);
+          expect(res.body.status).to.be.equal(403);
+          expect(res.body.error).to.be.equal('You are not authorized to view this resource');
           done();
         });
     });
@@ -295,7 +295,7 @@ describe('Test suite for all property related endpoints', () => {
           done();
         });
     });
-    it('Should return an error if the property type is not valid', (done) => {
+    it('Should return an error if the price is not valid', (done) => {
       chai
         .request(app)
         .post('/api/v1/property')
@@ -374,9 +374,9 @@ describe('Test suite for all property related endpoints', () => {
         .field('address', '67 Bamgboye close')
         .field('type', 'Land')
         .end((err, res) => {
-          expect(res).to.have.status(401);
-          expect(res.body.status).to.be.equal(401);
-          expect(res.body.error).to.be.equal('Only an Agent can post a property');
+          expect(res).to.have.status(403);
+          expect(res.body.status).to.be.equal(403);
+          expect(res.body.error).to.be.equal('You are not authorized to view this resource');
           done();
         });
     });
@@ -603,9 +603,9 @@ describe('Test suite for all property related endpoints', () => {
           status: 'Sold',
         })
         .end((err, res) => {
-          expect(res).to.have.status(401);
-          expect(res.body.status).to.be.equal(401);
-          expect(res.body.error).to.be.equal('Only an Agent can post a property');
+          expect(res).to.have.status(403);
+          expect(res.body.status).to.be.equal(403);
+          expect(res.body.error).to.be.equal('You are not authorized to view this resource');
           done();
         });
     });
@@ -691,9 +691,9 @@ describe('Test suite for all property related endpoints', () => {
         .delete(`/api/v1/property/${id}`)
         .set('x-access-token', userToken)
         .end((err, res) => {
-          expect(res).to.have.status(401);
-          expect(res.body.status).to.be.equal(401);
-          expect(res.body.error).to.be.equal('Only an Agent can post a property');
+          expect(res).to.have.status(403);
+          expect(res.body.status).to.be.equal(403);
+          expect(res.body.error).to.be.equal('You are not authorized to view this resource');
           done();
         });
     });
