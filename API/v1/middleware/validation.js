@@ -14,7 +14,6 @@ const {
 } = ErrorClass;
 
 const {
-  trimmer,
   checkIfEmailExists,
   checkState,
   checkLGA,
@@ -54,39 +53,36 @@ class Validation {
       email, firstName, lastName, password, phoneNumber, type, address,
     } = userInformation;
 
-    const trimmedRequestParameters = trimmer([email, firstName, lastName,
-      password, phoneNumber, type, address]);
-
     const regexForEmail = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/;
     const regexForNames = /^[a-zA-Z][a-zA-Z]*$/;
     const regexForPhoneNumber = /^[0]\d{10}$/;
     const regexForUserType = /^(agent|user)$/;
 
-    if (!regexForEmail.test(trimmedRequestParameters[0])) {
+    if (!regexForEmail.test(email)) {
       return isInvalidResponses(res, 'Email');
     }
 
-    if (!regexForNames.test(trimmedRequestParameters[1])) {
+    if (!regexForNames.test(firstName)) {
       return isInvalidResponses(res, 'First Name');
     }
 
-    if (!regexForNames.test(trimmedRequestParameters[2])) {
+    if (!regexForNames.test(lastName)) {
       return isInvalidResponses(res, 'Last Name');
     }
 
-    if (trimmedRequestParameters[3].length < 6) {
+    if (password.length < 6) {
       return isInvalidResponses(res, 'Password');
     }
 
-    if (!regexForPhoneNumber.test(trimmedRequestParameters[4])) {
+    if (!regexForPhoneNumber.test(phoneNumber)) {
       return isInvalidResponses(res, 'Phone Number');
     }
 
-    if (!regexForUserType.test(trimmedRequestParameters[5])) {
+    if (!regexForUserType.test(type)) {
       return isInvalidResponses(res, 'type');
     }
 
-    if (trimmedRequestParameters[6].length <= 6) {
+    if (address <= 6) {
       return isInvalidResponses(res, 'address');
     }
     return next();
@@ -330,8 +326,7 @@ class Validation {
    */
   static checkLoginParameters(req, res, next) {
     const { email } = req.body;
-    const trimmedParameters = trimmer([email]);
-    if (!checkIfEmailExists(trimmedParameters[0])) {
+    if (!checkIfEmailExists(email)) {
       return emailDoesNotExistErrorResponse(res);
     }
     return next();

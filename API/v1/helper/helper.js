@@ -23,19 +23,6 @@ cloudinary.config({
 class Helper {
   /**
    *
-   * Trims all elements in the supplied array
-   * @static
-   * @param {Array} array
-   * @returns {Array}
-   * @memberof Helper
-   */
-  static trimmer(array) {
-    const trimmedParameters = array.map(el => el.trim().toLowerCase());
-    return trimmedParameters;
-  }
-
-  /**
-   *
    * Hashes a password
    * @static
    * @param {String} passwordToBeHashed
