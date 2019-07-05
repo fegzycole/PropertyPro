@@ -5,8 +5,15 @@ import Helper from '../helper/helper';
 import uploader from './imageUpload';
 
 const {
-  trimmer, checkIfEmailExists, checkState,
-  checkLGA, deleteUploadedFile, checkId, compareAgents,
+  trimmer,
+  checkIfEmailExists,
+  checkState,
+  checkLGA,
+  deleteUploadedFile,
+  checkId,
+  compareAgents,
+  checkForInvalidSignupKeys,
+  checkForMultipleKeys,
 } = Helper;
 
 /**
@@ -26,17 +33,23 @@ class Validation {
    * @memberof Validation
    */
   static validateSignUpInput(req, res, next) {
+    const validKeys = ['email', 'password', 'firstName', 'lastName', 'phoneNumber', 'address', 'type'];
+
+    checkForInvalidSignupKeys(req.body, validKeys);
+
+    checkForMultipleKeys(req.body);
+
     const userInformation = req.body;
 
     const {
-      email, firstName, lastName, password, phoneNumber, type,
+      email, firstName, lastName, password, phoneNumber, type, address,
     } = userInformation;
 
-    const trimmedRequestParameters = trimmer([email, firstName, lastName, password, phoneNumber, type]);
+    const trimmedRequestParameters = trimmer([email, firstName, lastName,
+      password, phoneNumber, type, address]);
 
     const regexForEmail = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/;
     const regexForNames = /^[a-zA-Z][a-zA-Z]*$/;
-    const regexForPassword = /^\S+$/;
     const regexForPhoneNumber = /^[0]\d{10}$/;
     const regexForUserType = /^(agent|user)$/;
 
@@ -52,7 +65,7 @@ class Validation {
       return Validation.isInvalidResponses(res, 'Last Name');
     }
 
-    if (!regexForPassword.test(trimmedRequestParameters[3])) {
+    if (trimmedRequestParameters[3].length < 6) {
       return Validation.isInvalidResponses(res, 'Password');
     }
 
@@ -62,6 +75,10 @@ class Validation {
 
     if (!regexForUserType.test(trimmedRequestParameters[5])) {
       return Validation.isInvalidResponses(res, 'type');
+    }
+
+    if (trimmedRequestParameters[6].length <= 6) {
+      return Validation.isInvalidResponses(res, 'address');
     }
     return next();
   }
@@ -78,14 +95,19 @@ class Validation {
    */
   static validateCreatePropertyInput(req, res, next) {
     const validTypes = ['2 Bedroom', '3 Bedroom', 'Land', 'Semi-detached duplex'];
+    const validKeys = ['type', 'price', 'state', 'city', 'address'];
 
     const userInformation = req.body;
 
     const {
-      type, price, state, city,
+      type, price, state, city, address,
     } = userInformation;
 
     const regexForPrice = /^\d*\.?\d*$/;
+
+    checkForInvalidSignupKeys(req.body, validKeys);
+
+    checkForMultipleKeys(req.body);
 
     if (!checkState(state)) {
       deleteUploadedFile(req);
@@ -102,6 +124,10 @@ class Validation {
     if (!regexForPrice.test(price)) {
       deleteUploadedFile(req);
       return Validation.isInvalidResponses(res, 'price');
+    }
+    if (address.length <= 6) {
+      deleteUploadedFile(req);
+      return Validation.isInvalidResponses(res, 'address');
     }
     return next();
   }
@@ -271,6 +297,12 @@ class Validation {
    * @memberof Validation
    */
   static checkForEmptySignInParameters(req, res, next) {
+    const validKeys = ['email', 'password'];
+
+    checkForInvalidSignupKeys(req.body, validKeys);
+
+    checkForMultipleKeys(req.body);
+
     const { email, password } = req.body;
 
     if (isEmpty(email)) {
@@ -405,7 +437,7 @@ class Validation {
       if (err) {
         return res.status(400).json({
           status: 400,
-          error: 'No internet connection, try again',
+          error: Validation.displayDescriptiveError(req, err.message),
         });
       }
       return next();
@@ -457,6 +489,16 @@ class Validation {
       status: 401,
       error: 'Authentication Failed',
     });
+  }
+
+  static displayDescriptiveError(req, err) {
+    let error;
+    if (err === 'getaddrinfo ENOTFOUND api.cloudinary.com api.cloudinary.com:443') {
+      error = 'Check your internet connection and try again';
+      return error;
+    }
+    deleteUploadedFile(req);
+    return err;
   }
 }
 

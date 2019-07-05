@@ -51,7 +51,7 @@ describe('Test suite for all property related endpoints', () => {
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
-        .attach('image', fs.readFileSync(filePath), 'deborah-cortelazzi-615800-unsplash_opt.jpg')
+        .attach('image', `${__dirname}/imageFolder/deborah-cortelazzi-615800-unsplash_opt.jpg`)
         .field('state', 'Lagos State')
         .field('city', 'Alimosho')
         .field('price', 60000000.50)
