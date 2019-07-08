@@ -403,7 +403,7 @@ footer {
 .accountform {
 	font-family: 'Poppins', sans-serif;
 	width: 550px;
-	height: inherit;
+	height: 380px;
 	background: #FFF;
 	color: #260126;
 	display:inline-block;
@@ -787,7 +787,11 @@ form .shift2 {
 
 	.signin{
 		display: none;
-	}
+  }
+  
+  .accountform .green{
+    font-size: 0.8em;
+  }
 
 	.sidenav{
 		position: fixed;
