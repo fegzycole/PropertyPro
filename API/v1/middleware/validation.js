@@ -59,30 +59,30 @@ class Validation {
     const regexForUserType = /^(agent|user)$/;
 
     if (!regexForEmail.test(email)) {
-      return isInvalidResponses(res, 'Email');
+      return isInvalidResponses(res, 'email');
     }
 
     if (!regexForNames.test(firstName)) {
-      return isInvalidResponses(res, 'First Name');
+      return isInvalidResponses(res, 'first name');
     }
 
     if (!regexForNames.test(lastName)) {
-      return isInvalidResponses(res, 'Last Name');
+      return isInvalidResponses(res, 'last name');
     }
 
     if (password.length < 6) {
-      return isInvalidResponses(res, 'Password');
+      return isInvalidResponses(res, 'password');
     }
 
     if (!regexForPhoneNumber.test(phoneNumber)) {
-      return isInvalidResponses(res, 'Phone Number');
+      return isInvalidResponses(res, 'phone number');
     }
 
     if (!regexForUserType.test(type)) {
       return isInvalidResponses(res, 'type');
     }
 
-    if (address <= 6) {
+    if (address.length <= 6) {
       return isInvalidResponses(res, 'address');
     }
     return next();
@@ -375,8 +375,8 @@ class Validation {
       return isInvalidResponses(res, 'city');
     }
 
-    if (address && isEmpty(address)) {
-      return isEmptyErrorResponse(res, 'address');
+    if (address && (address.length <= 6)) {
+      return isInvalidResponses(res, 'address');
     }
 
     return next();

@@ -65,7 +65,7 @@ describe('Test suite for all property related endpoints', () => {
           done();
         });
     });
-    it('Should list a new property if all checks are fine', (done) => {
+    it('Should return an error if the content type isn\'t formdata', (done) => {
       chai
         .request(app)
         .post('/api/v1/property')
@@ -76,9 +76,9 @@ describe('Test suite for all property related endpoints', () => {
           city: 'Alimosho',
         })
         .end((err, res) => {
-          expect(res).to.have.status(500);
-          expect(res.body.status).to.be.equal(500);
-          expect(res.body.message).to.be.equal('Change your content type and try again');
+          expect(res).to.have.status(400);
+          expect(res.body.status).to.be.equal(400);
+          expect(res.body.error).to.be.equal('Change your content type and try again');
           done();
         });
     });
@@ -251,7 +251,7 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid state provided');
+          expect(res.body.error).to.be.equal('Invalid state provided. Valid example: Lagos State');
           done();
         });
     });
@@ -271,7 +271,7 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid city provided');
+          expect(res.body.error).to.be.equal('Invalid city provided. Make sure the city is in the state selected');
           done();
         });
     });
@@ -291,7 +291,27 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid property type provided');
+          expect(res.body.error).to.be.equal('Invalid property type selected. A valid property type is either 2 Bedroom, 3 Bedroom, Land, or a Semi-detached duplex');
+          done();
+        });
+    });
+    it('Should return an error if the address is less than 7 characters', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/property')
+        .set('x-access-token', adminToken)
+        .set('enctype', 'multipart/formdata')
+        .type('form')
+        .attach('image', fs.readFileSync(filePath), 'deborah-cortelazzi-615800-unsplash_opt.jpg')
+        .field('state', 'Lagos State')
+        .field('city', 'Alimosho')
+        .field('price', 60000000.50)
+        .field('address', '67')
+        .field('type', 'Land')
+        .end((err, res) => {
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.be.equal(422);
+          expect(res.body.error).to.be.equal('Invalid address provided. A valid address is at least seven characters long');
           done();
         });
     });
@@ -437,7 +457,7 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid property type provided');
+          expect(res.body.error).to.be.equal('Invalid property type selected. A valid property type is either 2 Bedroom, 3 Bedroom, Land, or a Semi-detached duplex');
           done();
         });
     });
@@ -495,7 +515,7 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid state provided');
+          expect(res.body.error).to.be.equal('Invalid state provided. Valid example: Lagos State');
           done();
         });
     });
@@ -515,11 +535,11 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid city provided');
+          expect(res.body.error).to.be.equal('Invalid city provided. Make sure the city is in the state selected');
           done();
         });
     });
-    it('Should return an error if the agent adds the address key but doesn\'t include an address', (done) => {
+    it('Should return an error if the agent adds an invalid address', (done) => {
       const id = 1;
       chai
         .request(app)
@@ -530,12 +550,12 @@ describe('Test suite for all property related endpoints', () => {
         .field('state', 'Lagos State')
         .field('city', 'Alimosho')
         .field('price', 60000000.50)
-        .field('address', ' ')
+        .field('address', 'No')
         .field('type', 'Land')
         .end((err, res) => {
-          expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
-          expect(res.body.error).to.be.equal('address cannot be left empty');
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.be.equal(422);
+          expect(res.body.error).to.be.equal('Invalid address provided. A valid address is at least seven characters long');
           done();
         });
     });
@@ -653,7 +673,7 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid status provided');
+          expect(res.body.error).to.be.equal('Invalid status provided. You can only mark a property as \'Sold\'');
           done();
         });
     });
