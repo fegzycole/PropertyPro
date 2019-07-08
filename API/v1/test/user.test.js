@@ -48,7 +48,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid Email provided');
+          expect(res.body.error).to.be.equal('Invalid email provided');
           done();
         });
     });
@@ -68,7 +68,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid Password provided');
+          expect(res.body.error).to.be.equal('Invalid password provided. A valid password is at least six characters long');
           done();
         });
     });
@@ -88,7 +88,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid First Name provided');
+          expect(res.body.error).to.be.equal('Invalid first name provided');
           done(err);
         });
     });
@@ -108,7 +108,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid Last Name provided');
+          expect(res.body.error).to.be.equal('Invalid last name provided');
           done();
         });
     });
@@ -128,7 +128,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Invalid Phone Number provided');
+          expect(res.body.error).to.be.equal('Invalid phone number provided. A valid phone number is 07057154456');
           done();
         });
     });
@@ -149,6 +149,26 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           expect(res).to.have.status(422);
           expect(res.body.status).to.be.equal(422);
           expect(res.body.error).to.be.equal('Only Agent or User allowed');
+          done();
+        });
+    });
+    it('Should return an error if the address provided is less than 7 characters', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          email: 'zizzou104@gmail.com',
+          firstName: 'zinedine',
+          lastName: 'zidane',
+          password: 'manforthejob',
+          phoneNumber: '07057575757',
+          address: '90',
+          type: 'agent',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.be.equal(422);
+          expect(res.body.error).to.be.equal('Invalid address provided. A valid address is at least seven characters long');
           done();
         });
     });

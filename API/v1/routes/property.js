@@ -1,4 +1,5 @@
 import express from 'express';
+import trimmer from 'express-body-trimmer';
 import AuthenticateUser from '../middleware/AuthenticateUser';
 import Validation from '../middleware/validation';
 import uploadAnImage from '../middleware/imageUpload';
@@ -31,6 +32,7 @@ router.post('/',
   authenticateAnAdmin,
   checkContentType,
   uploadAnImage,
+  trimmer(),
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput,
   postAProperty);
@@ -42,6 +44,7 @@ router.patch('/:id',
   checkPropertyId,
   compareAgentsById,
   uploadAnImage,
+  trimmer(),
   checkForInvalidUpdateParameters,
   updateProperty);
 

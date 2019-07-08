@@ -2,7 +2,11 @@ import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import ErrorMessages from '../helper/error';
 
-const { authorizationErrorResponse, ForbiddenErrorResponse } = ErrorMessages;
+const {
+  authorizationErrorResponse,
+  ForbiddenErrorResponse,
+  contentTypeErrorResponse,
+} = ErrorMessages;
 
 dotenv.config();
 
@@ -63,7 +67,7 @@ class Auth {
   static checkContentType(req, res, next) {
     const { headers } = req;
     if (headers['content-type'] === 'application/x-www-form-urlencoded') {
-      throw new Error('Change your content type and try again');
+      return contentTypeErrorResponse(res);
     }
     return next();
   }
