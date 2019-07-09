@@ -6,6 +6,7 @@ import dotenv from 'dotenv';
 import userData from '../data/user.data';
 import states from '../data/statesAndLGAs';
 import properties from '../data/property.data';
+import Db from '../Db/index';
 
 dotenv.config();
 
@@ -90,6 +91,23 @@ class Helper {
     const usersInformation = userData.users.find(el => el.email === email);
     const hashDatabasePassword = Helper.hashAPassword(usersInformation.password);
     const comparePasswords = bcrypt.compareSync(password, hashDatabasePassword);
+    return comparePasswords;
+  }
+
+  /**
+   *
+   * Hashes a supplied password and compares the supplied password with the password in the database
+   * for the user with the provided email
+   * @static
+   * @param {String} email
+   * @param {String} password
+   * @returns {Boolean} true if the passwords match, false if they do not match
+   * @memberof Helper
+   */
+  static async compareUserPasswordv2(email, password) {
+    const query = 'SELECT * from users WHERE email = $1';
+    const { rows } = await Db.query(query, [email]);
+    const comparePasswords = bcrypt.compareSync(password, rows[0].password);
     return comparePasswords;
   }
 
@@ -187,6 +205,13 @@ class Helper {
         throw new Error(`Duplicate key ${el[0]}, please remove one and try again`);
       }
     });
+  }
+
+  static async loginAUser(email) {
+    const query = 'SELECT * from users WHERE email = $1';
+    const { rows } = await Db.query(query, [email]);
+    if (rows[0]) return rows[0];
+    return false;
   }
 }
 

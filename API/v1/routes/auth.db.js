@@ -5,14 +5,22 @@ import checkExixtingEmail from '../middleware/checkExistingemail';
 
 const router = express.Router();
 
-const { createUser } = UserController;
+const { createUser, loginUser } = UserController;
 
-const { validateSignUpInput, checkForEmptyRequestParameters } = Validation;
+const {
+  validateSignUpInput,
+  checkForEmptyRequestParameters,
+  checkForEmptySignInParameters,
+} = Validation;
 
 router.post('/signup',
   checkForEmptyRequestParameters,
   validateSignUpInput,
   checkExixtingEmail,
   createUser);
+
+router.post('/signin',
+  checkForEmptySignInParameters,
+  loginUser);
 
 export default router;
