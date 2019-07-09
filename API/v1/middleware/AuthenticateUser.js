@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
 import ErrorMessages from '../helper/error';
@@ -49,8 +50,10 @@ class Auth {
    * @memberof Auth
    */
   static authenticateAnAdmin(req, res, next) {
-    const { isAdmin } = req.decoded.user;
-    if (isAdmin) return next();
+    const { isAdmin, is_admin } = req.decoded.user;
+
+    if (isAdmin || is_admin) return next();
+
     return ForbiddenErrorResponse(res);
   }
 

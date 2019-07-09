@@ -6,6 +6,7 @@ import trimmer from 'express-body-trimmer';
 import auth from './v1/routes/auth';
 import authv2 from './v1/routes/auth.db';
 import property from './v1/routes/property';
+import propertyv2 from './v1/routes/property.db';
 
 const app = express();
 
@@ -18,8 +19,9 @@ app.use(trimmer());
 
 // Routes
 app.use('/api/v1/auth', authv2);
+app.use('/api/v1/property', propertyv2);
 app.use('/api/v2/auth', auth);
-app.use('/api/v1/property', property);
+app.use('/api/v2/property', property);
 
 
 app.get('/', (req, res) => res.status(200).json({

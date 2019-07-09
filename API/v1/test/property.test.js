@@ -12,6 +12,7 @@ const { expect } = chai;
 chai.use(chaiHttp);
 let userToken;
 let adminToken;
+let adminTokenDb;
 
 describe('Test suite for all property related endpoints', () => {
   before((done) => {
@@ -42,12 +43,26 @@ describe('Test suite for all property related endpoints', () => {
         done(err);
       });
   });
-  describe('POST api/v1/property', () => {
+  before((done) => {
+    chai
+      .request(app)
+      .post('/api/v1/auth/signin')
+      .send({
+        email: 'fergusoniyara@gmail.com',
+        password: 'somepassword',
+      })
+      .end((err, res) => {
+        const { token } = res.body.data;
+        adminTokenDb = token;
+        done(err);
+      });
+  });
+  describe('POST api/v2/property', () => {
     const filePath = `${__dirname}/imageFolder/deborah-cortelazzi-615800-unsplash_opt.jpg`;
     it('Should list a new property if all checks are fine', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -68,7 +83,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if the content type isn\'t formdata', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send({
@@ -85,7 +100,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should throw an error if user is not Logged in', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('enctype', 'multipart/formdata')
         .type('form')
         .attach('image', fs.readFileSync(filePath), 'deborah-cortelazzi-615800-unsplash_opt.jpg')
@@ -104,7 +119,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if a user wants to post a property', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', userToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -124,7 +139,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if no image is attached', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -143,7 +158,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if no state is indicated', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -162,7 +177,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if no price is indicated', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -181,7 +196,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if no city is indicated', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -200,7 +215,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if no address is indicated', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -219,7 +234,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if no type is indicated', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -238,7 +253,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if the state is not valid', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -258,7 +273,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if the city is not valid', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -278,7 +293,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if the property type is not valid', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -298,7 +313,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if the address is less than 7 characters', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -318,7 +333,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if the price is not valid', (done) => {
       chai
         .request(app)
-        .post('/api/v1/property')
+        .post('/api/v2/property')
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -336,13 +351,37 @@ describe('Test suite for all property related endpoints', () => {
         });
     });
   });
-  describe('PATCH api/v1/property/:id', () => {
+  describe('POST api/v1/property', () => {
+    const filePath = `${__dirname}/imageFolder/deborah-cortelazzi-615800-unsplash_opt.jpg`;
+    it('Should list a new property if all checks are fine', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/property')
+        .set('x-access-token', adminTokenDb)
+        .set('enctype', 'multipart/formdata')
+        .type('form')
+        .attach('image', filePath)
+        .field('state', 'Lagos State')
+        .field('city', 'Alimosho')
+        .field('price', 60000000.50)
+        .field('address', '67 Bamgboye close')
+        .field('type', 'Land')
+        .end((err, res) => {
+          expect(res).to.have.status(201);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.have.key('id', 'status', 'type', 'state',
+            'city', 'address', 'price', 'created_on', 'image_url');
+          done();
+        });
+    });
+  });
+  describe('PATCH api/v2/property/:id', () => {
     const filePath = `${__dirname}/imageFolder/deborah-cortelazzi-615800-unsplash_opt.jpg`;
     it('Should update specific details of a property if all checks are fine', (done) => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}`)
+        .patch(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -363,7 +402,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}`)
+        .patch(`/api/v2/property/${id}`)
         .set('enctype', 'multipart/formdata')
         .type('form')
         .attach('image', fs.readFileSync(filePath), 'deborah-cortelazzi-615800-unsplash_opt.jpg')
@@ -383,7 +422,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}`)
+        .patch(`/api/v2/property/${id}`)
         .set('x-access-token', userToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -404,7 +443,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 44;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}`)
+        .patch(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -425,7 +464,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}`)
+        .patch(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -445,7 +484,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}`)
+        .patch(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -465,7 +504,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}`)
+        .patch(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -484,7 +523,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}`)
+        .patch(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -503,7 +542,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}`)
+        .patch(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -523,7 +562,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}`)
+        .patch(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -543,7 +582,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}`)
+        .patch(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -563,7 +602,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 6;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}`)
+        .patch(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .set('enctype', 'multipart/formdata')
         .type('form')
@@ -580,12 +619,12 @@ describe('Test suite for all property related endpoints', () => {
         });
     });
   });
-  describe('PATCH api/v1/property/:id/sold', () => {
+  describe('PATCH api/v2/property/:id/sold', () => {
     it('Should update the status of a listed property to sold if all checks are fine', (done) => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}/sold`)
+        .patch(`/api/v2/property/${id}/sold`)
         .set('x-access-token', adminToken)
         .send({
           status: 'Sold',
@@ -602,7 +641,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}/sold`)
+        .patch(`/api/v2/property/${id}/sold`)
         .send({
           status: 'Sold',
         })
@@ -617,7 +656,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}/sold`)
+        .patch(`/api/v2/property/${id}/sold`)
         .set('x-access-token', userToken)
         .send({
           status: 'Sold',
@@ -633,7 +672,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 44;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}/sold`)
+        .patch(`/api/v2/property/${id}/sold`)
         .set('x-access-token', adminToken)
         .send({
           status: 'Sold',
@@ -649,7 +688,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 6;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}/sold`)
+        .patch(`/api/v2/property/${id}/sold`)
         .set('x-access-token', adminToken)
         .send({
           status: 'Sold',
@@ -665,7 +704,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .patch(`/api/v1/property/${id}/sold`)
+        .patch(`/api/v2/property/${id}/sold`)
         .set('x-access-token', adminToken)
         .send({
           status: 'Awaiting',
@@ -678,12 +717,12 @@ describe('Test suite for all property related endpoints', () => {
         });
     });
   });
-  describe('DELETE api/v1/property/:id', () => {
+  describe('DELETE api/v2/property/:id', () => {
     it('Should delete a listed property if all checks are fine', (done) => {
       const id = 2;
       chai
         .request(app)
-        .delete(`/api/v1/property/${id}`)
+        .delete(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -696,7 +735,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .delete(`/api/v1/property/${id}`)
+        .delete(`/api/v2/property/${id}`)
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body.status).to.be.equal(401);
@@ -708,7 +747,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 1;
       chai
         .request(app)
-        .delete(`/api/v1/property/${id}`)
+        .delete(`/api/v2/property/${id}`)
         .set('x-access-token', userToken)
         .end((err, res) => {
           expect(res).to.have.status(403);
@@ -721,7 +760,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 44;
       chai
         .request(app)
-        .delete(`/api/v1/property/${id}`)
+        .delete(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .end((err, res) => {
           expect(res).to.have.status(404);
@@ -734,7 +773,7 @@ describe('Test suite for all property related endpoints', () => {
       const id = 6;
       chai
         .request(app)
-        .delete(`/api/v1/property/${id}`)
+        .delete(`/api/v2/property/${id}`)
         .set('x-access-token', adminToken)
         .end((err, res) => {
           expect(res).to.have.status(403);
@@ -748,7 +787,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an array of all listed properties', (done) => {
       chai
         .request(app)
-        .get('/api/v1/property')
+        .get('/api/v2/property')
         .set('x-access-token', adminToken)
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -760,7 +799,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should throw an error if user is not Logged in', (done) => {
       chai
         .request(app)
-        .get('/api/v1/property')
+        .get('/api/v2/property')
         .end((err, res) => {
           expect(res).to.have.status(401);
           expect(res.body.status).to.be.equal(401);
@@ -773,7 +812,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an arfray of all listed properties', (done) => {
       chai
         .request(app)
-        .get('/api/v1/property?type=Land')
+        .get('/api/v2/property?type=Land')
         .set('x-access-token', adminToken)
         .end((err, res) => {
           expect(res).to.have.status(200);
@@ -785,7 +824,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an error if the type of query the user puts in is invalid', (done) => {
       chai
         .request(app)
-        .get('/api/v1/property?type=InvalidType')
+        .get('/api/v2/property?type=InvalidType')
         .set('x-access-token', adminToken)
         .end((err, res) => {
           expect(res).to.have.status(404);
@@ -799,7 +838,7 @@ describe('Test suite for all property related endpoints', () => {
     it('Should return an arrray of a particular property if the id exists', (done) => {
       chai
         .request(app)
-        .get('/api/v1/property/1')
+        .get('/api/v2/property/1')
         .set('x-access-token', adminToken)
         .end((err, res) => {
           expect(res).to.have.status(200);
