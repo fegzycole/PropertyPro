@@ -218,10 +218,19 @@ class ErrorMessages {
    * @memberof ErrorMessages
    */
   static serverErrorMessage(err, res) {
-    const statusCode = 500;
+    let statusCode;
+    if (err.message === 'Authorization failed. Email or password incorrect') {
+      statusCode = 401;
+      return res.status(statusCode).json({
+        status: statusCode,
+        error: err.message,
+      });
+    }
+    statusCode = 500;
+    const error = 'Internal Server Error';
     return res.status(statusCode).json({
       status: statusCode,
-      error: err.message,
+      error,
     });
   }
 }
