@@ -619,6 +619,69 @@ describe('Test suite for all property related endpoints', () => {
         });
     });
   });
+  describe('PATCH api/v1/property/:id', () => {
+    it('Should update specific details of a property if all checks are fine', (done) => {
+      const id = 1;
+      chai
+        .request(app)
+        .patch(`/api/v1/property/${id}`)
+        .set('x-access-token', adminTokenDb)
+        .set('enctype', 'multipart/formdata')
+        .type('form')
+        .field('state', 'Lagos State')
+        .field('city', 'Alimosho')
+        .field('price', 60000000.50)
+        .field('address', '33 Bashorun drive')
+        .field('type', 'Land')
+        .end((err, res) => {
+          expect(res).to.have.status(201);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.have.key('id', 'owner', 'status', 'price', 'state', 'city', 'address', 'type',
+            'created_on', 'image_url');
+          done();
+        });
+    });
+    it('Should return an error if the property with the requested id does not exist', (done) => {
+      const id = 1000;
+      chai
+        .request(app)
+        .patch(`/api/v1/property/${id}`)
+        .set('x-access-token', adminTokenDb)
+        .set('enctype', 'multipart/formdata')
+        .type('form')
+        .field('state', 'Lagos State')
+        .field('city', 'Alimosho')
+        .field('price', 60000000.50)
+        .field('address', '67 Bamgboye close')
+        .field('type', 'Land')
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.status).to.be.equal(404);
+          expect(res.body.error).to.be.equal('Property with the provided id not found');
+          done();
+        });
+    });
+    it('Should return an error if the agent wants to update the details of another agent\'s property', (done) => {
+      const id = 14;
+      chai
+        .request(app)
+        .patch(`/api/v1/property/${id}`)
+        .set('x-access-token', adminTokenDb)
+        .set('enctype', 'multipart/formdata')
+        .type('form')
+        .field('state', 'Lagos State')
+        .field('city', 'Alimosho')
+        .field('price', 60000000.50)
+        .field('address', '67, Bambgoye close')
+        .field('type', 'Land')
+        .end((err, res) => {
+          expect(res).to.have.status(403);
+          expect(res.body.status).to.be.equal(403);
+          expect(res.body.error).to.be.equal('You are not permitted to view this resource');
+          done();
+        });
+    });
+  });
   describe('PATCH api/v2/property/:id/sold', () => {
     it('Should update the status of a listed property to sold if all checks are fine', (done) => {
       const id = 1;

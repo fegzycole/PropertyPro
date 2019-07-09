@@ -3,7 +3,7 @@ import ErrorMessages from '../helper/error';
 
 const { serverErrorMessage } = ErrorMessages;
 
-const { postAProperty } = PropertyService;
+const { postAProperty, updateProperty } = PropertyService;
 /**
  *
  * @exports PropertyController
@@ -21,6 +21,18 @@ class PropertyController {
   static async postAProperty(req, res) {
     try {
       const result = await postAProperty(req);
+      return res.status(201).json({
+        status: 'success',
+        data: result,
+      });
+    } catch (error) {
+      return serverErrorMessage(error, res);
+    }
+  }
+
+  static async updateProperty(req, res) {
+    try {
+      const result = await updateProperty(req);
       return res.status(201).json({
         status: 'success',
         data: result,

@@ -345,11 +345,17 @@ class Validation {
   static checkForInvalidUpdateParameters(req, res, next) {
     const validTypes = ['2 Bedroom', '3 Bedroom', 'Land', 'Semi-detached duplex'];
 
+    const validKeys = ['type', 'price', 'state', 'city', 'address'];
+
     const {
       type, price, state, city, address,
     } = req.body;
 
     const regexForPrice = /^\d*\.?\d*$/;
+
+    checkForInvalidSignupKeys(req.body, validKeys);
+
+    checkForMultipleKeys(req.body);
 
     if (type && !validTypes.includes(type)) {
       return isInvalidResponses(res, 'property type');
