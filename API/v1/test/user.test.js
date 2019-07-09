@@ -1,6 +1,8 @@
 /* eslint-disable no-undef */
 import chai from 'chai';
 
+import faker from 'faker';
+
 import chaiHttp from 'chai-http';
 
 import app from '../../index';
@@ -16,10 +18,10 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zidane',
-          password: 'manforthejob',
+          email: faker.internet.email(),
+          firstName: faker.name.firstName(),
+          lastName: faker.name.lastName(),
+          password: 'fegzycole',
           phoneNumber: '07057575757',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
           type: 'agent',
@@ -27,7 +29,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(201);
           expect(res.body.status).to.be.equal('success');
-          expect(res.body.data).to.have.key('token', 'id', 'firstName', 'lastName', 'email', 'isAdmin');
+          expect(res.body.data).to.have.key('token', 'id', 'first_name', 'last_name', 'email', 'is_admin');
           expect(res.body.data.token).to.be.a('string');
           done();
         });
@@ -328,11 +330,34 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         });
     });
   });
-  describe('POST api/v1/auth/signin', () => {
+  describe('POST api/v2/auth/signup', () => {
+    it('Should successfully sign up a user and return a token', (done) => {
+      chai
+        .request(app)
+        .post('/api/v2/auth/signup')
+        .send({
+          email: 'zizzou104@gmail.com',
+          firstName: 'zinedine',
+          lastName: 'zidane',
+          password: 'manforthejob',
+          phoneNumber: '07057575757',
+          address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
+          type: 'agent',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(201);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.have.key('token', 'id', 'firstName', 'lastName', 'email', 'isAdmin');
+          expect(res.body.data.token).to.be.a('string');
+          done();
+        });
+    });
+  });
+  describe('POST api/v2/auth/signin', () => {
     it('Should successfully sign in a user and return a token', (done) => {
       chai
         .request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v2/auth/signin')
         .send({
           email: 'fergusoniyara@gmail.com',
           password: 'somepassword',
@@ -348,7 +373,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
     it('Should return an error if the user provides no email', (done) => {
       chai
         .request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v2/auth/signin')
         .send({
           password: 'manforthejob',
         })
@@ -362,7 +387,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
     it('Should return an error if the user provides no password', (done) => {
       chai
         .request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v2/auth/signin')
         .send({
           email: 'fergusoniyara@gmail.com',
         })
@@ -376,7 +401,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
     it('Should return an error if the user provides wrong login credentials', (done) => {
       chai
         .request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v2/auth/signin')
         .send({
           email: 'wrong@gmail.com',
           password: 'wrongpassword',
@@ -391,7 +416,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
     it('Should return an error if the user provides a wrong password', (done) => {
       chai
         .request(app)
-        .post('/api/v1/auth/signin')
+        .post('/api/v2/auth/signin')
         .send({
           email: 'fergusoniyara@gmail.com',
           password: 'manforthejob',

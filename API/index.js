@@ -1,8 +1,10 @@
+import '@babel/polyfill';
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import trimmer from 'express-body-trimmer';
 import auth from './v1/routes/auth';
+import authv2 from './v1/routes/auth.db';
 import property from './v1/routes/property';
 
 const app = express();
@@ -15,7 +17,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(trimmer());
 
 // Routes
-app.use('/api/v1/auth', auth);
+app.use('/api/v1/auth', authv2);
+app.use('/api/v2/auth', auth);
 app.use('/api/v1/property', property);
 
 
