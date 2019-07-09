@@ -213,6 +213,17 @@ class Helper {
     if (rows[0]) return rows[0];
     return false;
   }
+
+  static generateQuery(req) {
+    const props = Object.entries(req.body);
+
+    const validParams = props.filter(el => el[1] !== '');
+
+    const queryString = validParams.map(el => el[0]);
+
+    const parameters = validParams.map(el => el[1]);
+    return [queryString, parameters];
+  }
 }
 
 export default Helper;

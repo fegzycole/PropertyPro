@@ -4,8 +4,9 @@ import AuthenticateUser from '../middleware/AuthenticateUser';
 import Validation from '../middleware/validation';
 import uploadAnImage from '../middleware/imageUpload';
 import PropertyController from '../controller/property.controller.db';
+import checkPropertyId from '../middleware/checkPropertyId';
 
-const { postAProperty } = PropertyController;
+const { postAProperty, updateProperty } = PropertyController;
 
 const {
   authenticateUser,
@@ -16,6 +17,7 @@ const {
 const {
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput,
+  checkForInvalidUpdateParameters,
 } = Validation;
 
 const router = express.Router();
@@ -29,5 +31,15 @@ router.post('/',
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput,
   postAProperty);
+
+router.patch('/:id',
+  authenticateUser,
+  authenticateAnAdmin,
+  checkContentType,
+  checkPropertyId,
+  uploadAnImage,
+  trimmer(),
+  checkForInvalidUpdateParameters,
+  updateProperty);
 
 export default router;

@@ -34,7 +34,9 @@ class UserService {
     const { rows } = await Db.query(query, [email, firstName, lastName,
       hashedPassword, phoneNumber, address, type, isAdmin]);
 
-    rows[0].token = createToken(userDetails);
+    const payLoad = _.pick(rows[0], ['id', 'email', 'first_name', 'last_name', 'is_admin']);
+
+    rows[0].token = createToken(payLoad);
 
     const response = _.pick(rows[0], ['id', 'email', 'first_name', 'last_name', 'is_admin', 'token']);
 

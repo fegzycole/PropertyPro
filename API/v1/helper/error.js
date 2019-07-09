@@ -226,6 +226,20 @@ class ErrorMessages {
         error: err.message,
       });
     }
+    if (err.message === 'Property with the provided id not found') {
+      statusCode = 404;
+      return res.status(statusCode).json({
+        status: statusCode,
+        error: err.message,
+      });
+    }
+    if (err.message === 'You are not permitted to view this resource') {
+      statusCode = 403;
+      return res.status(statusCode).json({
+        status: statusCode,
+        error: err.message,
+      });
+    }
     statusCode = 500;
     const error = 'Internal Server Error';
     return res.status(statusCode).json({
