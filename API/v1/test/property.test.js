@@ -17,7 +17,7 @@ describe('Test suite for all property related endpoints', () => {
   before((done) => {
     chai
       .request(app)
-      .post('/api/v1/auth/signin')
+      .post('/api/v2/auth/signin')
       .send({
         email: 'chrisbreezy@gmail.com',
         password: 'chrisbrownTheman',
@@ -31,7 +31,7 @@ describe('Test suite for all property related endpoints', () => {
   before((done) => {
     chai
       .request(app)
-      .post('/api/v1/auth/signin')
+      .post('/api/v2/auth/signin')
       .send({
         email: 'fergusoniyara@gmail.com',
         password: 'somepassword',

@@ -208,6 +208,22 @@ class ErrorMessages {
       error: err.message,
     });
   }
+
+  /**
+   *
+   * Handles the response for when a required request parameter is left empty
+   * @static
+   * @param {Object} res
+   * @returns {Object} an error response object
+   * @memberof ErrorMessages
+   */
+  static serverErrorMessage(err, res) {
+    const statusCode = 500;
+    return res.status(statusCode).json({
+      status: statusCode,
+      error: err.message,
+    });
+  }
 }
 
 export default ErrorMessages;
