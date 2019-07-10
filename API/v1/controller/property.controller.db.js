@@ -8,6 +8,7 @@ const {
   updateProperty,
   updatePropertyStatus,
   deleteAProperty,
+  getAllProperties,
 } = PropertyService;
 /**
  *
@@ -93,6 +94,31 @@ class PropertyController {
         data: {
           message: result,
         },
+      });
+    } catch (error) {
+      return serverErrorMessage(error, res);
+    }
+  }
+
+  /**
+   * Gets all listed properties from the database
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} success response
+   * @memberof PropertyController
+   */
+  static async getAllProperties(req, res, next) {
+    try {
+      const { type } = req.query;
+      if (type) {
+        return next();
+      }
+      const result = await getAllProperties();
+
+      return res.status(200).json({
+        status: 'success',
+        data: result,
       });
     } catch (error) {
       return serverErrorMessage(error, res);
