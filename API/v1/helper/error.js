@@ -220,29 +220,25 @@ class ErrorMessages {
    */
   static serverErrorMessage(err, res) {
     let statusCode;
+    let error;
+    statusCode = 500;
+    error = 'Internal Server Error';
     if (err.message === 'Authorization failed. Email or password incorrect') {
+      error = err.message;
       statusCode = 401;
-      return res.status(statusCode).json({
-        status: statusCode,
-        error: err.message,
-      });
     }
     if (err.message === 'Property with the provided id not found') {
+      error = err.message;
       statusCode = 404;
-      return res.status(statusCode).json({
-        status: statusCode,
-        error: err.message,
-      });
+    }
+    if (err.message === 'Email already exists') {
+      error = err.message;
+      statusCode = 409;
     }
     if (err.message === 'You are not permitted to view this resource') {
       statusCode = 403;
-      return res.status(statusCode).json({
-        status: statusCode,
-        error: err.message,
-      });
+      error = err.message;
     }
-    statusCode = 500;
-    const error = 'Internal Server Error';
     return res.status(statusCode).json({
       status: statusCode,
       error,

@@ -329,6 +329,26 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           done();
         });
     });
+    it('Should return an error if the user puts in an email that already exists ', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/auth/signup')
+        .send({
+          email: 'fergusoniyara@gmail.com',
+          firstName: 'zinedine',
+          lastName: 'zidane',
+          password: 'manforthejob',
+          phoneNumber: '07057154467',
+          address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
+          type: 'agent',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(409);
+          expect(res.body.status).to.be.equal(409);
+          expect(res.body.error).to.be.equal('Email already exists');
+          done();
+        });
+    });
   });
   describe('POST api/v2/auth/signup', () => {
     it('Should successfully sign up a user and return a token', (done) => {
