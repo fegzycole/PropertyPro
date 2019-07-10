@@ -4,7 +4,6 @@ import AuthenticateUser from '../middleware/AuthenticateUser';
 import Validation from '../middleware/validation';
 import uploadAnImage from '../middleware/imageUpload';
 import PropertyController from '../controller/property.controller.db';
-import checkPropertyId from '../middleware/checkPropertyId';
 
 const {
   postAProperty,
@@ -13,18 +12,21 @@ const {
   deleteAProperty,
   getAllProperties,
   getPropertyByStatus,
+  getPropertyById,
 } = PropertyController;
 
 const {
   authenticateUser,
   authenticateAnAdmin,
   checkContentType,
+  checkPropertyIdAndVerifyOwner,
 } = AuthenticateUser;
 
 const {
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput,
   checkForInvalidUpdateParameters,
+  validateId,
 } = Validation;
 
 const router = express.Router();
@@ -43,7 +45,8 @@ router.patch('/:id',
   authenticateUser,
   authenticateAnAdmin,
   checkContentType,
-  checkPropertyId,
+  validateId,
+  checkPropertyIdAndVerifyOwner,
   uploadAnImage,
   trimmer(),
   checkForInvalidUpdateParameters,
@@ -52,13 +55,15 @@ router.patch('/:id',
 router.patch('/:id/sold',
   authenticateUser,
   authenticateAnAdmin,
-  checkPropertyId,
+  validateId,
+  checkPropertyIdAndVerifyOwner,
   updatePropertyStatus);
 
 router.delete('/:id',
   authenticateUser,
   authenticateAnAdmin,
-  checkPropertyId,
+  validateId,
+  checkPropertyIdAndVerifyOwner,
   deleteAProperty);
 
 router.get('/',
@@ -67,5 +72,10 @@ router.get('/',
 
 router.get('/',
   getPropertyByStatus);
+
+router.get('/:id',
+  authenticateUser,
+  validateId,
+  getPropertyById);
 
 export default router;

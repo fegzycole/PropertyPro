@@ -988,7 +988,7 @@ describe('Test suite for all property related endpoints', () => {
         });
     });
   });
-  describe('GET api/v1/property/:id', () => {
+  describe('GET api/v2/property/:id', () => {
     it('Should return an arrray of a particular property if the id exists', (done) => {
       chai
         .request(app)
@@ -998,6 +998,45 @@ describe('Test suite for all property related endpoints', () => {
           expect(res).to.have.status(200);
           expect(res.body.status).to.be.equal('success');
           expect(res.body.data).to.be.an('array');
+          done();
+        });
+    });
+  });
+  describe('GET api/v1/property/:id', () => {
+    it('Should return information about a property if the id exists', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/property/1')
+        .set('x-access-token', adminTokenDb)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.have.key('id', 'status', 'price', 'state', 'city', 'type', 'address',
+            'created_on', 'image_url', 'owner_email', 'owner_phone_number');
+          done();
+        });
+    });
+    it('Should return an error if a property with the specified id does not exist', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/property/1000')
+        .set('x-access-token', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.status).to.be.equal(404);
+          expect(res.body.error).to.be.equal('Property with the provided id not found');
+          done();
+        });
+    });
+    it('Should return an error if the specified id is not a number', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/property/1000o')
+        .set('x-access-token', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.be.equal(422);
+          expect(res.body.error).to.be.equal('Invalid id selected. A valid id is a number');
           done();
         });
     });

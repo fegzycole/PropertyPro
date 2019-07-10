@@ -1,12 +1,15 @@
 /* eslint-disable camelcase */
 import jwt from 'jsonwebtoken';
+import _ from 'lodash';
 import dotenv from 'dotenv';
 import ErrorMessages from '../helper/error';
+import Db from '../Db/index';
 
 const {
   authorizationErrorResponse,
   ForbiddenErrorResponse,
   contentTypeErrorResponse,
+  serverErrorMessage,
 } = ErrorMessages;
 
 dotenv.config();
@@ -73,6 +76,37 @@ class Auth {
       return contentTypeErrorResponse(res);
     }
     return next();
+  }
+
+
+  /**
+   *
+   * Checks to see if the correct content-type is specified
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @param {function} next
+   * @returns {(function|Object)} function next() or an error response object
+   * @memberof Auth
+   */
+  static async checkPropertyIdAndVerifyOwner(req, res, next) {
+    try {
+      const query = 'SELECT * FROM properties where id = $1';
+
+      const { rows } = await Db.query(query, [parseInt(req.params.id, 10)]);
+
+      if (!rows[0]) throw new Error('Property with the provided id not found');
+
+      const owner = _.pick(rows[0], ['owner']);
+
+      if (parseInt(req.decoded.user.id, 10) !== parseInt(owner.owner, 10)) {
+        throw new Error('You are not permitted to view this resource');
+      }
+
+      return next();
+    } catch (error) {
+      return serverErrorMessage(error, res);
+    }
   }
 }
 
