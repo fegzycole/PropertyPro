@@ -6,7 +6,11 @@ import uploadAnImage from '../middleware/imageUpload';
 import PropertyController from '../controller/property.controller.db';
 import checkPropertyId from '../middleware/checkPropertyId';
 
-const { postAProperty, updateProperty } = PropertyController;
+const {
+  postAProperty,
+  updateProperty,
+  updatePropertyStatus,
+} = PropertyController;
 
 const {
   authenticateUser,
@@ -41,5 +45,11 @@ router.patch('/:id',
   trimmer(),
   checkForInvalidUpdateParameters,
   updateProperty);
+
+router.patch('/:id/sold',
+  authenticateUser,
+  authenticateAnAdmin,
+  checkPropertyId,
+  updatePropertyStatus);
 
 export default router;

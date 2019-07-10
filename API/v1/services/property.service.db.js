@@ -41,6 +41,13 @@ class PropertyService {
     return response;
   }
 
+  /**
+   * Handles the logic for updating a listed property
+   * @static
+   * @param {Object} request request object
+   * @returns {Object} object containing details of the updated property or an error object
+   * @memberof PropertyService
+   */
   static async updateProperty(req) {
     const { params } = req;
 
@@ -65,6 +72,23 @@ class PropertyService {
 
     response.id = parseInt(response.id, 10);
     response.price = parseFloat(response.price);
+    return response;
+  }
+
+  /**
+   * Handles the logic for changing the status of a property to sold
+   * @static
+   * @param {Object} request request object
+   * @returns {Object} object containing details of the updated property or an error object
+   * @memberof PropertyService
+   */
+  static async updatePropertyStatus(req) {
+    const { id } = req.params;
+    const status = 'sold';
+    const query = `UPDATE properties SET status = $1 WHERE id = ${parseInt(id, 10)} RETURNING *`;
+    const { rows } = await Db.query(query, [status]);
+    const response = _.pick(rows[0], ['id', 'owner', 'status', 'type', 'state', 'city', 'address',
+      'price', 'created_on', 'image_url']);
     return response;
   }
 }
