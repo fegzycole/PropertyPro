@@ -12,6 +12,7 @@ const {
   updatePropertyStatus,
   deleteAProperty,
   getAllProperties,
+  getPropertyByStatus,
 } = PropertyController;
 
 const {
@@ -63,5 +64,8 @@ router.delete('/:id',
 router.get('/',
   authenticateUser,
   getAllProperties);
+
+router.get('/',
+  getPropertyByStatus);
 
 export default router;
