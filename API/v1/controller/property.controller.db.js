@@ -1,7 +1,7 @@
 import PropertyService from '../services/property.service.db';
 import ErrorMessages from '../helper/error';
 
-const { serverErrorMessage } = ErrorMessages;
+const { serverErrorMessage, propertyTypeError } = ErrorMessages;
 
 const {
   postAProperty,
@@ -9,6 +9,7 @@ const {
   updatePropertyStatus,
   deleteAProperty,
   getAllProperties,
+  getPropertiesByStatus,
 } = PropertyService;
 /**
  *
@@ -100,6 +101,7 @@ class PropertyController {
     }
   }
 
+
   /**
    * Gets all listed properties from the database
    * @static
@@ -120,6 +122,29 @@ class PropertyController {
         status: 'success',
         data: result,
       });
+    } catch (error) {
+      return serverErrorMessage(error, res);
+    }
+  }
+
+  /**
+   * Gets all properties of a specified status
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} success response or an error response if no property was found
+   * @memberof PropertyController
+   */
+  static async getPropertyByStatus(req, res) {
+    try {
+      const result = await getPropertiesByStatus(req);
+      if (result) {
+        return res.status(200).json({
+          status: 'success',
+          data: result,
+        });
+      }
+      return propertyTypeError(res);
     } catch (error) {
       return serverErrorMessage(error, res);
     }

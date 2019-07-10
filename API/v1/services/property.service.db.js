@@ -128,6 +128,31 @@ class PropertyService {
     });
     return rows;
   }
+
+
+  /**
+   * Handles the Getting Of all Properties based on their status
+   * @static
+   * @param {Object} request request object
+   * @returns {(Array|Object)} array or an error object
+   * @memberof PropertyService
+   */
+  static async getPropertiesByStatus(req) {
+    const { type } = req.query;
+    const validStatus = ['2 Bedroom', '3 Bedroom', 'Land', 'Semi-detached duplex'];
+    if (!validStatus.includes(type)) return false;
+    const query = 'SELECT properties.id, properties.status, properties.type, properties.state, properties.city, properties.address, properties.price, properties.created_on, properties.image_url, users.phone_number, users.email FROM properties JOIN users ON users.id = properties.owner WHERE properties.type = $1';
+    const { rows } = await Db.query(query, [type]);
+    rows.forEach((row) => {
+      row.owner_email = row.email;
+      row.id = parseInt(row.id, 10);
+      row.price = parseFloat(row.price, 10);
+      row.owner_phone_number = row.phone_number;
+      delete row.email;
+      delete row.phone_number;
+    });
+    return rows;
+  }
 }
 
 export default PropertyService;
