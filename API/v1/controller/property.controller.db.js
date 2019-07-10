@@ -7,6 +7,7 @@ const {
   postAProperty,
   updateProperty,
   updatePropertyStatus,
+  deleteAProperty,
 } = PropertyService;
 /**
  *
@@ -69,6 +70,29 @@ class PropertyController {
       return res.status(201).json({
         status: 'success',
         data: result,
+      });
+    } catch (error) {
+      return serverErrorMessage(error, res);
+    }
+  }
+
+
+  /**
+   * Deletes a listed property
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} success response
+   * @memberof PropertyController
+   */
+  static async deleteAProperty(req, res) {
+    try {
+      const result = await deleteAProperty(req);
+      return res.status(200).json({
+        status: 'success',
+        data: {
+          message: result,
+        },
       });
     } catch (error) {
       return serverErrorMessage(error, res);

@@ -13,6 +13,7 @@ chai.use(chaiHttp);
 let userToken;
 let adminToken;
 let adminTokenDb;
+let propertyId;
 
 describe('Test suite for all property related endpoints', () => {
   before((done) => {
@@ -54,6 +55,25 @@ describe('Test suite for all property related endpoints', () => {
       .end((err, res) => {
         const { token } = res.body.data;
         adminTokenDb = token;
+        done(err);
+      });
+  });
+  before((done) => {
+    chai
+      .request(app)
+      .post('/api/v1/property')
+      .set('x-access-token', adminTokenDb)
+      .set('enctype', 'multipart/formdata')
+      .type('form')
+      .attach('image', `${__dirname}/imageFolder/deborah-cortelazzi-615800-unsplash_opt.jpg`)
+      .field('state', 'Lagos State')
+      .field('city', 'Alimosho')
+      .field('price', 60000000.50)
+      .field('address', '67 Bamgboye close')
+      .field('type', 'Land')
+      .end((err, res) => {
+        const { id } = res.body.data;
+        propertyId = id;
         done(err);
       });
   });
@@ -780,6 +800,22 @@ describe('Test suite for all property related endpoints', () => {
         });
     });
   });
+  describe('PATCH api/v2/property/:id/sold', () => {
+    it('Should update the status of a listed property to sold if all checks are fine', (done) => {
+      const id = 4;
+      chai
+        .request(app)
+        .patch(`/api/v1/property/${id}/sold`)
+        .set('x-access-token', adminTokenDb)
+        .end((err, res) => {
+          expect(res).to.have.status(201);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.have.key('id', 'owner', 'status', 'price', 'state', 'city', 'address', 'type',
+            'created_on', 'image_url');
+          done();
+        });
+    });
+  });
   describe('DELETE api/v2/property/:id', () => {
     it('Should delete a listed property if all checks are fine', (done) => {
       const id = 2;
@@ -842,6 +878,21 @@ describe('Test suite for all property related endpoints', () => {
           expect(res).to.have.status(403);
           expect(res.body.status).to.be.equal(403);
           expect(res.body.error).to.be.equal('You are not authorized to view this resource');
+          done();
+        });
+    });
+  });
+  describe('DELETE api/v1/property/:id', () => {
+    it('Should delete a listed property if all checks are fine', (done) => {
+      const id = propertyId;
+      chai
+        .request(app)
+        .delete(`/api/v1/property/${id}`)
+        .set('x-access-token', adminTokenDb)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data.message).to.be.equal('Property deleted successfully');
           done();
         });
     });

@@ -10,6 +10,7 @@ const {
   postAProperty,
   updateProperty,
   updatePropertyStatus,
+  deleteAProperty,
 } = PropertyController;
 
 const {
@@ -51,5 +52,11 @@ router.patch('/:id/sold',
   authenticateAnAdmin,
   checkPropertyId,
   updatePropertyStatus);
+
+router.delete('/:id',
+  authenticateUser,
+  authenticateAnAdmin,
+  checkPropertyId,
+  deleteAProperty);
 
 export default router;

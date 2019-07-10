@@ -91,6 +91,22 @@ class PropertyService {
       'price', 'created_on', 'image_url']);
     return response;
   }
+
+  /**
+   * Handles the Deleting of a listed property
+   * @static
+   * @param {Object} request request object
+   * @returns {String||Object} string or an error object
+   * @memberof PropertyService
+   */
+  static async deleteAProperty(req) {
+    const { id } = req.params;
+    const query = 'DELETE FROM properties WHERE id = $1 RETURNING *';
+    const { rows } = await Db.query(query, [parseInt(id, 10)]);
+    const response = 'Property deleted successfully';
+    if (rows[0]) return response;
+    throw new Error('Something went wrong, property could not be deleted');
+  }
 }
 
 export default PropertyService;
