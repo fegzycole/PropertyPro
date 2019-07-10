@@ -85,11 +85,16 @@ class PropertyService {
    */
   static async updatePropertyStatus(req) {
     const { id } = req.params;
+
     const status = 'sold';
+
     const query = `UPDATE properties SET status = $1 WHERE id = ${parseInt(id, 10)} RETURNING *`;
+
     const { rows } = await Db.query(query, [status]);
+
     const response = _.pick(rows[0], ['id', 'owner', 'status', 'type', 'state', 'city', 'address',
       'price', 'created_on', 'image_url']);
+
     return response;
   }
 
@@ -102,10 +107,15 @@ class PropertyService {
    */
   static async deleteAProperty(req) {
     const { id } = req.params;
+
     const query = 'DELETE FROM properties WHERE id = $1 RETURNING *';
+
     const { rows } = await Db.query(query, [parseInt(id, 10)]);
+
     const response = 'Property deleted successfully';
+
     if (rows[0]) return response;
+
     throw new Error('Something went wrong, property could not be deleted');
   }
 
@@ -117,12 +127,18 @@ class PropertyService {
    */
   static async getAllProperties() {
     const query = 'SELECT properties.id, properties.status, properties.type, properties.state, properties.city, properties.address, properties.price, properties.created_on, properties.image_url, users.phone_number, users.email FROM properties JOIN users ON users.id = properties.owner';
+
     const { rows } = await Db.query(query);
+
     rows.forEach((row) => {
       row.owner_email = row.email;
+
       row.id = parseInt(row.id, 10);
+
       row.price = parseFloat(row.price, 10);
+
       row.owner_phone_number = row.phone_number;
+
       delete row.email;
       delete row.phone_number;
     });
@@ -139,19 +155,57 @@ class PropertyService {
    */
   static async getPropertiesByStatus(req) {
     const { type } = req.query;
+
     const validStatus = ['2 Bedroom', '3 Bedroom', 'Land', 'Semi-detached duplex'];
+
     if (!validStatus.includes(type)) return false;
+
     const query = 'SELECT properties.id, properties.status, properties.type, properties.state, properties.city, properties.address, properties.price, properties.created_on, properties.image_url, users.phone_number, users.email FROM properties JOIN users ON users.id = properties.owner WHERE properties.type = $1';
+
     const { rows } = await Db.query(query, [type]);
+
     rows.forEach((row) => {
       row.owner_email = row.email;
+
       row.id = parseInt(row.id, 10);
+
       row.price = parseFloat(row.price, 10);
+
       row.owner_phone_number = row.phone_number;
+
       delete row.email;
       delete row.phone_number;
     });
     return rows;
+  }
+
+  /**
+   * Handles the Getting Of all Properties based on their status
+   * @static
+   * @param {Object} request request object
+   * @returns {(Array|Object)} array or an error object
+   * @memberof PropertyService
+   */
+  static async getPropertyById(req) {
+    const query = 'SELECT properties.id, properties.status, properties.type, properties.state, properties.city, properties.address, properties.price, properties.created_on, properties.image_url, users.phone_number, users.email FROM properties JOIN users ON users.id = properties.owner WHERE properties.id = $1';
+
+    const { rows } = await Db.query(query, [req.params.id]);
+
+    if (!rows[0]) throw new Error('Property with the provided id not found');
+
+    rows[0].owner_email = rows[0].email;
+
+    rows[0].id = parseInt(rows[0].id, 10);
+
+    rows[0].price = parseFloat(rows[0].price, 10);
+
+    rows[0].owner_phone_number = rows[0].phone_number;
+
+    delete rows[0].email;
+
+    delete rows[0].phone_number;
+
+    return rows[0];
   }
 }
 

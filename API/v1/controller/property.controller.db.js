@@ -10,6 +10,7 @@ const {
   deleteAProperty,
   getAllProperties,
   getPropertiesByStatus,
+  getPropertyById,
 } = PropertyService;
 /**
  *
@@ -145,6 +146,26 @@ class PropertyController {
         });
       }
       return propertyTypeError(res);
+    } catch (error) {
+      return serverErrorMessage(error, res);
+    }
+  }
+
+  /**
+   * Gets a particular Property by its Id
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} success response
+   * @memberof PropertyController
+   */
+  static async getPropertyById(req, res) {
+    try {
+      const result = await getPropertyById(req);
+      return res.status(200).json({
+        status: 'success',
+        data: result,
+      });
     } catch (error) {
       return serverErrorMessage(error, res);
     }

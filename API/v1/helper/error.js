@@ -81,6 +81,7 @@ class ErrorMessages {
     let error;
     const status = 422;
     if (typeOfParameter === 'type') error = 'Only Agent or User allowed';
+    if (typeOfParameter === 'id') error = 'Invalid id selected. A valid id is a number';
     if (typeOfParameter === 'first name') error = 'Invalid first name provided';
     if (typeOfParameter === 'last name') error = 'Invalid last name provided';
     if (typeOfParameter === 'address') error = 'Invalid address provided. A valid address is at least seven characters long';

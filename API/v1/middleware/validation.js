@@ -1,3 +1,4 @@
+/* eslint-disable no-restricted-globals */
 /* eslint-disable prefer-const */
 /* eslint-disable max-len */
 import isEmpty from './isEmpty';
@@ -280,6 +281,26 @@ class Validation {
 
     if (status !== 'Sold') {
       return isInvalidResponses(res, 'status');
+    }
+
+    return next();
+  }
+
+  /**
+   *
+   * Checks to see if a valid new status is provided for a property
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @param {function} next
+   * @returns {(function|Object)} function next() or an error response object
+   * @memberof Validation
+   */
+  static validateId(req, res, next) {
+    const { id } = req.params;
+
+    if (isNaN(id)) {
+      return isInvalidResponses(res, 'id');
     }
 
     return next();
