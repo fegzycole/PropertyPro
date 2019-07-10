@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import _ from 'lodash';
 import Db from '../Db/index';
 import Helper from '../helper/helper';
@@ -106,6 +107,26 @@ class PropertyService {
     const response = 'Property deleted successfully';
     if (rows[0]) return response;
     throw new Error('Something went wrong, property could not be deleted');
+  }
+
+  /**
+   * Handles the Getting Of all Properties
+   * @static
+   * @returns {(Array|Object)} array or an error object
+   * @memberof PropertyService
+   */
+  static async getAllProperties() {
+    const query = 'SELECT properties.id, properties.status, properties.type, properties.state, properties.city, properties.address, properties.price, properties.created_on, properties.image_url, users.phone_number, users.email FROM properties JOIN users ON users.id = properties.owner';
+    const { rows } = await Db.query(query);
+    rows.forEach((row) => {
+      row.owner_email = row.email;
+      row.id = parseInt(row.id, 10);
+      row.price = parseFloat(row.price, 10);
+      row.owner_phone_number = row.phone_number;
+      delete row.email;
+      delete row.phone_number;
+    });
+    return rows;
   }
 }
 

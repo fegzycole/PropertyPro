@@ -897,7 +897,7 @@ describe('Test suite for all property related endpoints', () => {
         });
     });
   });
-  describe('GET api/v1/property', () => {
+  describe('GET api/v2/property', () => {
     it('Should return an array of all listed properties', (done) => {
       chai
         .request(app)
@@ -918,6 +918,20 @@ describe('Test suite for all property related endpoints', () => {
           expect(res).to.have.status(401);
           expect(res.body.status).to.be.equal(401);
           expect(res.body.error).to.be.equal('You do not have access to this resource');
+          done();
+        });
+    });
+  });
+  describe('GET api/v1/property', () => {
+    it('Should return an array of all listed properties', (done) => {
+      chai
+        .request(app)
+        .get('/api/v1/property')
+        .set('x-access-token', adminToken)
+        .end((err, res) => {
+          expect(res).to.have.status(200);
+          expect(res.body.status).to.be.equal('success');
+          expect(res.body.data).to.be.an('array');
           done();
         });
     });
