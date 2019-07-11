@@ -1,6 +1,12 @@
+/* eslint-disable camelcase */
 import _ from 'lodash';
+import nodemailer from 'nodemailer';
+import generator from 'generate-password';
+import dotenv from 'dotenv';
 import Db from '../Db/index';
 import Helper from '../helper/helper';
+
+dotenv.config();
 
 const {
   hashAPassword,
@@ -8,6 +14,14 @@ const {
   loginAUser,
   compareUserPasswordv2,
 } = Helper;
+
+const transport = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: process.env.GMAIL_USERNAME,
+    pass: process.env.GMAIL_PASSWORD,
+  },
+});
 
 /**
  * @exports UserService
@@ -70,6 +84,36 @@ class UserService {
     response.id = parseInt(response.id, 10);
 
     return response;
+  }
+
+
+  /** Handles the logic for logging a user in
+   * @static
+   * @param {Object} req request body
+   * @returns {Object} containing required details of the user or an error object
+   * @memberof UserService
+   */
+  static async resetPassword(req) {
+    const { password, new_password } = req.body;
+    const { email } = req.params;
+    let hashedPassword;
+    const mailOptions = {
+      from: 'noreply@propertypro.com',
+      to: `${email}`,
+      subject: 'Password Reset',
+    };
+    if (!password && !new_password) {
+      const newPassword = generator.generate({ length: 10, numbers: true });
+      hashedPassword = hashAPassword(newPassword);
+      mailOptions.html = `<p>Your password reset is successful, your new password is ${newPassword}</p>`;
+    }
+    if (password && new_password) {
+      hashedPassword = hashAPassword(new_password);
+      mailOptions.html = `<p>Your password reset is successful, your new password is ${new_password}</p>`;
+    }
+    const { rows } = await Db.query(`UPDATE users SET password = '${hashedPassword}' WHERE email = '${email}' RETURNING *`);
+    await transport.sendMail(mailOptions);
+    return rows[0];
   }
 }
 

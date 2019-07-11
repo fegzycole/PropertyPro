@@ -497,4 +497,126 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         });
     });
   });
+  describe('POST api/v1/auth/<:email>/reset_password', () => {
+    const email = 'iyaraferguson@gmail.com';
+    it('Should successfully reset a user\'s password', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/auth/${email}/reset_password`)
+        .send({
+          password: 'minima',
+          new_password: 'manforthejob',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(204);
+          done();
+        });
+    });
+    it('Should return an error if the wants to reset his password but doesn\'t provide the existing password', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/auth/${email}/reset_password`)
+        .send({
+          new_password: 'manforthejob',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body.status).to.be.equal(400);
+          expect(res.body.error).to.be.equal('specify your old password to proceed');
+          done();
+        });
+    });
+    it('Should return an error if the wants to reset his password but doesn\'t provide a new password', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/auth/${email}/reset_password`)
+        .send({
+          password: 'manforthejob',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(400);
+          expect(res.body.status).to.be.equal(400);
+          expect(res.body.error).to.be.equal('specify a new password to proceed');
+          done();
+        });
+    });
+    it('Should successfully reset an error if the new password is less than 6 characters', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/auth/${email}/reset_password`)
+        .send({
+          password: 'manforthejob',
+          new_password: 'man',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.be.equal(422);
+          expect(res.body.error).to.be.equal('New password must be at least 6 characters long');
+          done();
+        });
+    });
+    it('Should return an error if the old password specified doesn\'t match what is in the database', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/auth/${email}/reset_password`)
+        .send({
+          password: 'wrongpassword',
+          new_password: 'manforthejob',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(409);
+          expect(res.body.status).to.be.equal(409);
+          expect(res.body.error).to.be.equal('The password specified is not the same as what is saved in the database');
+          done();
+        });
+    });
+    it('Should return an error if the old password is the same as the new password', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/auth/${email}/reset_password`)
+        .send({
+          password: 'manforthejob',
+          new_password: 'manforthejob',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(422);
+          expect(res.body.status).to.be.equal(422);
+          expect(res.body.error).to.be.equal('The new password cannot be the same as the old one');
+          done();
+        });
+    });
+    it('Should return an error if the email does not exist', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/auth/unknownemail@gmail.com/reset_password')
+        .end((err, res) => {
+          expect(res).to.have.status(404);
+          expect(res.body.status).to.be.equal(404);
+          expect(res.body.error).to.be.equal('Email does not exist');
+          done();
+        });
+    });
+    it('Should successfully reset a user\'s password', (done) => {
+      chai
+        .request(app)
+        .post(`/api/v1/auth/${email}/reset_password`)
+        .send({
+          password: 'manforthejob',
+          new_password: 'minima',
+        })
+        .end((err, res) => {
+          expect(res).to.have.status(204);
+          done();
+        });
+    });
+    it('Should successfully reset a user\'s password', (done) => {
+      chai
+        .request(app)
+        .post('/api/v1/auth/fergiee@gmail.com/reset_password')
+        .end((err, res) => {
+          expect(res).to.have.status(204);
+          done();
+        });
+    });
+  });
 });

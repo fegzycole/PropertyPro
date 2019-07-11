@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable prefer-const */
 /* eslint-disable max-len */
@@ -12,6 +13,7 @@ const {
   isEmptyErrorResponse,
   ForbiddenErrorResponse,
   propertyNotFoundErrorResponse,
+  serverErrorMessage,
 } = ErrorClass;
 
 const {
@@ -23,6 +25,7 @@ const {
   compareAgents,
   checkForInvalidSignupKeys,
   checkForMultipleKeys,
+  compareUserPasswordv2,
 } = Helper;
 
 /**
@@ -407,6 +410,60 @@ class Validation {
     }
 
     return next();
+  }
+
+
+  /**
+   *
+   * Handles the validation for updating a listed property
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @param {function} next
+   * @returns {(function|Object)} function next() or an error response object
+   * @memberof Validation
+   */
+  static checkResetPasswordProperties(req, res, next) {
+    try {
+      const validKeys = ['password', 'new_password'];
+      checkForInvalidSignupKeys(req.body, validKeys);
+      checkForMultipleKeys(req.body);
+      return next();
+    } catch (error) {
+      return res.status(400).json({
+        status: 400,
+        error: error.message,
+      });
+    }
+  }
+
+  /**
+   *
+   * Handles the validation for updating a listed property
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @param {function} next
+   * @returns {(function|Object)} function next() or an error response object
+   * @memberof Validation
+   */
+  static async validateResetPassword(req, res, next) {
+    try {
+      const { email } = req.params;
+      const { password, new_password } = req.body;
+      if (password && !new_password) throw new Error('specify a new password to proceed');
+      if (!password && new_password) throw new Error('specify your old password to proceed');
+      if (password && new_password) {
+        if (new_password.length < 6) throw new Error('New password must be at least 6 characters long');
+        const comparePassword = await compareUserPasswordv2(email, password);
+        if (!comparePassword) throw new Error('The password specified is not the same as what is saved in the database');
+        if (password === new_password) throw new Error('The new password cannot be the same as the old one');
+        return next();
+      }
+      return next();
+    } catch (error) {
+      return serverErrorMessage(error, res);
+    }
   }
 }
 
