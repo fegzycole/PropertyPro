@@ -57,12 +57,14 @@
     "express": "^4.17.1",
     "express-body-trimmer": "^1.0.3",
     "faker": "^4.1.0",
+    "generate-password": "^1.4.2",
     "joi": "^14.3.1",
     "joi-phone-number": "^3.0.2",
     "jsonwebtoken": "^8.5.1",
     "lodash": "^4.17.11",
     "multer": "^1.4.1",
     "multer-storage-cloudinary": "^2.2.1",
+    "nodemailer": "^6.2.1",
     "nyc": "^14.1.1",
     "pg": "^7.11.0"
   }

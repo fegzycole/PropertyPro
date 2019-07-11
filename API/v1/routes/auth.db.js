@@ -5,12 +5,14 @@ import checkExistingEmail from '../middleware/checkExistingemail';
 
 const router = express.Router();
 
-const { createUser, loginUser } = UserController;
+const { createUser, loginUser, resetPassword } = UserController;
 
 const {
   validateSignUpInput,
   checkForEmptyRequestParameters,
   checkForEmptySignInParameters,
+  validateResetPassword,
+  checkResetPasswordProperties,
 } = Validation;
 
 router.post('/signup',
@@ -22,5 +24,11 @@ router.post('/signup',
 router.post('/signin',
   checkForEmptySignInParameters,
   loginUser);
+
+router.post('/:email/reset_password',
+  checkResetPasswordProperties,
+  validateResetPassword,
+  checkExistingEmail,
+  resetPassword);
 
 export default router;

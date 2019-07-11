@@ -1,7 +1,7 @@
 import UserService from '../services/user.service.db';
 import ErrorMessage from '../helper/error';
 
-const { createUser, loginUser } = UserService;
+const { createUser, loginUser, resetPassword } = UserService;
 
 const { serverErrorMessage } = ErrorMessage;
 
@@ -44,6 +44,26 @@ class UserController {
       return res.status(200).json({
         status: 'success',
         data: result,
+      });
+    } catch (error) {
+      return serverErrorMessage(error, res);
+    }
+  }
+
+
+  /**
+   * Resets a user's password
+   * @static
+   * @param {Object} req
+   * @param {Object} res
+   * @returns {Object} success response or an error response if the password  is incorrect
+   * @memberof UserController
+   */
+  static async resetPassword(req, res) {
+    try {
+      await resetPassword(req);
+      return res.status(204).json({
+        status: 204,
       });
     } catch (error) {
       return serverErrorMessage(error, res);

@@ -227,11 +227,19 @@ class ErrorMessages {
       error = err.message;
       statusCode = 401;
     }
-    if (err.message === 'Property with the provided id not found') {
+    if (err.message === 'specify a new password to proceed' || err.message === 'specify your old password to proceed') {
+      error = err.message;
+      statusCode = 400;
+    }
+    if (err.message === 'New password must be at least 6 characters long' || err.message === 'The new password cannot be the same as the old one') {
+      error = err.message;
+      statusCode = 422;
+    }
+    if (err.message === 'Property with the provided id not found' || err.message === 'Email does not exist') {
       error = err.message;
       statusCode = 404;
     }
-    if (err.message === 'Email already exists') {
+    if (err.message === 'Email already exists' || err.message === 'The password specified is not the same as what is saved in the database') {
       error = err.message;
       statusCode = 409;
     }
