@@ -2,7 +2,7 @@ import express from 'express';
 import trimmer from 'express-body-trimmer';
 import AuthenticateUser from '../middleware/AuthenticateUser';
 import Validation from '../middleware/validation';
-import uploadAnImage from '../middleware/imageUpload';
+// import uploadAnImage from '../middleware/imageUpload';
 import PropertyController from '../controller/property.controller.db';
 
 const {
@@ -33,7 +33,7 @@ const router = express.Router();
 router.post('/',
   authenticateUser,
   checkContentType,
-  uploadAnImage,
+  // uploadAnImage,
   trimmer(),
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput,
@@ -44,7 +44,7 @@ router.patch('/:id',
   checkContentType,
   validateId,
   checkPropertyId,
-  uploadAnImage,
+  // uploadAnImage,
   trimmer(),
   checkForInvalidUpdateParameters,
   updateProperty);
