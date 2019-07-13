@@ -145,7 +145,7 @@ class Validation {
    */
   static checkForEmptyRequestParameters(req, res, next) {
     const userInformation = req.body;
-
+    console.log(req.body);
     const {
       email, first_name, last_name, password, phone_number, address,
     } = userInformation;
