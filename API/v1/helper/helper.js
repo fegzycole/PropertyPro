@@ -179,7 +179,6 @@ class Helper {
     const arrayOfKeys = Object.keys(req);
     arrayOfKeys.forEach((el) => {
       if (!validKeys.includes(el)) {
-        console.log(`${el} is not a valid request parameter`)
         throw new Error(`${el} is not a valid request parameter`);
       }
       return null;
@@ -190,7 +189,6 @@ class Helper {
     const arrayOfKeys = Object.entries(req);
     arrayOfKeys.forEach((el) => {
       if (typeof el[1] === 'object') {
-        console.log(`Duplicate key ${el[0]}, please remove one and try again`)
         throw new Error(`Duplicate key ${el[0]}, please remove one and try again`);
       }
     });
@@ -213,7 +211,7 @@ class Helper {
   static generateQuery(req) {
     const props = Object.entries(req.body);
 
-    const validParams = props.filter(el => (el[1] !== '') && (el[1] !== 'token') && (el[1] !== 'Authorization'));
+    const validParams = props.filter(el => (el[1] !== '') && (el[0] !== 'token') && (el[0] !== 'Authorization'));
 
     const queryString = validParams.map(el => el[0]);
 
