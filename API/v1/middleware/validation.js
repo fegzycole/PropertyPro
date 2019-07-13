@@ -189,7 +189,6 @@ class Validation {
   static checkForEmptyPropertyPostParameters(req, res, next) {
     const imageUrl = req.file;
     const userInformation = req.body;
-    console.log(req.body);
     const {
       address, type, price, state, city, image_url,
     } = userInformation;
@@ -218,7 +217,6 @@ class Validation {
       // deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'type');
     }
-    console.log('I passed here');
     return next();
   }
 
