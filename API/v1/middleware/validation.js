@@ -192,6 +192,8 @@ class Validation {
     const {
       address, type, price, state, city, image_url,
     } = userInformation;
+    console.log(req.body);
+    console.log('got here');
 
     if (isEmpty(imageUrl) && isEmpty(image_url)) {
       return isEmptyErrorResponse(res, 'image');
@@ -217,6 +219,7 @@ class Validation {
       // deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'type');
     }
+    console.log('passed here');
     return next();
   }
 

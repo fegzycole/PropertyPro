@@ -30,13 +30,10 @@ class Auth {
    */
   static authenticateUser(req, res, next) {
     try {
-      console.log(1, req.headers);
-      console.log(2, req.body);
       if (!req.headers['x-access-token'] && !req.headers.token && (!req.headers.authorization) && (!req.body.token) && (!req.body.Authorization)) throw new Error('You do not have access to this resource');
       const token = req.body.token || req.headers['x-access-token'];
       const decoded = jwt.verify(token, process.env.SECRET);
       req.decoded = decoded;
-      console.log('I passed this');
       return next();
     } catch (e) {
       return authorizationErrorResponse(res, e);
