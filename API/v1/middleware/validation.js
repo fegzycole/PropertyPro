@@ -145,7 +145,6 @@ class Validation {
    */
   static checkForEmptyRequestParameters(req, res, next) {
     const userInformation = req.body;
-    console.log(req.body);
     const {
       email, first_name, last_name, password, phone_number, address,
     } = userInformation;
@@ -189,7 +188,8 @@ class Validation {
    */
   static checkForEmptyPropertyPostParameters(req, res, next) {
     const imageUrl = req.file;
-
+    console.log(req.body);
+    console.log(req.headers);
     const userInformation = req.body;
 
     const {
