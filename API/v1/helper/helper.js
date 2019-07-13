@@ -211,7 +211,7 @@ class Helper {
   static generateQuery(req) {
     const props = Object.entries(req.body);
 
-    const validParams = props.filter(el => el[1] !== '');
+    const validParams = props.filter(el => (el[1] !== '') && (el[1] !== 'token') && (el[1] !== 'Authorization'));
 
     const queryString = validParams.map(el => el[0]);
 
