@@ -18,7 +18,6 @@ class ErrorMessages {
       error = 'Check your internet connection and try again';
       return error;
     }
-    deleteUploadedFile(req);
     return err;
   }
 
