@@ -30,8 +30,6 @@ class Auth {
    */
   static authenticateUser(req, res, next) {
     try {
-      console.log(req.body);
-      console.log(req.headers);
       if (!req.headers['x-access-token'] && !req.headers.token && (!req.headers.authorization)) throw new Error('You do not have access to this resource');
       const token = req.body.token || req.headers['x-access-token'];
       const decoded = jwt.verify(token, process.env.SECRET);
@@ -53,10 +51,12 @@ class Auth {
    * @memberof Auth
    */
   static checkContentType(req, res, next) {
+    console.log(1, 'Entered here');
     const { headers } = req;
     if (headers['content-type'] === 'application/x-www-form-urlencoded') {
       return contentTypeErrorResponse(res);
     }
+    console.log(2, 'passed here');
     return next();
   }
 
