@@ -195,30 +195,30 @@ class Validation {
     } = userInformation;
 
     if (isEmpty(imageUrl) && isEmpty(image_url)) {
-      console.log(10, 'hi');
       return isEmptyErrorResponse(res, 'image');
     }
 
     if (isEmpty(price)) {
-      deleteUploadedFile(req);
+      // deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'price');
     }
     if (isEmpty(state)) {
-      deleteUploadedFile(req);
+      // deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'state');
     }
     if (isEmpty(city)) {
-      deleteUploadedFile(req);
+      // deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'city');
     }
     if (isEmpty(address)) {
-      deleteUploadedFile(req);
+      // deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'address');
     }
     if (isEmpty(type)) {
-      deleteUploadedFile(req);
+      // deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'type');
     }
+    console.log('I passed here');
     return next();
   }
 

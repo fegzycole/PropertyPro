@@ -19,6 +19,7 @@ class PropertyService {
    * @memberof PropertyService
    */
   static async postAProperty(request) {
+    console.log('Entered here');
     const { body, file, decoded } = request;
     let image;
     const {
