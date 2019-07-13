@@ -51,12 +51,10 @@ class Auth {
    * @memberof Auth
    */
   static checkContentType(req, res, next) {
-    console.log(1, 'Entered here');
     const { headers } = req;
     if (headers['content-type'] === 'application/x-www-form-urlencoded') {
       return contentTypeErrorResponse(res);
     }
-    console.log(2, 'passed here');
     return next();
   }
 

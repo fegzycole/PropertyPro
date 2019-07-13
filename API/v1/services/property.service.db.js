@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable no-param-reassign */
 import _ from 'lodash';
 import Db from '../Db/index';
@@ -19,11 +20,13 @@ class PropertyService {
    */
   static async postAProperty(request) {
     const { body, file, decoded } = request;
-
+    let image;
     const {
-      state, city, price, type, address,
+      state, city, price, type, address, image_url,
     } = body;
 
+    if (!image_url) image = file.secure_url;
+    if (!file.secure_url) image = image_url;
     const { id } = decoded.user;
 
     const status = 'Available';
@@ -31,7 +34,7 @@ class PropertyService {
     const query = 'INSERT INTO properties (owner, status, price, state, city, address, type, image_url, created_on) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()) RETURNING *';
 
     const { rows } = await Db.query(query, [id, status, price, state, city,
-      address, type, file.secure_url]);
+      address, type, image]);
 
     const response = _.pick(rows[0], ['id', 'status', 'type', 'state', 'city',
       'address', 'price', 'created_on', 'image_url']);
