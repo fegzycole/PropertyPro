@@ -192,34 +192,27 @@ class Validation {
     const {
       address, type, price, state, city, image_url,
     } = userInformation;
-    console.log(req.body);
-    console.log('got here');
 
     if (isEmpty(imageUrl) && isEmpty(image_url)) {
       return isEmptyErrorResponse(res, 'image');
     }
 
     if (isEmpty(price)) {
-      // deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'price');
     }
     if (isEmpty(state)) {
-      // deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'state');
     }
     if (isEmpty(city)) {
-      // deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'city');
     }
     if (isEmpty(address)) {
-      // deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'address');
     }
     if (isEmpty(type)) {
-      // deleteUploadedFile(req);
+      deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'type');
     }
-    console.log('passed here');
     return next();
   }
 
@@ -339,6 +332,8 @@ class Validation {
    */
   static checkForInvalidUpdateParameters(req, res, next) {
     const validKeys = ['type', 'price', 'state', 'city', 'address', 'status', 'image_url'];
+
+    console.log(req.body);
 
     const {
       type, price, state, city, address,
