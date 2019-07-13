@@ -67,16 +67,16 @@ class Helper {
     return resultingArray;
   }
 
-  // /**
-  //  * Deletes an uploaded image if validation fails
-  //  * @static
-  //  * @param {Object} req
-  //  * @returns {void}
-  //  * @memberof Helper
-  //  */
-  // static deleteUploadedFile(req) {
-  //   return cloudinary.uploader.destroy(req.file.public_id);
-  // }
+  /**
+   * Deletes an uploaded image if validation fails
+   * @static
+   * @param {Object} req
+   * @returns {void}
+   * @memberof Helper
+   */
+  static deleteUploadedFile(req) {
+    return cloudinary.uploader.destroy(req.file.public_id);
+  }
 
   /**
    *
