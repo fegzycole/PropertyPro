@@ -30,6 +30,8 @@ class Auth {
    */
   static authenticateUser(req, res, next) {
     try {
+      console.log(req.body);
+      console.log(req.headers);
       if (!req.headers['x-access-token']) throw new Error('You do not have access to this resource');
       const token = req.body.token || req.headers['x-access-token'];
       const decoded = jwt.verify(token, process.env.SECRET);
