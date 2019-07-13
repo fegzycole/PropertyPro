@@ -21,7 +21,7 @@ const storage = cloudStorage({
 });
 
 
-const uploader = multer({ storage }).single('image');
+const uploader = multer({ storage }).single('image_url');
 
 /**
    *
