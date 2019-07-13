@@ -335,7 +335,6 @@ class Validation {
    * @memberof Validation
    */
   static checkForInvalidUpdateParameters(req, res, next) {
-    console.log(req.body);
     const validKeys = ['type', 'price', 'state', 'city', 'address', 'status', 'image_url'];
 
     const {
