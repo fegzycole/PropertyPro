@@ -195,10 +195,12 @@ class Validation {
     } = userInformation;
 
     if (isEmpty(imageUrl)) {
+      console.log(3, 'Hi');
       return isEmptyErrorResponse(res, 'image');
-    }
+    } 
 
     if (isEmpty(price)) {
+      console.log(4, 'Hi');
       deleteUploadedFile(req);
       return isEmptyErrorResponse(res, 'price');
     }
