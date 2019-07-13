@@ -365,7 +365,7 @@ class Validation {
     if (address && (address.length <= 6)) {
       return isInvalidResponses(res, 'address');
     }
-
+    console.log('i have passed')
     return next();
   }
 

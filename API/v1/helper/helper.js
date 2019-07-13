@@ -179,6 +179,7 @@ class Helper {
     const arrayOfKeys = Object.keys(req);
     arrayOfKeys.forEach((el) => {
       if (!validKeys.includes(el)) {
+        console.log(`${el} is not a valid request parameter`)
         throw new Error(`${el} is not a valid request parameter`);
       }
       return null;
@@ -189,6 +190,7 @@ class Helper {
     const arrayOfKeys = Object.entries(req);
     arrayOfKeys.forEach((el) => {
       if (typeof el[1] === 'object') {
+        console.log(`Duplicate key ${el[0]}, please remove one and try again`)
         throw new Error(`Duplicate key ${el[0]}, please remove one and try again`);
       }
     });
