@@ -188,8 +188,6 @@ class Validation {
    */
   static checkForEmptyPropertyPostParameters(req, res, next) {
     const imageUrl = req.file;
-    console.log(req.body);
-    console.log(req.headers);
     const userInformation = req.body;
 
     const {
