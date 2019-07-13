@@ -36,23 +36,23 @@ class UserService {
    */
   static async createUser(userDetails) {
     const {
-      email, firstName, lastName, password, phoneNumber, address, type,
+      email, first_name, last_name, password, phone_number, address,
     } = userDetails;
 
     const hashedPassword = hashAPassword(password);
 
-    const isAdmin = type === 'agent' || type === 'Agent';
+    const isAdmin = false;
 
-    const query = 'INSERT INTO users (email, first_name, last_name, password, phone_number, address, type, is_admin) VALUES ($1, $2, $3, $4, $5, $6, $7, $8) returning *';
+    const query = 'INSERT INTO users (email, first_name, last_name, password, phone_number, address, is_admin) VALUES ($1, $2, $3, $4, $5, $6, $7) returning *';
 
-    const { rows } = await Db.query(query, [email, firstName, lastName,
-      hashedPassword, phoneNumber, address, type, isAdmin]);
+    const { rows } = await Db.query(query, [email, first_name, last_name,
+      hashedPassword, phone_number, address, isAdmin]);
 
-    const payLoad = _.pick(rows[0], ['id', 'email', 'first_name', 'last_name', 'is_admin']);
+    const payLoad = _.pick(rows[0], ['id', 'email', 'first_name', 'last_name']);
 
     rows[0].token = createToken(payLoad);
 
-    const response = _.pick(rows[0], ['id', 'email', 'first_name', 'last_name', 'is_admin', 'token']);
+    const response = _.pick(rows[0], ['id', 'email', 'first_name', 'last_name', 'token']);
 
     response.id = parseInt(response.id, 10);
     return response;

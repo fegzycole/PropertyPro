@@ -16,12 +16,11 @@ const {
 const {
   checkForEmptyPropertyPostParameters,
   validateCreatePropertyInput, checkPropertyId,
-  checkForInvalidUpdateParameters, compareAgentsById, checkStatusParameter,
+  checkForInvalidUpdateParameters, checkStatusParameter,
 } = Validation;
 
 const {
   authenticateUser,
-  authenticateAnAdmin,
   checkContentType,
 } = AuthenticateUser;
 
@@ -29,7 +28,6 @@ const router = express.Router();
 
 router.post('/',
   authenticateUser,
-  authenticateAnAdmin,
   checkContentType,
   uploadAnImage,
   trimmer(),
@@ -39,10 +37,8 @@ router.post('/',
 
 router.patch('/:id',
   authenticateUser,
-  authenticateAnAdmin,
   checkContentType,
   checkPropertyId,
-  compareAgentsById,
   uploadAnImage,
   trimmer(),
   checkForInvalidUpdateParameters,
@@ -50,17 +46,13 @@ router.patch('/:id',
 
 router.patch('/:id/sold',
   authenticateUser,
-  authenticateAnAdmin,
   checkPropertyId,
-  compareAgentsById,
   checkStatusParameter,
   updatePropertyStatus);
 
 router.delete('/:id',
   authenticateUser,
-  authenticateAnAdmin,
   checkPropertyId,
-  compareAgentsById,
   deleteAProperty);
 
 router.get('/',

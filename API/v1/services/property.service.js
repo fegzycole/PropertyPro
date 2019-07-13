@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import propertyData from '../data/property.data';
 import Property from '../model/property.model';
 import Helper from '../helper/helper';
@@ -22,36 +23,32 @@ class PropertyService {
       state, city, price, type, address,
     } = body;
 
-    try {
-      const id = propertyData.properties.length + 1;
+    const id = propertyData.properties.length + 1;
 
-      const createdOn = new Date();
+    const created_on = new Date();
 
-      const status = 'Available';
+    const status = 'Available';
 
-      const owner = request.decoded.user.id;
+    const owner = request.decoded.user.id;
 
-      const newProperty = new Property(id, owner, status,
-        price, state, city, address, type, createdOn, file);
+    const newProperty = new Property(id, owner, status,
+      price, state, city, address, type, created_on, file);
 
-      propertyData.properties.push(newProperty);
+    propertyData.properties.push(newProperty);
 
-      const res = {
-        id,
-        status,
-        type,
-        state,
-        city,
-        address,
-        price: parseFloat(price),
-        createdOn,
-        imageUrl: file.secure_url,
-      };
+    const res = {
+      id,
+      status,
+      type,
+      state,
+      city,
+      address,
+      price: parseFloat(price),
+      created_on,
+      image_url: file.secure_url,
+    };
 
-      return res;
-    } catch (error) {
-      return error;
-    }
+    return res;
   }
 
   /**
@@ -68,24 +65,20 @@ class PropertyService {
       type, price, state, city, address,
     } = request.body;
 
-    try {
-      const resultingProperty = checkId(parseInt(id, 10));
-      if (type) resultingProperty.type = type;
+    const resultingProperty = checkId(parseInt(id, 10));
+    if (type) resultingProperty.type = type;
 
-      if (price) resultingProperty.price = parseFloat(price, 10);
+    if (price) resultingProperty.price = parseFloat(price, 10);
 
-      if (state) resultingProperty.state = state;
+    if (state) resultingProperty.state = state;
 
-      if (city) resultingProperty.city = city;
+    if (city) resultingProperty.city = city;
 
-      if (address) resultingProperty.address = address;
+    if (address) resultingProperty.address = address;
 
-      if (request.file) resultingProperty.imageUrl = request.file.secure_url;
+    if (request.file) resultingProperty.image_url = request.file.secure_url;
 
-      return resultingProperty;
-    } catch (error) {
-      return error;
-    }
+    return resultingProperty;
   }
 
   /**
@@ -99,15 +92,11 @@ class PropertyService {
     const { id } = request.params;
 
     const { status } = request.body;
-    try {
-      const resultingProperty = checkId(parseInt(id, 10));
+    const resultingProperty = checkId(parseInt(id, 10));
 
-      resultingProperty.status = status;
+    resultingProperty.status = status;
 
-      return resultingProperty;
-    } catch (error) {
-      return error;
-    }
+    return resultingProperty;
   }
 
   /**
@@ -118,16 +107,12 @@ class PropertyService {
    * @memberof PropertyService
    */
   static deleteAProperty(request) {
-    try {
-      const { id } = request.params;
-      const resultingProperty = checkId(parseInt(id, 10));
-      const index = propertyData.properties.indexOf(resultingProperty);
-      propertyData.properties.splice(index, 1);
-      const successMessage = 'Property deleted successfully';
-      return successMessage;
-    } catch (error) {
-      return error;
-    }
+    const { id } = request.params;
+    const resultingProperty = checkId(parseInt(id, 10));
+    const index = propertyData.properties.indexOf(resultingProperty);
+    propertyData.properties.splice(index, 1);
+    const successMessage = 'Property deleted successfully';
+    return successMessage;
   }
 
   /**
@@ -139,17 +124,12 @@ class PropertyService {
    */
   static getPropertiesByStatus(req) {
     const { type } = req.query;
-    const validStatus = ['2 Bedroom', '3 Bedroom', 'Land', 'Semi-detached duplex'];
-    try {
-      if (!validStatus.includes(type)) return false;
-
-      const propertyInfo = propertyData.properties.filter(el => el.type === type);
-
+    const propertyInfo = propertyData.properties.filter(el => el.type === type);
+    if (propertyInfo.length > 0) {
       const result = getProperties(propertyInfo);
       return result;
-    } catch (error) {
-      return error;
     }
+    return false;
   }
 
   /**
@@ -159,13 +139,9 @@ class PropertyService {
    * @memberof PropertyService
    */
   static getAllProperties() {
-    try {
-      const propertyInfo = propertyData.properties.map(el => el);
-      const result = getProperties(propertyInfo);
-      return result;
-    } catch (error) {
-      return error;
-    }
+    const propertyInfo = propertyData.properties.map(el => el);
+    const result = getProperties(propertyInfo);
+    return result;
   }
 
   /**
@@ -177,19 +153,15 @@ class PropertyService {
    */
   static getPropertyById(req) {
     const { id } = req.params;
-    try {
-      const newArray = [];
+    const newArray = [];
 
-      const propertyInfo = propertyData.properties.find(el => el.id === parseInt(id, 10));
+    const propertyInfo = propertyData.properties.find(el => el.id === parseInt(id, 10));
 
-      newArray.push(propertyInfo);
+    newArray.push(propertyInfo);
 
-      const result = getProperties(newArray);
+    const result = getProperties(newArray);
 
-      return result;
-    } catch (error) {
-      return error;
-    }
+    return result;
   }
 }
 

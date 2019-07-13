@@ -1,10 +1,11 @@
+/* eslint-disable max-len */
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-param-reassign */
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import cloudinary from 'cloudinary';
 import dotenv from 'dotenv';
 import userData from '../data/user.data';
-import states from '../data/statesAndLGAs';
 import properties from '../data/property.data';
 import Db from '../Db/index';
 
@@ -111,33 +112,33 @@ class Helper {
     return comparePasswords;
   }
 
-  /**
-   *
-   * Checks to see if the state supplied is a valid state in the array of states
-   * @static
-   * @param {String} stateToCheckAgainst
-   * @returns {Array}
-   * @memberof Helper
-   */
-  static checkState(stateToCheckAgainst) {
-    const resultingArray = states.states.find(el => el.state.name === stateToCheckAgainst);
-    return resultingArray;
-  }
+  // /**
+  //  *
+  //  * Checks to see if the state supplied is a valid state in the array of states
+  //  * @static
+  //  * @param {String} stateToCheckAgainst
+  //  * @returns {Array}
+  //  * @memberof Helper
+  //  */
+  // static checkState(stateToCheckAgainst) {
+  //   const resultingArray = states.states.find(el => el.state.name === stateToCheckAgainst);
+  //   return resultingArray;
+  // }
 
-  /**
-   * Checks to see if the specified city is a valid city in the state selected
-   * @static
-   * @param {String} state
-   * @param {String} lga
-   * @returns {Array} an empty array or an array containing a city that matches the specified city
-   * @memberof Helper
-   */
-  static checkLGA(state, lga) {
-    const arrayOfStates = states.states.find(el => el.state.name === state);
-    const LGAs = Object.values(arrayOfStates.state.locals);
-    const resultingArray = LGAs.find(local => local.name === lga);
-    return resultingArray;
-  }
+  // /**
+  //  * Checks to see if the specified city is a valid city in the state selected
+  //  * @static
+  //  * @param {String} state
+  //  * @param {String} lga
+  //  * @returns {Array} an empty array or an array containing a city that matches the specified city
+  //  * @memberof Helper
+  //  */
+  // static checkLGA(state, lga) {
+  //   const arrayOfStates = states.states.find(el => el.state.name === state);
+  //   const LGAs = Object.values(arrayOfStates.state.locals);
+  //   const resultingArray = LGAs.find(local => local.name === lga);
+  //   return resultingArray;
+  // }
 
   /**
    * @static
@@ -148,20 +149,6 @@ class Helper {
   static checkId(id) {
     const resultingArray = properties.properties.find(el => el.id === id);
     return resultingArray;
-  }
-
-  /**
-   * @static
-   * @param {Object} req
-   * @param {Integer} id
-   * @returns {Boolean} true if the owner of the property is the same
-   * as the id contained in the decoded token and false otherwise
-   * @memberof Helper
-   */
-  static compareAgents(req, id) {
-    const owner = properties.properties.find(el => el.id === id);
-    if (owner.owner === req.decoded.user.id) return true;
-    return false;
   }
 
   /**
@@ -210,6 +197,13 @@ class Helper {
   static async loginAUser(email) {
     const query = 'SELECT * from users WHERE email = $1';
     const { rows } = await Db.query(query, [email]);
+    if (rows[0]) return rows[0];
+    return false;
+  }
+
+  static async checkPropertyType(propertyType) {
+    const query = 'SELECT * from properties WHERE type = $1';
+    const { rows } = await Db.query(query, [propertyType]);
     if (rows[0]) return rows[0];
     return false;
   }

@@ -9,7 +9,7 @@ const {
   updatePropertyStatus,
   deleteAProperty,
   getAllProperties,
-  getPropertiesByStatus,
+  getPropertiesByType,
   getPropertyById,
 } = PropertyService;
 /**
@@ -138,7 +138,7 @@ class PropertyController {
    */
   static async getPropertyByStatus(req, res) {
     try {
-      const result = await getPropertiesByStatus(req);
+      const result = await getPropertiesByType(req);
       if (result) {
         return res.status(200).json({
           status: 'success',

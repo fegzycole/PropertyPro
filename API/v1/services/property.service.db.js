@@ -3,7 +3,7 @@ import _ from 'lodash';
 import Db from '../Db/index';
 import Helper from '../helper/helper';
 
-const { generateQuery } = Helper;
+const { generateQuery, checkPropertyType } = Helper;
 
 /**
  * @exports PropertyService
@@ -153,12 +153,11 @@ class PropertyService {
    * @returns {(Array|Object)} array or an error object
    * @memberof PropertyService
    */
-  static async getPropertiesByStatus(req) {
+  static async getPropertiesByType(req) {
     const { type } = req.query;
 
-    const validStatus = ['2 Bedroom', '3 Bedroom', 'Land', 'Semi-detached duplex'];
-
-    if (!validStatus.includes(type)) return false;
+    const validType = await checkPropertyType(type);
+    if (!validType) return false;
 
     const query = 'SELECT properties.id, properties.status, properties.type, properties.state, properties.city, properties.address, properties.price, properties.created_on, properties.image_url, users.phone_number, users.email FROM properties JOIN users ON users.id = properties.owner WHERE properties.type = $1';
 

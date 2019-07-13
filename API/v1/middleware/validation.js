@@ -7,22 +7,17 @@ import Helper from '../helper/helper';
 import ErrorClass from '../helper/error';
 
 const {
-  cityWithoutStateResponse,
   emailDoesNotExistErrorResponse,
   isInvalidResponses,
   isEmptyErrorResponse,
-  ForbiddenErrorResponse,
   propertyNotFoundErrorResponse,
   serverErrorMessage,
 } = ErrorClass;
 
 const {
   checkIfEmailExists,
-  checkState,
-  checkLGA,
   deleteUploadedFile,
   checkId,
-  compareAgents,
   checkForInvalidSignupKeys,
   checkForMultipleKeys,
   compareUserPasswordv2,
@@ -45,32 +40,32 @@ class Validation {
    * @memberof Validation
    */
   static validateSignUpInput(req, res, next) {
-    const validKeys = ['email', 'password', 'firstName', 'lastName', 'phoneNumber', 'address', 'type'];
+    const validKeys = ['email', 'password', 'first_name', 'last_name', 'phone_number', 'address'];
 
-    checkForInvalidSignupKeys(req.body, validKeys);
+    checkForInvalidSignupKeys(req.body, validKeys, res);
 
-    checkForMultipleKeys(req.body);
+    checkForMultipleKeys(req.body, res);
 
     const userInformation = req.body;
 
     const {
-      email, firstName, lastName, password, phoneNumber, type, address,
+      email, first_name, last_name, password, phone_number, address,
     } = userInformation;
 
     const regexForEmail = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/;
     const regexForNames = /^[a-zA-Z][a-zA-Z]*$/;
     const regexForPhoneNumber = /^[0]\d{10}$/;
-    const regexForUserType = /^(agent|user)$/;
+    // const regexForUserType = /^(agent|user)$/;
 
     if (!regexForEmail.test(email)) {
       return isInvalidResponses(res, 'email');
     }
 
-    if (!regexForNames.test(firstName)) {
+    if (!regexForNames.test(first_name)) {
       return isInvalidResponses(res, 'first name');
     }
 
-    if (!regexForNames.test(lastName)) {
+    if (!regexForNames.test(last_name)) {
       return isInvalidResponses(res, 'last name');
     }
 
@@ -78,12 +73,8 @@ class Validation {
       return isInvalidResponses(res, 'password');
     }
 
-    if (!regexForPhoneNumber.test(phoneNumber)) {
+    if (!regexForPhoneNumber.test(phone_number)) {
       return isInvalidResponses(res, 'phone number');
-    }
-
-    if (!regexForUserType.test(type)) {
-      return isInvalidResponses(res, 'type');
     }
 
     if (address.length <= 6) {
@@ -103,8 +94,9 @@ class Validation {
    * @memberof Validation
    */
   static validateCreatePropertyInput(req, res, next) {
-    const validTypes = ['2 Bedroom', '3 Bedroom', 'Land', 'Semi-detached duplex'];
     const validKeys = ['type', 'price', 'state', 'city', 'address'];
+
+    const regexForStatesAndCities = /^[a-zA-Z ]{4,}$/;
 
     const userInformation = req.body;
 
@@ -114,19 +106,19 @@ class Validation {
 
     const regexForPrice = /^\d*\.?\d*$/;
 
-    checkForInvalidSignupKeys(req.body, validKeys);
+    checkForInvalidSignupKeys(req.body, validKeys, res);
 
-    checkForMultipleKeys(req.body);
+    checkForMultipleKeys(req.body, res);
 
-    if (!checkState(state)) {
+    if (!regexForStatesAndCities.test(state)) {
       deleteUploadedFile(req);
       return isInvalidResponses(res, 'state');
     }
-    if (!checkLGA(state, city)) {
+    if (!regexForStatesAndCities.test(city)) {
       deleteUploadedFile(req);
       return isInvalidResponses(res, 'city');
     }
-    if (!validTypes.includes(type)) {
+    if (type.length < 4) {
       deleteUploadedFile(req);
       return isInvalidResponses(res, 'property type');
     }
@@ -155,18 +147,18 @@ class Validation {
     const userInformation = req.body;
 
     const {
-      email, firstName, lastName, password, phoneNumber, address, type,
+      email, first_name, last_name, password, phone_number, address,
     } = userInformation;
 
     if (isEmpty(email)) {
       return isEmptyErrorResponse(res, 'Email');
     }
 
-    if (isEmpty(firstName)) {
+    if (isEmpty(first_name)) {
       return isEmptyErrorResponse(res, 'First Name/Last Name');
     }
 
-    if (isEmpty(lastName)) {
+    if (isEmpty(last_name)) {
       return isEmptyErrorResponse(res, 'First Name/Last Name');
     }
 
@@ -174,16 +166,12 @@ class Validation {
       return isEmptyErrorResponse(res, 'Password');
     }
 
-    if (isEmpty(phoneNumber)) {
+    if (isEmpty(phone_number)) {
       return isEmptyErrorResponse(res, 'Phone Number');
     }
 
     if (isEmpty(address)) {
       return isEmptyErrorResponse(res, 'Address');
-    }
-
-    if (isEmpty(type)) {
-      return isEmptyErrorResponse(res, 'Type');
     }
 
     return next();
@@ -254,23 +242,6 @@ class Validation {
 
   /**
    *
-   * Uses the Id obtained in the request parameters to get the owner of that property and checks if the agent requesting is the true owner
-   * @static
-   * @param {Object} req
-   * @param {Object} res
-   * @param {function} next
-   * @returns {(function|Object)} function next() or an error response object
-   * @memberof Validation
-   */
-  static compareAgentsById(req, res, next) {
-    if (!compareAgents(req, parseInt(req.params.id, 10))) {
-      return ForbiddenErrorResponse(res);
-    }
-    return next();
-  }
-
-  /**
-   *
    * Checks to see if a valid new status is provided for a property
    * @static
    * @param {Object} req
@@ -322,9 +293,9 @@ class Validation {
   static checkForEmptySignInParameters(req, res, next) {
     const validKeys = ['email', 'password'];
 
-    checkForInvalidSignupKeys(req.body, validKeys);
+    checkForInvalidSignupKeys(req.body, validKeys, res);
 
-    checkForMultipleKeys(req.body);
+    checkForMultipleKeys(req.body, res);
 
     const { email, password } = req.body;
 
@@ -367,8 +338,6 @@ class Validation {
    * @memberof Validation
    */
   static checkForInvalidUpdateParameters(req, res, next) {
-    const validTypes = ['2 Bedroom', '3 Bedroom', 'Land', 'Semi-detached duplex'];
-
     const validKeys = ['type', 'price', 'state', 'city', 'address'];
 
     const {
@@ -376,12 +345,13 @@ class Validation {
     } = req.body;
 
     const regexForPrice = /^\d*\.?\d*$/;
+    const regexForStatesAndCities = /^[a-zA-Z ]{4,}$/;
 
     checkForInvalidSignupKeys(req.body, validKeys);
 
     checkForMultipleKeys(req.body);
 
-    if (type && !validTypes.includes(type)) {
+    if (type && type.length < 4) {
       return isInvalidResponses(res, 'property type');
     }
 
@@ -389,19 +359,11 @@ class Validation {
       return isInvalidResponses(res, 'price');
     }
 
-    if (city && !state) {
-      return cityWithoutStateResponse(res, 'state');
-    }
-
-    if (state && !city) {
-      return cityWithoutStateResponse(res, 'city');
-    }
-
-    if (state && !checkState(state)) {
+    if (state && (!regexForStatesAndCities.test(state))) {
       return isInvalidResponses(res, 'state');
     }
 
-    if ((city && state) && (!checkLGA(state, city))) {
+    if (city && (!regexForStatesAndCities.test(city))) {
       return isInvalidResponses(res, 'city');
     }
 
