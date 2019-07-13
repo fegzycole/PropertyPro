@@ -94,7 +94,7 @@ class Validation {
    * @memberof Validation
    */
   static validateCreatePropertyInput(req, res, next) {
-    const validKeys = ['type', 'price', 'state', 'city', 'address', 'status', 'image_url'];
+    const validKeys = ['type', 'price', 'state', 'city', 'address', 'status', 'image_url', 'token', 'Authorization'];
 
     const regexForStatesAndCities = /^[a-zA-Z ]{4,}$/;
 
