@@ -133,13 +133,13 @@ class PropertyService {
     const { rows } = await Db.query(query);
 
     rows.forEach((row) => {
-      row.ownerEmail = row.email;
+      row.owner_email = row.email;
 
       row.id = parseInt(row.id, 10);
 
       row.price = parseFloat(row.price, 10);
 
-      row.ownerPhoneNumber = row.phone_number;
+      row.owner_phone_number = row.phone_number;
 
       delete row.email;
       delete row.phone_number;
@@ -166,13 +166,13 @@ class PropertyService {
     const { rows } = await Db.query(query, [type]);
 
     rows.forEach((row) => {
-      row.ownerEmail = row.email;
+      row.owner_email = row.email;
 
       row.id = parseInt(row.id, 10);
 
       row.price = parseFloat(row.price, 10);
 
-      row.ownerPhoneNumber = row.phone_number;
+      row.owner_phone_number = row.phone_number;
 
       delete row.email;
       delete row.phone_number;
@@ -194,13 +194,13 @@ class PropertyService {
 
     if (!rows[0]) throw new Error('Property with the provided id not found');
 
-    rows[0].ownerEmail = rows[0].email;
+    rows[0].owner_email = rows[0].email;
 
     rows[0].id = parseInt(rows[0].id, 10);
 
     rows[0].price = parseFloat(rows[0].price, 10);
 
-    rows[0].ownerPhoneNumber = rows[0].phone_number;
+    rows[0].owner_phone_number = rows[0].phone_number;
 
     delete rows[0].email;
 
