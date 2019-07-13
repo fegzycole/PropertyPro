@@ -94,7 +94,7 @@ class Validation {
    * @memberof Validation
    */
   static validateCreatePropertyInput(req, res, next) {
-    const validKeys = ['type', 'price', 'state', 'city', 'address'];
+    const validKeys = ['type', 'price', 'state', 'city', 'address', 'status', 'image_url'];
 
     const regexForStatesAndCities = /^[a-zA-Z ]{4,}$/;
 
@@ -189,7 +189,7 @@ class Validation {
   static checkForEmptyPropertyPostParameters(req, res, next) {
     const imageUrl = req.file;
     const userInformation = req.body;
-
+    console.log(req.body);
     const {
       address, type, price, state, city, image_url,
     } = userInformation;
@@ -337,7 +337,7 @@ class Validation {
    * @memberof Validation
    */
   static checkForInvalidUpdateParameters(req, res, next) {
-    const validKeys = ['type', 'price', 'state', 'city', 'address'];
+    const validKeys = ['type', 'price', 'state', 'city', 'address', 'status', 'image_url'];
 
     const {
       type, price, state, city, address,
