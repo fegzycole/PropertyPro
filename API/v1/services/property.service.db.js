@@ -19,17 +19,15 @@ class PropertyService {
    * @memberof PropertyService
    */
   static async postAProperty(request) {
-    console.log('Entered here');
     const { body, file, decoded } = request;
     let image;
     const {
       state, city, price, type, address, image_url,
     } = body;
 
-    if (!image_url) image = file.secure_url;
-    if (!file.secure_url) image = image_url;
+    if (!image_url && file.secure_url) image = file.secure_url;
+    if (!file && image_url) image = image_url;
     const { id } = decoded.user;
-
     const status = 'Available';
 
     const query = 'INSERT INTO properties (owner, status, price, state, city, address, type, image_url, created_on) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, NOW()) RETURNING *';
