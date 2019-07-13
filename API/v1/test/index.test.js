@@ -27,8 +27,8 @@ describe('Tests for Home page related endpoints', () => {
         .request(app)
         .get('/ferguson')
         .end((err, res) => {
-          expect(res.body).to.have.key('status', 'error', 'success', 'message');
-          expect(res.body.message).to
+          expect(res.body).to.have.key('status', 'error');
+          expect(res.body.error).to
             .equal('You are trying to access a wrong Route');
         });
     });
@@ -37,8 +37,8 @@ describe('Tests for Home page related endpoints', () => {
         .request(app)
         .get('/api/v1/user')
         .end((err, res) => {
-          expect(res.body).to.have.key('status', 'error', 'success', 'message');
-          expect(res.body.message).to
+          expect(res.body).to.have.key('status', 'error');
+          expect(res.body.error).to
             .equal('You are trying to access a wrong Route');
         });
     });

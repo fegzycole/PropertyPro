@@ -1,7 +1,7 @@
 import PropertyService from '../services/property.service';
 import ErrorMessages from '../helper/error';
 
-const { propertyTypeError } = ErrorMessages;
+const { propertyTypeError, serverErrorMessage } = ErrorMessages;
 
 const {
   postAProperty, updateProperty,
@@ -114,16 +114,20 @@ class PropertyController {
    * @memberof PropertyController
    */
   static getPropertyByStatus(req, res) {
-    const result = getPropertiesByStatus(req);
-    if (result) {
-      return res.status(200).json({
-        status: 'success',
-        data: [
-          result,
-        ],
-      });
+    try {
+      const result = getPropertiesByStatus(req);
+      if (result) {
+        return res.status(200).json({
+          status: 'success',
+          data: [
+            result,
+          ],
+        });
+      }
+      return propertyTypeError(res);
+    } catch (error) {
+      return serverErrorMessage(error, res);
     }
-    return propertyTypeError(res);
   }
 
   /**

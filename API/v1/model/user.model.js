@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /**
  * @exports User
  * @class User
@@ -12,18 +13,18 @@ class User {
    * @param {String} password
    * @param {String} phoneNumber
    * @param {String} address
-   * @param {Boolean} isAdmin
+   * @param {Boolean} is_admin
    * @memberof User
    */
-  constructor(id, email, firstName, lastName, password, phoneNumber, address, isAdmin) {
+  constructor(id, email, firstName, lastName, password, phone_number, address, is_admin) {
     this.id = id;
     this.email = email;
     this.firstName = firstName;
     this.lastName = lastName;
     this.password = password;
-    this.phoneNumber = phoneNumber;
+    this.phone_number = phone_number;
     this.address = address;
-    this.isAdmin = isAdmin;
+    this.isAdmin = is_admin;
   }
 }
 

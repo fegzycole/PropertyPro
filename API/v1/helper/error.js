@@ -32,7 +32,7 @@ class ErrorMessages {
    */
   static incorrectUserPassword(res) {
     return res.status(401).json({
-      status: 401,
+      status: 'error',
       error: 'Email or password incorrect',
     });
   }
@@ -48,7 +48,7 @@ class ErrorMessages {
    */
   static cityWithoutStateResponse(res, typeOfError) {
     return res.status(422).json({
-      status: 422,
+      status: 'error',
       error: `Invalid, select a ${typeOfError} to continue`,
     });
   }
@@ -63,7 +63,7 @@ class ErrorMessages {
    */
   static emailDoesNotExistErrorResponse(res) {
     return res.status(401).json({
-      status: 401,
+      status: 'error',
       error: 'Email or password incorrect',
     });
   }
@@ -85,16 +85,16 @@ class ErrorMessages {
     if (typeOfParameter === 'first name') error = 'Invalid first name provided';
     if (typeOfParameter === 'last name') error = 'Invalid last name provided';
     if (typeOfParameter === 'address') error = 'Invalid address provided. A valid address is at least seven characters long';
-    if (typeOfParameter === 'state') error = 'Invalid state provided. Valid example: Lagos State';
-    if (typeOfParameter === 'city') error = 'Invalid city provided. Make sure the city is in the state selected';
+    if (typeOfParameter === 'state') error = 'Invalid state provided. A valid state is at least 4 characters long without numbers and special characters';
+    if (typeOfParameter === 'city') error = 'Invalid city provided. A valid city is at least 4 characters long without numbers and special characters';
     if (typeOfParameter === 'email') error = 'Invalid email provided';
     if (typeOfParameter === 'password') error = 'Invalid password provided. A valid password is at least six characters long';
     if (typeOfParameter === 'phone number') error = 'Invalid phone number provided. A valid phone number is 07057154456';
-    if (typeOfParameter === 'property type') error = 'Invalid property type selected. A valid property type is either 2 Bedroom, 3 Bedroom, Land, or a Semi-detached duplex';
+    if (typeOfParameter === 'property type') error = 'Invalid property type selected. A valid property type is at least four characters long';
     if (typeOfParameter === 'price') error = 'Invalid price provided';
     if (typeOfParameter === 'status') error = 'Invalid status provided. You can only mark a property as \'Sold\'';
     res.status(status).json({
-      status,
+      status: 'error',
       error,
     });
   }
@@ -112,23 +112,8 @@ class ErrorMessages {
     const status = 400;
     const error = `${typeOfParameter} cannot be left empty`;
     return res.status(status).json({
-      status,
+      status: 'error',
       error,
-    });
-  }
-
-  /**
-   *
-   * Handles the response for when a required request parameter is left empty
-   * @static
-   * @param {Object} res
-   * @returns {Object} an error response object
-   * @memberof ErrorMessages
-   */
-  static ForbiddenErrorResponse(res) {
-    return res.status(403).json({
-      status: 403,
-      error: 'You are not authorized to view this resource',
     });
   }
 
@@ -142,7 +127,7 @@ class ErrorMessages {
    */
   static propertyNotFoundErrorResponse(res) {
     return res.status(404).json({
-      status: 404,
+      status: 'error',
       error: 'Property with the specified id not found',
     });
   }
@@ -158,7 +143,7 @@ class ErrorMessages {
    */
   static authorizationErrorResponse(res, e) {
     return res.status(401).send({
-      status: 401,
+      status: 'error',
       error: e.message,
     });
   }
@@ -173,7 +158,7 @@ class ErrorMessages {
    */
   static propertyTypeError(res) {
     return res.status(404).json({
-      status: 404,
+      status: 'error',
       error: 'No property with the specified type',
     });
   }
@@ -189,7 +174,7 @@ class ErrorMessages {
    */
   static contentTypeErrorResponse(res) {
     return res.status(400).json({
-      status: 400,
+      status: 'error',
       error: 'Change your content type and try again',
     });
   }
@@ -205,7 +190,7 @@ class ErrorMessages {
    */
   static genericErrorResponse(res, err) {
     return res.status(400).json({
-      status: 400,
+      status: 'error',
       error: err.message,
     });
   }
@@ -248,7 +233,7 @@ class ErrorMessages {
       error = err.message;
     }
     return res.status(statusCode).json({
-      status: statusCode,
+      status: 'error',
       error,
     });
   }

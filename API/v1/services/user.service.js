@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 import Helper from '../helper/helper';
 import userData from '../data/user.data';
 import User from '../model/user.model';
@@ -16,7 +17,7 @@ class UserService {
    */
   static createUserAccount(userDetails) {
     const {
-      email, firstName, lastName, password, phoneNumber, address, type,
+      email, first_name, last_name, password, phone_number, address,
     } = userDetails;
 
     try {
@@ -24,10 +25,10 @@ class UserService {
 
       const id = userData.users.length + 1;
 
-      const isAdmin = type === 'agent' || type === 'Agent';
+      const is_admin = false;
 
-      const newUser = new User(id, email, firstName,
-        lastName, hashedPassword, phoneNumber, address, isAdmin);
+      const newUser = new User(id, email, first_name,
+        last_name, hashedPassword, phone_number, address, is_admin);
 
       userData.users.push(newUser);
 
@@ -35,9 +36,8 @@ class UserService {
         token: createToken(newUser),
         id,
         email,
-        firstName,
-        lastName,
-        isAdmin,
+        first_name,
+        last_name,
       };
 
       return res;
@@ -65,9 +65,8 @@ class UserService {
           token: createToken(userInfo),
           id: userInfo.id,
           email: userInfo.email,
-          firstName: userInfo.firstName,
-          lastName: userInfo.lastName,
-          isAdmin: userInfo.isAdmin,
+          first_name: userInfo.first_name,
+          last_name: userInfo.last_name,
         };
 
         return res;

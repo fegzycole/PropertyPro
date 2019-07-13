@@ -36,12 +36,10 @@ app.use((req, res, next) => {
 });
 
 app.use((error, req, res, next) => {
-  res.status(error.status || 500);
+  res.status(error.status || 400);
   res.json({
-    status: error.status || 500,
-    success: false,
-    error: error.name,
-    message: error.message,
+    status: 'error',
+    error: error.message,
   });
   next();
 });

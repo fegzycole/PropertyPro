@@ -19,17 +19,16 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: faker.internet.email(),
-          firstName: faker.name.firstName(),
-          lastName: faker.name.lastName(),
+          first_name: faker.name.firstName(),
+          last_name: faker.name.lastName(),
           password: 'fegzycole',
-          phoneNumber: '07057575757',
+          phone_number: '07057575757',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(201);
           expect(res.body.status).to.be.equal('success');
-          expect(res.body.data).to.have.key('token', 'id', 'first_name', 'last_name', 'email', 'is_admin');
+          expect(res.body.data).to.have.key('token', 'id', 'first_name', 'last_name', 'email');
           expect(res.body.data.token).to.be.a('string');
           done();
         });
@@ -40,16 +39,15 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'zizzou104',
-          firstName: 'zinedine',
-          lastName: 'zidane',
+          first_name: 'zinedine',
+          last_name: 'zidane',
           password: 'manforthejob',
-          phoneNumber: '07057575757',
+          phone_number: '07057575757',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Invalid email provided');
           done();
         });
@@ -60,16 +58,15 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zidane',
+          first_name: 'zinedine',
+          last_name: 'zidane',
           password: 'manfo',
-          phoneNumber: '07057575757',
+          phone_number: '07057575757',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Invalid password provided. A valid password is at least six characters long');
           done();
         });
@@ -80,16 +77,15 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'zizzou104@gmail.com',
-          firstName: 'zine dine',
-          lastName: 'zidane',
+          first_name: 'zine dine',
+          last_name: 'zidane',
           password: 'manforthejob',
-          phoneNumber: '07057575757',
+          phone_number: '07057575757',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Invalid first name provided');
           done(err);
         });
@@ -100,16 +96,15 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zida ne',
+          first_name: 'zinedine',
+          last_name: 'zida ne',
           password: 'manforthejob',
-          phoneNumber: '07057575757',
+          phone_number: '07057575757',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Invalid last name provided');
           done();
         });
@@ -120,37 +115,16 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zidane',
+          first_name: 'zinedine',
+          last_name: 'zidane',
           password: 'manforthejob',
-          phoneNumber: 'hellothere',
+          phone_number: 'hellothere',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Invalid phone number provided. A valid phone number is 07057154456');
-          done();
-        });
-    });
-    it('Should return an error if the type provided is neither  a user or an agent ', (done) => {
-      chai
-        .request(app)
-        .post('/api/v1/auth/signup')
-        .send({
-          email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zidane',
-          password: 'manforthejob',
-          phoneNumber: '07057154467',
-          address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'manager',
-        })
-        .end((err, res) => {
-          expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
-          expect(res.body.error).to.be.equal('Only Agent or User allowed');
           done();
         });
     });
@@ -160,16 +134,15 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zidane',
+          first_name: 'zinedine',
+          last_name: 'zidane',
           password: 'manforthejob',
-          phoneNumber: '07057575757',
+          phone_number: '07057575757',
           address: '90',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Invalid address provided. A valid address is at least seven characters long');
           done();
         });
@@ -179,16 +152,15 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .request(app)
         .post('/api/v1/auth/signup')
         .send({
-          firstName: 'zinedine',
-          lastName: 'zidane',
+          first_name: 'zinedine',
+          last_name: 'zidane',
           password: 'manforthejob',
-          phoneNumber: '07057575757',
+          phone_number: '07057575757',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Email cannot be left empty');
           done();
         });
@@ -199,15 +171,14 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'zizzou104@gmail.com',
-          lastName: 'zidane',
+          last_name: 'zidane',
           password: 'manforthejob',
-          phoneNumber: '07057575757',
+          phone_number: '07057575757',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('First Name/Last Name cannot be left empty');
           done();
         });
@@ -218,15 +189,14 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
+          first_ame: 'zinedine',
           password: 'manforthejob',
-          phoneNumber: '07057575757',
+          phone_number: '07057575757',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('First Name/Last Name cannot be left empty');
           done();
         });
@@ -237,15 +207,14 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zidane',
-          phoneNumber: '07057575757',
+          first_name: 'zinedine',
+          last_name: 'zidane',
+          phone_number: '07057575757',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Password cannot be left empty');
           done();
         });
@@ -256,15 +225,15 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zidane',
+          first_name: 'zinedine',
+          last_name: 'zidane',
           password: 'manforthejob',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
           type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Phone Number cannot be left empty');
           done();
         });
@@ -275,36 +244,17 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zidane',
+          first_name: 'zinedine',
+          last_name: 'zidane',
           password: 'manforthejob',
-          phoneNumber: '07057575757',
+          phone_number: '07057575757',
           address: '',
           type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Address cannot be left empty');
-          done();
-        });
-    });
-    it('Should return an error if the user provides no user type', (done) => {
-      chai
-        .request(app)
-        .post('/api/v1/auth/signup')
-        .send({
-          email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zidane',
-          password: 'manforthejob',
-          phoneNumber: '07057575757',
-          address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-        })
-        .end((err, res) => {
-          expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
-          expect(res.body.error).to.be.equal('Type cannot be left empty');
           done();
         });
     });
@@ -314,18 +264,17 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zidane',
+          first_name: 'zinedine',
+          last_name: 'zidane',
           password: 'manforthejob',
-          phoneNumber: '07057154467',
+          phone_number: '07057154467',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
           invalidKey: 'invalid',
         })
         .end((err, res) => {
-          expect(res).to.have.status(500);
-          expect(res.body.status).to.be.equal(500);
-          expect(res.body.message).to.be.equal('invalidKey is not a valid request parameter');
+          expect(res).to.have.status(400);
+          expect(res.body.status).to.be.equal('error');
+          expect(res.body.error).to.be.equal('invalidKey is not a valid request parameter');
           done();
         });
     });
@@ -335,16 +284,15 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/signup')
         .send({
           email: 'fergusoniyara@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zidane',
+          first_name: 'zinedine',
+          last_name: 'zidane',
           password: 'manforthejob',
-          phoneNumber: '07057154467',
+          phone_number: '07057154467',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(409);
-          expect(res.body.status).to.be.equal(409);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Email already exists');
           done();
         });
@@ -357,17 +305,16 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v2/auth/signup')
         .send({
           email: 'zizzou104@gmail.com',
-          firstName: 'zinedine',
-          lastName: 'zidane',
+          first_name: 'zinedine',
+          last_name: 'zidane',
           password: 'manforthejob',
-          phoneNumber: '07057575757',
+          phone_number: '07057575757',
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          type: 'agent',
         })
         .end((err, res) => {
           expect(res).to.have.status(201);
           expect(res.body.status).to.be.equal('success');
-          expect(res.body.data).to.have.key('token', 'id', 'firstName', 'lastName', 'email', 'isAdmin');
+          expect(res.body.data).to.have.key('token', 'id', 'first_name', 'last_name', 'email');
           expect(res.body.data.token).to.be.a('string');
           done();
         });
@@ -385,7 +332,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(200);
           expect(res.body.status).to.be.equal('success');
-          expect(res.body.data).to.have.key('token', 'id', 'firstName', 'lastName', 'email', 'isAdmin');
+          expect(res.body.data).to.have.key('token', 'id', 'first_name', 'last_name', 'email');
           expect(res.body.data.token).to.be.a('string');
           done();
         });
@@ -399,7 +346,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('email cannot be left empty');
           done();
         });
@@ -413,7 +360,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('password cannot be left empty');
           done();
         });
@@ -428,7 +375,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.status).to.be.equal(401);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Email or password incorrect');
           done();
         });
@@ -443,7 +390,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.status).to.be.equal(401);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Email or password incorrect');
           done();
         });
@@ -476,7 +423,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.status).to.be.equal(401);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Authorization failed. Email or password incorrect');
           done();
         });
@@ -491,7 +438,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(401);
-          expect(res.body.status).to.be.equal(401);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Authorization failed. Email or password incorrect');
           done();
         });
@@ -521,7 +468,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('specify your old password to proceed');
           done();
         });
@@ -535,7 +482,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal(400);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('specify a new password to proceed');
           done();
         });
@@ -550,7 +497,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('New password must be at least 6 characters long');
           done();
         });
@@ -565,7 +512,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(409);
-          expect(res.body.status).to.be.equal(409);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('The password specified is not the same as what is saved in the database');
           done();
         });
@@ -580,7 +527,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         })
         .end((err, res) => {
           expect(res).to.have.status(422);
-          expect(res.body.status).to.be.equal(422);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('The new password cannot be the same as the old one');
           done();
         });
@@ -591,7 +538,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .post('/api/v1/auth/unknownemail@gmail.com/reset_password')
         .end((err, res) => {
           expect(res).to.have.status(404);
-          expect(res.body.status).to.be.equal(404);
+          expect(res.body.status).to.be.equal('error');
           expect(res.body.error).to.be.equal('Email does not exist');
           done();
         });
@@ -612,7 +559,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
     it('Should successfully reset a user\'s password', (done) => {
       chai
         .request(app)
-        .post('/api/v1/auth/fergiee@gmail.com/reset_password')
+        .post('/api/v1/auth/fergieiyara@gmail.com/reset_password')
         .end((err, res) => {
           expect(res).to.have.status(204);
           done();
