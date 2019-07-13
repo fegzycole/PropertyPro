@@ -40,7 +40,7 @@ class Validation {
    * @memberof Validation
    */
   static validateSignUpInput(req, res, next) {
-    const validKeys = ['email', 'password', 'first_name', 'last_name', 'phone_number', 'address'];
+    const validKeys = ['email', 'password', 'first_name', 'last_name', 'phone_number', 'address', 'is_admin', 'street', 'city', 'state', 'country', 'phone', 'zip'];
 
     checkForInvalidSignupKeys(req.body, validKeys, res);
 
