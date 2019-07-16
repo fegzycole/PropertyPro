@@ -333,8 +333,6 @@ class Validation {
   static checkForInvalidUpdateParameters(req, res, next) {
     const validKeys = ['type', 'price', 'state', 'city', 'address', 'status', 'image_url', 'token', 'Authorization'];
 
-    console.log(req.body);
-
     const {
       type, price, state, city, address,
     } = req.body;
@@ -365,7 +363,6 @@ class Validation {
     if (address && (address.length <= 6)) {
       return isInvalidResponses(res, 'address');
     }
-    console.log('i have passed')
     return next();
   }
 

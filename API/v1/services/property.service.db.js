@@ -68,8 +68,6 @@ class PropertyService {
     query.push(`${set.join(', ')} WHERE id = ${parseInt(params.id, 10)} RETURNING *`);
     const finalQueryString = query.join(' ');
 
-    console.log(finalQueryString);
-
     const { rows } = await Db.query(finalQueryString, arrayOfUpdateInputs[1]);
 
     const response = _.pick(rows[0], ['id', 'owner', 'status', 'type', 'state', 'city', 'address',
