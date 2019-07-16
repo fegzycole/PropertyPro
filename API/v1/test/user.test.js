@@ -258,26 +258,6 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           done();
         });
     });
-    it('Should return an error if the user puts in a key that is invalid ', (done) => {
-      chai
-        .request(app)
-        .post('/api/v1/auth/signup')
-        .send({
-          email: 'zizzou104@gmail.com',
-          first_name: 'zinedine',
-          last_name: 'zidane',
-          password: 'manforthejob',
-          phone_number: '07057154467',
-          address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
-          invalidKey: 'invalid',
-        })
-        .end((err, res) => {
-          expect(res).to.have.status(400);
-          expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('invalidKey is not a valid request parameter');
-          done();
-        });
-    });
     it('Should return an error if the user puts in an email that already exists ', (done) => {
       chai
         .request(app)
