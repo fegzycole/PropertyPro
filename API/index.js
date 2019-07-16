@@ -3,6 +3,8 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import trimmer from 'express-body-trimmer';
+import swaggerUi from 'swagger-ui-express';
+import swaggerDocument from './swagger';
 import auth from './v1/routes/auth';
 import authv2 from './v1/routes/auth.db';
 import property from './v1/routes/property';
@@ -16,6 +18,7 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(trimmer());
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 // Routes
 app.use('/api/v1/auth', authv2);
