@@ -110,7 +110,7 @@ export default {
         },
       },
     },
-    '/auth/{user_email}/reset_password': {
+    '/auth/{email}/reset_password': {
       post: {
         tags: ['Auth'],
         summary: 'user can reset his/her password',
@@ -120,7 +120,7 @@ export default {
         produces: ['application/json'],
         parameters: [
           {
-            name: 'user_email',
+            name: 'email',
             in: 'path',
             description: 'email of the user that requests for a password reset',
             required: true,

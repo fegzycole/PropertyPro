@@ -40,12 +40,6 @@ class Validation {
    * @memberof Validation
    */
   static validateSignUpInput(req, res, next) {
-    const validKeys = ['email', 'password', 'first_name', 'last_name', 'phone_number', 'address', 'is_admin', 'street', 'city', 'state', 'country', 'phone', 'zip'];
-
-    checkForInvalidSignupKeys(req.body, validKeys, res);
-
-    checkForMultipleKeys(req.body, res);
-
     const userInformation = req.body;
 
     const {
@@ -94,8 +88,6 @@ class Validation {
    * @memberof Validation
    */
   static validateCreatePropertyInput(req, res, next) {
-    const validKeys = ['type', 'price', 'state', 'city', 'address', 'status', 'image_url', 'token', 'Authorization'];
-
     const regexForStatesAndCities = /^[a-zA-Z ]{4,}$/;
 
     const userInformation = req.body;
@@ -105,10 +97,6 @@ class Validation {
     } = userInformation;
 
     const regexForPrice = /^\d*\.?\d*$/;
-
-    checkForInvalidSignupKeys(req.body, validKeys, res);
-
-    checkForMultipleKeys(req.body, res);
 
     if (!regexForStatesAndCities.test(state)) {
       deleteUploadedFile(req);
@@ -331,18 +319,12 @@ class Validation {
    * @memberof Validation
    */
   static checkForInvalidUpdateParameters(req, res, next) {
-    const validKeys = ['type', 'price', 'state', 'city', 'address', 'status', 'image_url', 'token', 'Authorization'];
-
     const {
       type, price, state, city, address,
     } = req.body;
 
     const regexForPrice = /^\d*\.?\d*$/;
     const regexForStatesAndCities = /^[a-zA-Z ]{4,}$/;
-
-    checkForInvalidSignupKeys(req.body, validKeys);
-
-    checkForMultipleKeys(req.body);
 
     if (type && type.length < 4) {
       return isInvalidResponses(res, 'property type');

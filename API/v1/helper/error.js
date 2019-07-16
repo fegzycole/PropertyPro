@@ -37,21 +37,6 @@ class ErrorMessages {
     });
   }
 
-  /**
-   *
-   * Handles the response when a property to be updated has a city but no state
-   * @static
-   * @param {Object} res
-   * @param {string} typeOfParameter
-   * @returns {Object} an error response object
-   * @memberof Validation
-   */
-  static cityWithoutStateResponse(res, typeOfError) {
-    return res.status(422).json({
-      status: 'error',
-      error: `Invalid, select a ${typeOfError} to continue`,
-    });
-  }
 
   /**
    *
