@@ -302,7 +302,7 @@ export default {
         },
       },
     },
-    '/property/{property-id}': {
+    '/property/{id}': {
       get: {
         tags: ['Property'],
         summary: 'Get a specific property',
@@ -310,7 +310,7 @@ export default {
         parameters: [
           {
             in: 'path',
-            name: 'property-id',
+            name: 'id',
             required: true,
           },
           {
@@ -342,7 +342,7 @@ export default {
         parameters: [
           {
             in: 'path',
-            name: 'property-id',
+            name: 'id',
             required: true,
           },
           {
@@ -427,7 +427,7 @@ export default {
         parameters: [
           {
             in: 'path',
-            name: 'property-id',
+            name: 'id',
             required: true,
           },
           {
@@ -452,7 +452,7 @@ export default {
         },
       },
     },
-    '/property/{property-id}/sold': {
+    '/property/{id}/sold': {
       get: {
         tags: ['Property'],
         summary: 'Get a specific property',
@@ -460,7 +460,7 @@ export default {
         parameters: [
           {
             in: 'path',
-            name: 'property-id',
+            name: 'id',
             required: true,
           },
           {
