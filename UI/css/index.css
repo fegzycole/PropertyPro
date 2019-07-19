@@ -26,6 +26,48 @@ body {
 	margin-left: 120px;
 }
 
+.index-main{
+  position: relative;
+}
+
+.overlay-body {
+  position: absolute;
+  top: 20% !important;
+  left: 22% !important;
+  color: #260126 !important;
+  opacity: 1;
+  transform: translate(-50%,-50%) !important;
+  -ms-transform: translate(-50%,-50%) !important;
+  z-index: 30;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: black;
+  opacity: 0.4;
+  z-index: 2;
+  cursor: pointer;
+}
+
+.overlay-body h2 {
+  color: #FFF !important;
+}
+
+.button-1{
+  font-size: 16px !important;
+  font-weight: 50;
+}
+.button-1:hover{
+  background: #260126 !important;
+}
+
+.firstref {
+  color: white !important;
+}
 .icon img{
 	width: 40px;
 	height: 40px;
@@ -40,7 +82,8 @@ header{
 	background: #260126;
 	grid-area: header;
 	display: flex;
-	justify-content: space-between;
+  justify-content: space-between;
+  z-index: 200;
 }
 
 .dashboard-header{
@@ -363,7 +406,8 @@ footer {
 	display: flex;
 	justify-content: space-between;
 	padding: 20px;
-	color: white;
+  color: white;
+  z-index: 100;
 }
 
 .wrapper{
@@ -885,9 +929,20 @@ form .shift2 {
 		margin-right: 20px;
 	}
 
-	.introduction h2 {
+	.introduction h2, .overlay-body h2 {
 		font-size: 40px;
-	}
+  }
+  
+  .overlay-body {
+    top: 25% !important;
+    left: 40% !important;
+    width: 80%;
+    color: #260126 !important;
+    opacity: 1;
+    transform: translate(-50%,-50%) !important;
+    -ms-transform: translate(-50%,-50%) !important;
+    z-index: 30;
+  }
 
 	.p1{
 		margin-left: 0;
