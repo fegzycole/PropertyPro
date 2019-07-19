@@ -22,7 +22,7 @@ body {
 
 .icon{
 	display: flex;
-	margin-top: 25px;
+	margin-top: 15px;
 	margin-left: 120px;
 }
 
@@ -201,9 +201,9 @@ header h1{
 
 .signin,
 .show-mobile {
-	margin-top: 35px;
+	margin-top: 25px;
 	margin-right: 165px;
-	font-size: 14px;
+	font-size: 18px;
 }
 
 .user-image{
@@ -413,7 +413,7 @@ footer {
 .wrapper{
 	position: relative;
 	display: grid;
-	grid-template-rows: 90px 1fr 50px;
+	grid-template-rows: 70px 1fr 50px;
 	grid-template-areas: "header"
 											 "main"
 											 "footer";
