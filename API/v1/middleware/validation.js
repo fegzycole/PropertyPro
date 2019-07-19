@@ -47,7 +47,7 @@ class Validation {
     } = userInformation;
 
     const regexForEmail = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/;
-    const regexForNames = /^[a-zA-Z][a-zA-Z]*$/;
+    const regexForNames = /^[a-zA-Z]{5,}$/;
     const regexForPhoneNumber = /^[0]\d{10}$/;
     // const regexForUserType = /^(agent|user)$/;
 
@@ -87,7 +87,7 @@ class Validation {
    * @returns {(function|Object)} function next() or an error response object
    * @memberof Validation
    */
-  static validateCreatePropertyInput(req, res, next) {
+  static async validateCreatePropertyInput(req, res, next) {
     const regexForStatesAndCities = /^[a-zA-Z ]{4,}$/;
 
     const userInformation = req.body;
@@ -99,23 +99,23 @@ class Validation {
     const regexForPrice = /^\d*\.?\d*$/;
 
     if (!regexForStatesAndCities.test(state)) {
-      deleteUploadedFile(req);
+      await deleteUploadedFile(req, res);
       return isInvalidResponses(res, 'state');
     }
     if (!regexForStatesAndCities.test(city)) {
-      deleteUploadedFile(req);
+      await deleteUploadedFile(req, res);
       return isInvalidResponses(res, 'city');
     }
     if (type.length < 4) {
-      deleteUploadedFile(req);
+      await deleteUploadedFile(req, res);
       return isInvalidResponses(res, 'property type');
     }
-    if (!regexForPrice.test(price)) {
-      deleteUploadedFile(req);
+    if (!regexForPrice.test(price, res)) {
+      await deleteUploadedFile(req, res);
       return isInvalidResponses(res, 'price');
     }
     if (address.length <= 6) {
-      deleteUploadedFile(req);
+      await deleteUploadedFile(req, res);
       return isInvalidResponses(res, 'address');
     }
     return next();
@@ -174,7 +174,7 @@ class Validation {
    * @returns {(function|Object)} function next() or an error response object
    * @memberof Validation
    */
-  static checkForEmptyPropertyPostParameters(req, res, next) {
+  static async checkForEmptyPropertyPostParameters(req, res, next) {
     const imageUrl = req.file;
     const userInformation = req.body;
     const {
@@ -198,7 +198,7 @@ class Validation {
       return isEmptyErrorResponse(res, 'address');
     }
     if (isEmpty(type)) {
-      deleteUploadedFile(req);
+      await deleteUploadedFile(req, res);
       return isEmptyErrorResponse(res, 'type');
     }
     return next();

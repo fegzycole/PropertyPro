@@ -74,8 +74,16 @@ class Helper {
    * @returns {void}
    * @memberof Helper
    */
-  static deleteUploadedFile(req) {
-    return cloudinary.uploader.destroy(req.file.public_id);
+  static async deleteUploadedFile(req, res) {
+    try {
+      await cloudinary.uploader.destroy(req.file.public_id);
+      return null;
+    } catch (error) {
+      return res.status(400).json({
+        status: 'error',
+        error: error.message,
+      });
+    }
   }
 
   /**
