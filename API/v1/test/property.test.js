@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-env mocha */
 import chai from 'chai';
 
@@ -136,7 +137,7 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('image cannot be left empty');
+          expect(res.body.error).to.be.an('object');
           done();
         });
     });
@@ -155,7 +156,8 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('state cannot be left empty');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.state).to.be.equal('state cannot be left empty');
           done();
         });
     });
@@ -174,7 +176,8 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('price cannot be left empty');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.price).to.be.equal('price cannot be left empty');
           done();
         });
     });
@@ -193,7 +196,8 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('city cannot be left empty');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.city).to.be.equal('city cannot be left empty');
           done();
         });
     });
@@ -212,7 +216,8 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('address cannot be left empty');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.address).to.be.equal('address cannot be left empty');
           done();
         });
     });
@@ -231,7 +236,8 @@ describe('Test suite for all property related endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('type cannot be left empty');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.property_type).to.be.equal('type cannot be left empty');
           done();
         });
     });
@@ -249,9 +255,10 @@ describe('Test suite for all property related endpoints', () => {
         .field('address', '67 Bamgboye close')
         .field('type', 'Land')
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid state provided. A valid state is at least 4 characters long without numbers and special characters');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.state).to.be.equal('Invalid state provided. A valid state is at least 4 characters long without numbers and special characters');
           done();
         });
     });
@@ -269,9 +276,10 @@ describe('Test suite for all property related endpoints', () => {
         .field('address', '67 Bamgboye close')
         .field('type', 'Land')
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid city provided. A valid city is at least 4 characters long without numbers and special characters');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.city).to.be.equal('Invalid city provided. A valid city is at least 4 characters long without numbers and special characters');
           done();
         });
     });
@@ -289,9 +297,10 @@ describe('Test suite for all property related endpoints', () => {
         .field('address', '67 Bamgboye close')
         .field('type', 'Lan')
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid property type selected. A valid property type is at least four characters long');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.property_type).to.be.equal('Invalid property type selected. A valid property type is at least four characters long');
           done();
         });
     });
@@ -309,9 +318,10 @@ describe('Test suite for all property related endpoints', () => {
         .field('address', '67')
         .field('type', 'Land')
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid address provided. A valid address is at least seven characters long');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.address).to.be.equal('Invalid address provided. A valid address is at least seven characters long');
           done();
         });
     });
@@ -329,9 +339,10 @@ describe('Test suite for all property related endpoints', () => {
         .field('address', '67 Bamgboye close')
         .field('type', 'Land')
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid price provided');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.price).to.be.equal('Invalid price provided');
           done();
         });
     });
@@ -438,9 +449,9 @@ describe('Test suite for all property related endpoints', () => {
         .field('address', '67 Bamgboye close')
         .field('type', 'Land')
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid price provided');
+          expect(res.body.error).to.be.an('object');
           done();
         });
     });
@@ -458,9 +469,10 @@ describe('Test suite for all property related endpoints', () => {
         .field('address', '67 Bamgboye close')
         .field('type', 'Lan')
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid property type selected. A valid property type is at least four characters long');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.property_type).to.be.equal('Invalid property type selected. A valid property type is at least four characters long');
           done();
         });
     });
@@ -478,9 +490,10 @@ describe('Test suite for all property related endpoints', () => {
         .field('address', '67 Bamgboye close')
         .field('type', 'Land')
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid state provided. A valid state is at least 4 characters long without numbers and special characters');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.state).to.be.equal('Invalid state provided. A valid state is at least 4 characters long without numbers and special characters');
           done();
         });
     });
@@ -498,9 +511,9 @@ describe('Test suite for all property related endpoints', () => {
         .field('address', '67 Bamgboye close')
         .field('type', 'Land')
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid city provided. A valid city is at least 4 characters long without numbers and special characters');
+          expect(res.body.error.city).to.be.equal('Invalid city provided. A valid city is at least 4 characters long without numbers and special characters');
           done();
         });
     });
@@ -518,9 +531,10 @@ describe('Test suite for all property related endpoints', () => {
         .field('address', 'No')
         .field('type', 'Land')
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid address provided. A valid address is at least seven characters long');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.address).to.be.equal('Invalid address provided. A valid address is at least seven characters long');
           done();
         });
     });

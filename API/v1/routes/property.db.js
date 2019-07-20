@@ -22,8 +22,7 @@ const {
 } = AuthenticateUser;
 
 const {
-  checkForEmptyPropertyPostParameters,
-  validateCreatePropertyInput,
+  validatePropertyInput,
   checkForInvalidUpdateParameters,
   validateId,
 } = Validation;
@@ -35,8 +34,7 @@ router.post('/',
   checkContentType,
   uploadAnImage,
   trimmer(),
-  checkForEmptyPropertyPostParameters,
-  validateCreatePropertyInput,
+  validatePropertyInput,
   postAProperty);
 
 router.patch('/:id',

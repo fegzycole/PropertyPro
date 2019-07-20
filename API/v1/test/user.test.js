@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable no-undef */
 import chai from 'chai';
 
@@ -46,9 +47,10 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
         })
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid email provided');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.email).to.be.equal('Invalid email provided');
           done();
         });
     });
@@ -65,9 +67,10 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
         })
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid password provided. A valid password is at least six characters long');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.password).to.be.equal('Invalid password provided. A valid password is at least six characters long');
           done();
         });
     });
@@ -84,9 +87,10 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
         })
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid first name provided');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.first_name).to.be.equal('Invalid first name provided');
           done(err);
         });
     });
@@ -103,9 +107,10 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
         })
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid last name provided');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.last_name).to.be.equal('Invalid last name provided');
           done();
         });
     });
@@ -122,9 +127,10 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           address: '90, Herder\'s Ranch, Kafanchan, Kaduna',
         })
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid phone number provided. A valid phone number is 07057154456');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.phone_number).to.be.equal('Invalid phone number provided. A valid phone number is 07057154456');
           done();
         });
     });
@@ -141,9 +147,10 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
           address: '90',
         })
         .end((err, res) => {
-          expect(res).to.have.status(422);
+          expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Invalid address provided. A valid address is at least seven characters long');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.address).to.be.equal('Invalid address provided. A valid address is at least seven characters long');
           done();
         });
     });
@@ -161,7 +168,8 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Email cannot be left empty');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.email).to.be.equal('Email cannot be left empty');
           done();
         });
     });
@@ -179,7 +187,8 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('First Name/Last Name cannot be left empty');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.first_name).to.be.equal('First Name/Last Name cannot be left empty');
           done();
         });
     });
@@ -197,7 +206,8 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('First Name/Last Name cannot be left empty');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.last_name).to.be.equal('First Name/Last Name cannot be left empty');
           done();
         });
     });
@@ -215,7 +225,8 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Password cannot be left empty');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.password).to.be.equal('Password cannot be left empty');
           done();
         });
     });
@@ -234,7 +245,8 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Phone Number cannot be left empty');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.phone_number).to.be.equal('Phone Number cannot be left empty');
           done();
         });
     });
@@ -254,7 +266,8 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('Address cannot be left empty');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.address).to.be.equal('Address cannot be left empty');
           done();
         });
     });
@@ -327,7 +340,7 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('email cannot be left empty');
+          expect(res.body.error).to.be.an('object');
           done();
         });
     });
@@ -341,7 +354,8 @@ describe('Tests for all Auth(signup and signin) Endpoints', () => {
         .end((err, res) => {
           expect(res).to.have.status(400);
           expect(res.body.status).to.be.equal('error');
-          expect(res.body.error).to.be.equal('password cannot be left empty');
+          expect(res.body.error).to.be.an('object');
+          expect(res.body.error.password).to.be.equal('password cannot be left empty');
           done();
         });
     });
