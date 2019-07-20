@@ -45,21 +45,15 @@ export default {
             },
           },
           400: {
-            description: 'Missing Request Parameter',
+            description: 'Missing/Invalid Request Parameter',
             schema: {
-              $ref: '#definitions/MissingRequestResponse',
+              $ref: '#definitions/MissingSignUpRequestResponse',
             },
           },
           409: {
             description: 'Missing Request Parameter',
             schema: {
               $ref: '#definitions/EmailExistsResponse',
-            },
-          },
-          422: {
-            description: 'Invalid request parameter',
-            schema: {
-              $ref: '#definitions/InvalidParameterResponse',
             },
           },
         },
@@ -92,13 +86,7 @@ export default {
           400: {
             description: 'Missing Request Parameter',
             schema: {
-              $ref: '#definitions/MissingRequestResponse',
-            },
-          },
-          422: {
-            description: 'Invalid request parameter',
-            schema: {
-              $ref: '#definitions/InvalidParameterResponse',
+              $ref: '#definitions/MissingSignInRequestResponse',
             },
           },
           401: {
@@ -253,15 +241,9 @@ export default {
             },
           },
           400: {
-            description: 'MisssingRequestParameter',
+            description: 'Misssing/Invalid Request Parameter',
             schema: {
-              $ref: '#definitions/MissingRequestResponse',
-            },
-          },
-          422: {
-            description: 'Invalid request parameter',
-            schema: {
-              $ref: '#definitions/InvalidParameterResponse',
+              $ref: '#definitions/MissingPropertyPostResponse',
             },
           },
           401: {
@@ -401,15 +383,9 @@ export default {
             },
           },
           400: {
-            description: 'MisssingRequestParameter',
+            description: 'Misssing/Invalid Request Parameter',
             schema: {
-              $ref: '#definitions/MissingRequestResponse',
-            },
-          },
-          422: {
-            description: 'Invalid request parameter',
-            schema: {
-              $ref: '#definitions/InvalidParameterResponse',
+              $ref: '#definitions/InvalidPropertyUpdateResponse',
             },
           },
           404: {
@@ -563,7 +539,7 @@ export default {
         },
       },
     },
-    MissingRequestResponse: {
+    MissingSignUpRequestResponse: {
       type: 'object',
       properties: {
         status: {
@@ -571,8 +547,127 @@ export default {
           example: 'error',
         },
         error: {
+          type: 'object',
+          properties: {
+            email: {
+              type: 'string',
+              example: 'email cannot be empty',
+            },
+            first_name: {
+              type: 'string',
+              example: 'First Name/Last Name cannot be empty',
+            },
+            last_name: {
+              type: 'string',
+              example: 'First Name/Last Name cannot be empty',
+            },
+            phone_number: {
+              type: 'string',
+              example: 'Phone Number Name cannot be empty',
+            },
+            password: {
+              type: 'string',
+              example: 'password cannot be empty',
+            },
+            address: {
+              type: 'string',
+              example: 'Address cannot be empty',
+            },
+          },
+        },
+      },
+    },
+    MissingSignInRequestResponse: {
+      type: 'object',
+      properties: {
+        status: {
           type: 'string',
-          example: 'Missing request parameter',
+          example: 'error',
+        },
+        error: {
+          type: 'object',
+          properties: {
+            email: {
+              type: 'string',
+              example: 'email cannot be empty',
+            },
+            password: {
+              type: 'string',
+              example: 'password cannot be empty',
+            },
+          },
+        },
+      },
+    },
+    MissingPropertyPostResponse: {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'string',
+          example: 'error',
+        },
+        error: {
+          type: 'object',
+          properties: {
+            state: {
+              type: 'string',
+              example: 'state cannot be empty',
+            },
+            city: {
+              type: 'string',
+              example: 'city cannot be empty',
+            },
+            address: {
+              type: 'string',
+              example: 'address cannot be empty',
+            },
+            property_type: {
+              type: 'string',
+              example: 'type Name cannot be empty',
+            },
+            price: {
+              type: 'string',
+              example: 'price cannot be empty',
+            },
+            image: {
+              type: 'string',
+              example: 'image cannot be empty',
+            },
+          },
+        },
+      },
+    },
+    InvalidPropertyUpdateResponse: {
+      type: 'object',
+      properties: {
+        status: {
+          type: 'string',
+          example: 'error',
+        },
+        error: {
+          type: 'object',
+          properties: {
+            state: {
+              type: 'string',
+              example: 'invalid state selected',
+            },
+            city: {
+              type: 'string',
+              example: 'invalid city selected',
+            },
+            address: {
+              type: 'string',
+              example: 'invalid address selected',
+            },
+            property_type: {
+              type: 'string',
+              example: 'invalid property type selected',
+            },
+            price: {
+              type: 'string',
+              example: 'invalid price selected',
+            },
+          },
         },
       },
     },
@@ -586,19 +681,6 @@ export default {
         error: {
           type: 'string',
           example: 'Email already exists',
-        },
-      },
-    },
-    InvalidParameterResponse: {
-      type: 'object',
-      properties: {
-        status: {
-          type: 'string',
-          example: 'error',
-        },
-        error: {
-          type: 'string',
-          example: 'Invalid request parameter',
         },
       },
     },
