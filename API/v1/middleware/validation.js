@@ -9,7 +9,6 @@ import ErrorClass from '../helper/error';
 const {
   emailDoesNotExistErrorResponse,
   isInvalidResponses,
-  isEmptyErrorResponse,
   propertyNotFoundErrorResponse,
   serverErrorMessage,
 } = ErrorClass;
@@ -41,38 +40,30 @@ class Validation {
    */
   static validateSignUpInput(req, res, next) {
     const userInformation = req.body;
-
+    const error = {};
     const {
       email, first_name, last_name, password, phone_number, address,
     } = userInformation;
-
     const regexForEmail = /^([a-zA-Z0-9_\-.]+)@([a-zA-Z0-9_\-.]+)\.([a-zA-Z]{2,5})$/;
-    const regexForNames = /^[a-zA-Z]{5,}$/;
+    const regexForNames = /^[a-zA-Z]{3,}$/;
     const regexForPhoneNumber = /^[0]\d{10}$/;
-    // const regexForUserType = /^(agent|user)$/;
-
-    if (!regexForEmail.test(email)) {
-      return isInvalidResponses(res, 'email');
-    }
-
-    if (!regexForNames.test(first_name)) {
-      return isInvalidResponses(res, 'first name');
-    }
-
-    if (!regexForNames.test(last_name)) {
-      return isInvalidResponses(res, 'last name');
-    }
-
-    if (password.length < 6) {
-      return isInvalidResponses(res, 'password');
-    }
-
-    if (!regexForPhoneNumber.test(phone_number)) {
-      return isInvalidResponses(res, 'phone number');
-    }
-
-    if (address.length <= 6) {
-      return isInvalidResponses(res, 'address');
+    if (isEmpty(email)) error.email = 'Email cannot be left empty';
+    if (isEmpty(first_name)) error.first_name = 'First Name/Last Name cannot be left empty';
+    if (isEmpty(last_name)) error.last_name = 'First Name/Last Name cannot be left empty';
+    if (isEmpty(password)) error.password = 'Password cannot be left empty';
+    if (isEmpty(phone_number)) error.phone_number = 'Phone Number cannot be left empty';
+    if (isEmpty(address)) error.address = 'Address cannot be left empty';
+    if (email && !regexForEmail.test(email)) error.email = 'Invalid email provided';
+    if (first_name && !regexForNames.test(first_name)) error.first_name = 'Invalid first name provided';
+    if (last_name && !regexForNames.test(last_name)) error.last_name = 'Invalid last name provided';
+    if (password && password.length < 6) error.password = 'Invalid password provided. A valid password is at least six characters long';
+    if (phone_number && !regexForPhoneNumber.test(phone_number)) error.phone_number = 'Invalid phone number provided. A valid phone number is 07057154456';
+    if (address && address.length <= 6) error.address = 'Invalid address provided. A valid address is at least seven characters long';
+    if (!isEmpty(error)) {
+      return res.status(400).json({
+        status: 'error',
+        error,
+      });
     }
     return next();
   }
@@ -87,121 +78,41 @@ class Validation {
    * @returns {(function|Object)} function next() or an error response object
    * @memberof Validation
    */
-  static async validateCreatePropertyInput(req, res, next) {
-    const regexForStatesAndCities = /^[a-zA-Z ]{4,}$/;
-
-    const userInformation = req.body;
-
-    const {
-      type, price, state, city, address,
-    } = userInformation;
-
-    const regexForPrice = /^\d*\.?\d*$/;
-
-    if (!regexForStatesAndCities.test(state)) {
-      await deleteUploadedFile(req, res);
-      return isInvalidResponses(res, 'state');
-    }
-    if (!regexForStatesAndCities.test(city)) {
-      await deleteUploadedFile(req, res);
-      return isInvalidResponses(res, 'city');
-    }
-    if (type.length < 4) {
-      await deleteUploadedFile(req, res);
-      return isInvalidResponses(res, 'property type');
-    }
-    if (!regexForPrice.test(price, res)) {
-      await deleteUploadedFile(req, res);
-      return isInvalidResponses(res, 'price');
-    }
-    if (address.length <= 6) {
-      await deleteUploadedFile(req, res);
-      return isInvalidResponses(res, 'address');
-    }
-    return next();
-  }
-
-  /**
-   *
-   * Checks the body of the request for empty parameters when creating a new user
-   * @static
-   * @param {Object} req
-   * @param {Object} res
-   * @param {function} next
-   * @returns {(function|Object)} function next() or an error response object
-   * @memberof Validation
-   */
-  static checkForEmptyRequestParameters(req, res, next) {
-    const userInformation = req.body;
-    const {
-      email, first_name, last_name, password, phone_number, address,
-    } = userInformation;
-
-    if (isEmpty(email)) {
-      return isEmptyErrorResponse(res, 'Email');
-    }
-
-    if (isEmpty(first_name)) {
-      return isEmptyErrorResponse(res, 'First Name/Last Name');
-    }
-
-    if (isEmpty(last_name)) {
-      return isEmptyErrorResponse(res, 'First Name/Last Name');
-    }
-
-    if (isEmpty(password)) {
-      return isEmptyErrorResponse(res, 'Password');
-    }
-
-    if (isEmpty(phone_number)) {
-      return isEmptyErrorResponse(res, 'Phone Number');
-    }
-
-    if (isEmpty(address)) {
-      return isEmptyErrorResponse(res, 'Address');
-    }
-
-    return next();
-  }
-
-  /**
-   *
-   * Checks the body of the request for empty parameters when creating a new user
-   * @static
-   * @param {Object} req
-   * @param {Object} res
-   * @param {function} next
-   * @returns {(function|Object)} function next() or an error response object
-   * @memberof Validation
-   */
-  static async checkForEmptyPropertyPostParameters(req, res, next) {
+  static async validatePropertyInput(req, res, next) {
     const imageUrl = req.file;
+    const error = {};
     const userInformation = req.body;
     const {
-      address, type, price, state, city, image_url,
+      type, price, state, city, address, image_url,
     } = userInformation;
-
-    if (isEmpty(imageUrl) && isEmpty(image_url)) {
-      return isEmptyErrorResponse(res, 'image');
+    const regexForPrice = /^\d*\.?\d*$/;
+    const regexForStatesAndCities = /^[a-zA-Z ]{4,}$/;
+    try {
+      if (isEmpty(imageUrl) && isEmpty(image_url)) error.image = 'image cannot be left empty';
+      if (isEmpty(price)) error.price = 'price cannot be left empty';
+      if (isEmpty(state)) error.state = 'state cannot be left empty';
+      if (isEmpty(city)) error.city = 'city cannot be left empty';
+      if (isEmpty(address)) error.address = 'address cannot be left empty';
+      if (isEmpty(type)) error.property_type = 'type cannot be left empty';
+      if (state && !regexForStatesAndCities.test(state)) error.state = 'Invalid state provided. A valid state is at least 4 characters long without numbers and special characters';
+      if (city && !regexForStatesAndCities.test(city)) error.city = 'Invalid city provided. A valid city is at least 4 characters long without numbers and special characters';
+      if (type && type.length < 4) error.property_type = 'Invalid property type selected. A valid property type is at least four characters long';
+      if (price && !regexForPrice.test(price, res)) error.price = 'Invalid price provided';
+      if (address && address.length <= 6) error.address = 'Invalid address provided. A valid address is at least seven characters long';
+      if (!isEmpty(error)) {
+        if (!isEmpty(imageUrl)) await deleteUploadedFile(req);
+        return res.status(400).json({
+          status: 'error',
+          error,
+        });
+      }
+      return next();
+    } catch (err) {
+      return res.status(400).json({
+        status: 'error',
+        error: err.message,
+      });
     }
-
-    if (isEmpty(price)) {
-      return isEmptyErrorResponse(res, 'price');
-    }
-    if (isEmpty(state)) {
-      return isEmptyErrorResponse(res, 'state');
-    }
-    if (isEmpty(city)) {
-      return isEmptyErrorResponse(res, 'city');
-    }
-    if (isEmpty(address)) {
-      return isEmptyErrorResponse(res, 'address');
-    }
-    if (isEmpty(type)) {
-      await deleteUploadedFile(req, res);
-      return isEmptyErrorResponse(res, 'type');
-    }
-    return next();
   }
 
   /**
@@ -273,19 +184,17 @@ class Validation {
    */
   static checkForEmptySignInParameters(req, res, next) {
     const validKeys = ['email', 'password'];
-
+    const error = {};
     checkForInvalidSignupKeys(req.body, validKeys, res);
-
     checkForMultipleKeys(req.body, res);
-
     const { email, password } = req.body;
-
-    if (isEmpty(email)) {
-      return isEmptyErrorResponse(res, 'email');
-    }
-
-    if (isEmpty(password)) {
-      return isEmptyErrorResponse(res, 'password');
+    if (isEmpty(email)) error.email = 'email cannot be left empty';
+    if (isEmpty(password)) error.password = 'password cannot be left empty';
+    if (!isEmpty(error)) {
+      return res.status(400).json({
+        status: 'error',
+        error,
+      });
     }
     return next();
   }
@@ -322,28 +231,19 @@ class Validation {
     const {
       type, price, state, city, address,
     } = req.body;
-
+    const error = {};
     const regexForPrice = /^\d*\.?\d*$/;
     const regexForStatesAndCities = /^[a-zA-Z ]{4,}$/;
-
-    if (type && type.length < 4) {
-      return isInvalidResponses(res, 'property type');
-    }
-
-    if (price && !regexForPrice.test(price)) {
-      return isInvalidResponses(res, 'price');
-    }
-
-    if (state && (!regexForStatesAndCities.test(state))) {
-      return isInvalidResponses(res, 'state');
-    }
-
-    if (city && (!regexForStatesAndCities.test(city))) {
-      return isInvalidResponses(res, 'city');
-    }
-
-    if (address && (address.length <= 6)) {
-      return isInvalidResponses(res, 'address');
+    if (type && type.length < 4) error.property_type = 'Invalid property type selected. A valid property type is at least four characters long';
+    if (price && !regexForPrice.test(price)) error.price = 'Invalid price provided';
+    if (state && (!regexForStatesAndCities.test(state))) error.state = 'Invalid state provided. A valid state is at least 4 characters long without numbers and special characters';
+    if (city && (!regexForStatesAndCities.test(city))) error.city = 'Invalid city provided. A valid city is at least 4 characters long without numbers and special characters';
+    if (address && (address.length <= 6)) error.address = 'Invalid address provided. A valid address is at least seven characters long';
+    if (!isEmpty(error)) {
+      return res.status(400).json({
+        status: 'error',
+        error,
+      });
     }
     return next();
   }

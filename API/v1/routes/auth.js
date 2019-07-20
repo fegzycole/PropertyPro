@@ -9,7 +9,6 @@ const {
 
 const {
   validateSignUpInput,
-  checkForEmptyRequestParameters,
   checkLoginParameters,
   checkForEmptySignInParameters,
 } = Validation;
@@ -17,7 +16,6 @@ const {
 const router = express.Router();
 
 router.post('/signup',
-  checkForEmptyRequestParameters,
   validateSignUpInput,
   createUserAccount);
 

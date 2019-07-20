@@ -1,27 +1,4 @@
-import Helper from './helper';
-
-const { deleteUploadedFile } = Helper;
-
 class ErrorMessages {
-  /**
-   *
-   * Handles the response for when a user puts in a password that doesn't exist
-   * @static
-   * @param {Object} res
-   * @param {Object} err
-   * @returns {Object} an error response object
-   * @memberof ErrorMessages
-   */
-  static displayDescriptiveError(req, err) {
-    let error;
-    if (err === 'getaddrinfo ENOTFOUND api.cloudinary.com api.cloudinary.com:443') {
-      error = 'Check your internet connection and try again';
-      return error;
-    }
-    deleteUploadedFile(req);
-    return err;
-  }
-
   /**
    *
    * Handles the response for when a user puts in a password that doesn't exist
@@ -67,36 +44,8 @@ class ErrorMessages {
     const status = 422;
     if (typeOfParameter === 'type') error = 'Only Agent or User allowed';
     if (typeOfParameter === 'id') error = 'Invalid id selected. A valid id is a number';
-    if (typeOfParameter === 'first name') error = 'Invalid first name provided';
-    if (typeOfParameter === 'last name') error = 'Invalid last name provided';
-    if (typeOfParameter === 'address') error = 'Invalid address provided. A valid address is at least seven characters long';
-    if (typeOfParameter === 'state') error = 'Invalid state provided. A valid state is at least 4 characters long without numbers and special characters';
-    if (typeOfParameter === 'city') error = 'Invalid city provided. A valid city is at least 4 characters long without numbers and special characters';
-    if (typeOfParameter === 'email') error = 'Invalid email provided';
-    if (typeOfParameter === 'password') error = 'Invalid password provided. A valid password is at least six characters long';
-    if (typeOfParameter === 'phone number') error = 'Invalid phone number provided. A valid phone number is 07057154456';
-    if (typeOfParameter === 'property type') error = 'Invalid property type selected. A valid property type is at least four characters long';
-    if (typeOfParameter === 'price') error = 'Invalid price provided';
     if (typeOfParameter === 'status') error = 'Invalid status provided. You can only mark a property as \'Sold\'';
     res.status(status).json({
-      status: 'error',
-      error,
-    });
-  }
-
-  /**
-   *
-   * Handles the response for when a required request parameter is left empty
-   * @static
-   * @param {Object} res
-   * @param {string} typeOfParameter
-   * @returns {Object} an error response object
-   * @memberof ErrorMessages
-   */
-  static isEmptyErrorResponse(res, typeOfParameter) {
-    const status = 400;
-    const error = `${typeOfParameter} cannot be left empty`;
-    return res.status(status).json({
       status: 'error',
       error,
     });

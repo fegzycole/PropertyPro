@@ -14,8 +14,7 @@ const {
 } = PropertyController;
 
 const {
-  checkForEmptyPropertyPostParameters,
-  validateCreatePropertyInput, checkPropertyId,
+  validatePropertyInput, checkPropertyId,
   checkForInvalidUpdateParameters, checkStatusParameter,
 } = Validation;
 
@@ -31,8 +30,7 @@ router.post('/',
   checkContentType,
   uploadAnImage,
   trimmer(),
-  checkForEmptyPropertyPostParameters,
-  validateCreatePropertyInput,
+  validatePropertyInput,
   postAProperty);
 
 router.patch('/:id',

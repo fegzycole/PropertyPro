@@ -9,14 +9,12 @@ const { createUser, loginUser, resetPassword } = UserController;
 
 const {
   validateSignUpInput,
-  checkForEmptyRequestParameters,
   checkForEmptySignInParameters,
   validateResetPassword,
   checkResetPasswordProperties,
 } = Validation;
 
 router.post('/signup',
-  checkForEmptyRequestParameters,
   validateSignUpInput,
   checkExistingEmail,
   createUser);

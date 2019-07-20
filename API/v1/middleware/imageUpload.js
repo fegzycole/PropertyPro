@@ -2,9 +2,6 @@ import multer from 'multer';
 import cloudinary from 'cloudinary';
 import cloudStorage from 'multer-storage-cloudinary';
 import dotenv from 'dotenv';
-import ErrorMessages from '../helper/error';
-
-const { displayDescriptiveError } = ErrorMessages;
 
 dotenv.config();
 
@@ -36,8 +33,8 @@ const uploadAnImage = (req, res, next) => {
   uploader(req, res, (err) => {
     if (err) {
       return res.status(400).json({
-        status: 400,
-        error: displayDescriptiveError(req, err.message),
+        status: 'error',
+        error: err.message,
       });
     }
     return next();
