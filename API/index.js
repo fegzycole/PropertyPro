@@ -1,4 +1,5 @@
 import '@babel/polyfill';
+import cors from 'cors';
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
@@ -11,6 +12,8 @@ import property from './v1/routes/property';
 import propertyv2 from './v1/routes/property.db';
 
 const app = express();
+
+app.use(cors());
 
 dotenv.config();
 
